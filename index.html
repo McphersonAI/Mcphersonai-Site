@@ -35,6 +35,953 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  .display {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .container--narrow {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 248, 245, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span {
+    color: var(--accent);
+  }
+
+  .nav-cta {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    padding: 8px 18px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .hero {
+    padding: 96px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    padding: 6px 12px;
+    border: 1px solid var(--accent);
+    background: var(--accent-light);
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 800px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-decoration: none;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .hero-stat {
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .what-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  .what-item {
+    background: var(--cream);
+    padding: 32px 28px;
+    transition: background 0.2s;
+  }
+
+  .what-item:hover {
+    background: var(--white);
+  }
+
+  .what-icon {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .what-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .what-desc {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  .why-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .why-layout { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .why-point {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .why-point:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .why-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .why-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .why-text {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+
+  .why-pull {
+    background: var(--ink);
+    color: var(--white);
+    padding: 40px 36px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .why-pull-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: var(--cream);
+  }
+
+  .why-pull-attr {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .founder-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+    align-items: start;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .founder-layout { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .founder-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 32px;
+  }
+
+  .founder-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .founder-title {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .founder-cred {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cred-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cred-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .cred-text {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .cred-text strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .founder-bio {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .founder-bio p {
+    margin-bottom: 20px;
+  }
+
+  .founder-bio p:last-child {
+    margin-bottom: 0;
+  }
+
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .solution-card {
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    background: var(--white);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .solution-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .solution-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 3px 8px;
+    margin-bottom: 12px;
+  }
+
+  .solution-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .solution-desc {
+    font-size: 0.83rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .proof-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .proof-layout { grid-template-columns: 1fr; }
+  }
+
+  .proof-stat-block {
+    padding: 36px;
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .proof-stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--cream);
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+  }
+
+  .proof-stat-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+  }
+
+  .proof-points {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .proof-point {
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+
+  .proof-point-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .proof-point-text {
+    font-size: 0.83rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .cta-section {
+    padding: 96px 0;
+    border-bottom: none;
+  }
+
+  .cta-box {
+    background: var(--ink);
+    padding: 64px 56px;
+    max-width: 760px;
+  }
+
+  @media (max-width: 600px) {
+    .cta-box { padding: 40px 28px; }
+  }
+
+  .cta-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+  }
+
+  .cta-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+
+  .cta-body {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 36px;
+    max-width: 520px;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-cta {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-cta:hover {
+    background: #b34516;
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    display: inline-block;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-decoration: none;
+    padding: 14px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover {
+    color: rgba(255,255,255,0.9);
+  }
+
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--ink); }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    width: 100%;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero > * {
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-eyebrow { animation-delay: 0s; }
+  .hero h1 { animation-delay: 0.1s; }
+  .hero-sub { animation-delay: 0.2s; }
+  .hero-actions { animation-delay: 0.3s; }
+  .hero-stat { animation-delay: 0.4s; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 64px 0 56px; }
+    section { padding: 56px 0; }
+    .hero-stat { gap: 32px; }
+    .nav-cta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">McPherson<span>AI</span></a>
+      <a href="#contact" class="nav-cta">Talk to Blake</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" style="border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="hero-eyebrow">AI Operations Systems · QSR &amp; Franchise</div>
+    <h1 class="display">The AI operating stack<br><em>built for the floor,</em><br>not the boardroom.</h1>
+    <p class="hero-sub">McPherson AI builds AI operations systems for QSR managers and franchise operators — covering labor, food cost, daily compliance, and shift continuity. Built by someone who has actually run the floor.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a Conversation</a>
+      <a href="#what" class="btn-secondary">See what we build →</a>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-item">
+        <div class="stat-number display">200+</div>
+        <div class="stat-label">Downloads across live tools</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number display">16</div>
+        <div class="stat-label">Years QSR operations</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number display">Top 3</div>
+        <div class="stat-label">of ~600 locations nationwide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="container">
+    <div class="section-label">What McPherson AI Builds</div>
+    <h2 class="section-title display">Operational intelligence<br>that works like a GM.</h2>
+    <p class="section-body" style="max-width: 600px;">Not dashboards. Not reports. AI systems that watch your operation daily, flag problems early, and give your managers the right information at the right time — before the week is over and the damage is done.</p>
+
+    <div class="what-grid">
+      <div class="what-item">
+        <div class="what-icon">⏱</div>
+        <div class="what-title">Labor Monitoring</div>
+        <div class="what-desc">Daily labor-vs-revenue tracking with mid-week alerts. Calculates exactly how many hours to cut before payroll closes — not after.</div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">📊</div>
+        <div class="what-title">Food Cost Diagnostics</div>
+        <div class="what-desc">Weekly COGS variance analysis across four control levers: ordering, portioning, recipes, and waste. Catches drift weekly instead of monthly.</div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">✅</div>
+        <div class="what-title">Daily Ops Compliance</div>
+        <div class="what-desc">Three-point daily compliance checks — opening, mid-shift, and closing. Builds a running record and flags gaps before they become audit findings.</div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">🔁</div>
+        <div class="what-title">Shift Continuity</div>
+        <div class="what-desc">End-of-shift reflection system that captures wins, bottlenecks, and handoff notes. The morning GM gets an alert. Nothing falls through the cracks.</div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">🔍</div>
+        <div class="what-title">Inventory Variance</div>
+        <div class="what-desc">Compares theoretical usage from sales against actual usage and deliveries. Surfaces unexplained loss before it compounds into a P&amp;L problem.</div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">🎯</div>
+        <div class="what-title">Pre-Rush Strategy</div>
+        <div class="what-desc">15-minute pre-rush check-in. Confirms A-positions, surfaces call-outs, adjusts tactics for the volume ahead. Forces 60 seconds of strategic thought before the chaos starts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="container">
+    <div class="why-layout">
+      <div>
+        <div class="section-label">Why This Exists</div>
+        <h2 class="section-title display">Most operators find out too late.</h2>
+
+        <div class="why-point">
+          <div class="why-num display">01</div>
+          <div class="why-title">The P&amp;L comes too late to act on.</div>
+          <div class="why-text">By the time the monthly numbers hit, the hours are worked, the food is wasted, and the only option is "do better next week." The problem isn't the data — it's the timing.</div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-num display">02</div>
+          <div class="why-title">Generic software doesn't think like an operator.</div>
+          <div class="why-text">Most tools give you a dashboard. They show you what happened. A real operator tells you what it means, what's causing it, and what to do about it before the week ends.</div>
+        </div>
+
+        <div class="why-point">
+          <div class="why-num display">03</div>
+          <div class="why-title">Managers are stretched thin and information is scattered.</div>
+          <div class="why-text">A shift lead shouldn't need to manually calculate labor drift while running a lunch rush. The system should catch it and surface it at the right moment — not buried in a report.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="why-pull">
+          <div class="why-pull-quote">"Most operators find out they're over on labor when the P&amp;L hits. By then it's too late. The hours are worked and the money is gone."</div>
+          <div class="why-pull-attr">Blake McPherson · Founder, McPherson AI<br>16-year QSR operator · Top 3 of ~600 locations nationwide</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="founder">
+  <div class="container">
+    <div class="section-label">The Founder</div>
+    <div class="founder-layout">
+      <div>
+        <div class="founder-card">
+          <div class="founder-name display">Blake McPherson</div>
+          <div class="founder-title">Founder · McPherson AI · San Diego, CA</div>
+          <div class="founder-cred">
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text"><strong>16 years</strong> in QSR operations — started at 19, became GM at 30</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text"><strong>Consistently top-performing location</strong> for sales — ranked among top-performing locations nationwide for multiple consecutive years</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text"><strong>$2.7M annual P&amp;L</strong> · 500+ guests per day · teams of up to 25</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text"><strong>100% EcoSure compliance</strong> across all three audit cycles — consecutive years</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text">Navigated a <strong>$250K+ AOP shortfall</strong> through active COGS, labor, and supply cost management</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-dot"></div>
+              <div class="cred-text">A.S. Information Systems &amp; Business Administration · admitted to SDSU Global Campus BBA program, starting August 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section-title display" style="margin-bottom: 28px;">Built from the floor,<br>not a whiteboard.</h2>
+        <div class="founder-bio">
+          <p>McPherson AI exists because I spent 16 years solving these problems by hand — on the floor, during real shifts, with real margin pressure and real accountability.</p>
+          <p>I’ve managed labor drift, food cost variance, missed handoffs, audit pressure, and the daily operational blind spots that usually do not get noticed until the P&amp;L shows the damage. The tools I’m building are designed to surface those problems earlier, in a format operators can actually use.</p>
+          <p>I’m not building software for boardrooms. I’m building practical AI-assisted systems for GMs, shift leaders, and franchise operators who need faster visibility, better handoffs, and tighter control over execution.</p>
+          <p>This is product built from lived experience — operator logic turned into usable systems.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solutions">
+  <div class="container">
+    <div class="section-label">QSR Operations Suite</div>
+    <h2 class="section-title display">Live tools and upcoming releases.</h2>
+    <p class="section-body" style="max-width: 580px;">McPherson AI is building a growing suite of operator-focused systems for labor, food cost, compliance, handoff, and execution. Current live tools are listed alongside upcoming releases.</p>
+
+    <div class="solutions-grid">
+      <div class="solution-card">
+        <div class="solution-tag">Live</div>
+        <div class="solution-name display">Daily Ops Monitor</div>
+        <div class="solution-desc">Three-point daily compliance — opening, mid-shift, closing. Running record. Gap detection.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Live</div>
+        <div class="solution-name display">Food Cost Diagnostic</div>
+        <div class="solution-desc">COGS variance analysis. Four-lever diagnosis. Catches drift before the monthly P&amp;L.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Live</div>
+        <div class="solution-name display">Labor Leak Auditor</div>
+        <div class="solution-desc">Daily labor tracking. Mid-week alert with hours-to-cut calculation. Clock padding detection.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Coming Soon</div>
+        <div class="solution-name display">Ghost Inventory Hunter</div>
+        <div class="solution-desc">Theoretical vs actual usage comparison. Surfaces unexplained loss before it compounds.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Coming Soon</div>
+        <div class="solution-name display">Shift Reflection</div>
+        <div class="solution-desc">Three questions at close. Captures wins, bottlenecks, and handoff notes. 5am alert to morning GM.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Coming Soon</div>
+        <div class="solution-name display">Audit Readiness</div>
+        <div class="solution-desc">30-day EcoSure prep protocol. Daily compliance system. Built from a 100% audit record.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Coming Soon</div>
+        <div class="solution-name display">P&amp;L Storyteller</div>
+        <div class="solution-desc">Variance narrative with diagnostic hierarchy. Plain-language explanations for owners who don't live in the numbers.</div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-tag">Coming Soon</div>
+        <div class="solution-name display">Pre-Rush Coach</div>
+        <div class="solution-desc">15-min pre-rush check-in. A-position confirmation. Tactical adjustments for the volume ahead.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="container">
+    <div class="section-label">Early Signal</div>
+    <h2 class="section-title display">The market is moving.<br>We're already in it.</h2>
+
+    <div class="proof-layout">
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="proof-stat-block">
+          <div class="proof-stat-num display">200+</div>
+          <div class="proof-stat-label">Downloads across the first live QSR tools — early traction without paid distribution.</div>
+        </div>
+        <div class="proof-stat-block" style="background: var(--accent);">
+          <div class="proof-stat-num display">Niche</div>
+          <div class="proof-stat-label">One of the only publishers focused specifically on QSR manager operations on the platform.</div>
+        </div>
+      </div>
+
+      <div class="proof-points">
+        <div class="proof-point">
+          <div class="proof-point-title">Industry demand is documented.</div>
+          <div class="proof-point-text">Nation's Restaurant News reports 37% of operators plan to adopt automated labor management systems. Scheduling and labor optimization is cited as the #1 operational AI priority.</div>
+        </div>
+        <div class="proof-point">
+          <div class="proof-point-title">Enterprise is already moving this direction.</div>
+          <div class="proof-point-text">Yum China is piloting an AI assistant for store managers covering labor scheduling, inventory management, and food quality. The category is real — the independent operator version doesn't exist yet.</div>
+        </div>
+        <div class="proof-point">
+          <div class="proof-point-title">First-mover position in an underbuilt niche.</div>
+          <div class="proof-point-text">QSR manager operations is still an underbuilt niche, and McPherson AI is among the early focused publishers in the category.</div>
+        </div>
+        <div class="proof-point">
+          <div class="proof-point-title">Now opening conversations with early pilot operators.</div>
+          <div class="proof-point-text">San Diego market, Q2 2026. Small number of QSR and franchise locations — setup included.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-box">
+      <div class="cta-label">Get Started</div>
+      <h2 class="cta-title display">Let's talk about<br>your operation.</h2>
+      <p class="cta-body">McPherson AI deploys tailored AI operator systems for QSR teams, configured to your workflow and delivered through simple interfaces your managers can actually use. If you're managing a high-volume location and want to catch problems before the week is over — reach out directly.</p>
+      <div class="cta-actions">
+        <a href="mailto:admin@mcphersonai.com" class="btn-cta">Email Blake Directly</a>
+        <a href="https://clawhub.ai" target="_blank" class="btn-ghost">Browse the skills on ClawHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-logo">McPherson<span>AI</span></a>
+      <div class="footer-links">
+        <a href="mailto:admin@mcphersonai.com">Contact</a>
+        <a href="https://clawhub.ai" target="_blank">ClawHub</a>
+        <a href="#founder">About</a>
+      </div>
+      <div class="footer-copy">© 2026 McPherson AI · San Diego, CA · Building AI operations systems for QSR managers.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.what-item, .solution-card, .proof-point, .why-point').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
   /* ── TYPOGRAPHY ── */
   .display {
     font-family: 'Fraunces', serif;
