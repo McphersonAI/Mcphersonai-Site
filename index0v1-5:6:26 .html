@@ -94,6 +94,22 @@
 
     .nav-logo span { color: var(--accent); }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--ink); }
+
     .nav-cta {
       font-size: 0.85rem;
       font-weight: 500;
@@ -442,25 +458,6 @@
       color: var(--ink-muted);
     }
 
-    .solutions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-    }
-
-    .solution-card {
-      border: 1px solid var(--border);
-      padding: 28px 24px;
-      background: var(--white);
-      transition: border-color 0.2s, transform 0.15s;
-    }
-
-    .solution-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
     .solution-tag {
       display: inline-block;
       font-size: 0.65rem;
@@ -471,21 +468,6 @@
       background: var(--accent-light);
       padding: 3px 8px;
       margin-bottom: 12px;
-    }
-
-    .solution-name {
-      font-family: 'Fraunces', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-
-    .solution-desc {
-      font-size: 0.83rem;
-      color: var(--ink-muted);
-      line-height: 1.55;
     }
 
     .proof-layout {
@@ -668,6 +650,43 @@
       width: 100%;
     }
 
+    .research-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    @media (max-width: 700px) {
+      .research-grid { grid-template-columns: 1fr; }
+    }
+
+    .research-card {
+      background: var(--cream);
+      padding: 40px 32px;
+      transition: background 0.2s;
+    }
+
+    .research-card:hover { background: var(--white); }
+
+    .research-btn {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 12px 24px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .research-btn:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -684,7 +703,7 @@
       .hero { padding: 64px 0 56px; }
       section { padding: 56px 0; }
       .hero-stat { gap: 32px; }
-      .nav-cta { display: none; }
+      .nav-right .nav-link { display: none; }
     }
   </style>
 </head>
@@ -694,7 +713,10 @@
     <div class="container">
       <div class="nav-inner">
         <a href="/" class="nav-logo">McPherson<span>AI</span></a>
-        <a href="#contact" class="nav-cta">Talk to Blake</a>
+        <div class="nav-right">
+          <a href="/white-paper.html" class="nav-link">White Paper</a>
+          <a href="#contact" class="nav-cta">Talk to Blake</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -835,8 +857,8 @@
           <h2 class="section-title display" style="margin-bottom: 28px;">Built for operators,<br>not corporate dashboards.</h2>
           <div class="founder-bio">
             <p>McPherson AI exists because my background in restaurant operations made it clear how often operators are asked to solve the same workflow problems manually, under time pressure, with limited visibility and delayed feedback.</p>
-            <p>Restaurant teams regularly deal with labor drift, food cost variance, missed handoffs, audit pressure, and other blind spots that often get noticed too late. The tools I’m building are designed to surface those issues earlier, in a format operators can actually use.</p>
-            <p>I’m not building software for boardrooms. I’m building practical AI-assisted systems for GMs, shift leaders, and franchise operators who need faster visibility, better handoffs, and tighter control over execution.</p>
+            <p>Restaurant teams regularly deal with labor drift, food cost variance, missed handoffs, audit pressure, and other blind spots that often get noticed too late. The tools I'm building are designed to surface those issues earlier, in a format operators can actually use.</p>
+            <p>I'm not building software for boardrooms. I'm building practical AI-assisted systems for GMs, shift leaders, and franchise operators who need faster visibility, better handoffs, and tighter control over execution.</p>
             <p>This is product shaped by operational understanding — practical workflow logic turned into usable systems.</p>
           </div>
         </div>
@@ -861,52 +883,26 @@
     </div>
   </section>
 
-  <section id="solutions">
+  <section id="research">
     <div class="container">
-      <div class="section-label">QSR Operations Suite</div>
-      <h2 class="section-title display">Live tools and upcoming releases.</h2>
-      <p class="section-body" style="max-width: 580px;">McPherson AI is building a growing suite of operator-focused systems for labor, food cost, compliance, handoff, and execution. Current live tools are listed alongside upcoming releases.</p>
+      <div class="section-label">Research &amp; White Papers</div>
+      <h2 class="section-title display">The thesis behind<br>what we build.</h2>
+      <p class="section-body" style="max-width: 600px;">McPherson AI publishes its architecture, governance model, and category thesis as public research. These documents define a new category — agent infrastructure for small business operations — and back it with proof.</p>
 
-      <div class="solutions-grid">
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Daily Ops Monitor</div>
-          <div class="solution-desc">Three-point daily compliance — opening, mid-shift, closing. Running record. Gap detection.</div>
+      <div class="research-grid">
+        <div class="research-card">
+          <div class="solution-tag">Founder White Paper</div>
+          <div class="what-title" style="font-size: 1.15rem; margin-bottom: 12px;">Agent Infrastructure for Small Business Operations</div>
+          <div class="what-desc" style="margin-bottom: 20px;">Why the next wave of small business AI will be built around workflows, memory, and operator judgment — not generic chatbots. Defines the category, names it, and backs it with independent convergence evidence and a live QSR proof point.</div>
+          <div style="font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 20px;">Version 1.0 · May 2026 · Blake McPherson</div>
+          <a href="/white-paper.html" class="research-btn">Read the White Paper →</a>
         </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Food Cost Diagnostic</div>
-          <div class="solution-desc">COGS variance analysis. Four-lever diagnosis. Catches drift before the monthly P&amp;L.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Labor Leak Auditor</div>
-          <div class="solution-desc">Daily labor tracking. Mid-week alert with hours-to-cut calculation. Clock padding detection.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Ghost Inventory Hunter</div>
-          <div class="solution-desc">Theoretical vs actual usage comparison. Surfaces unexplained loss before it compounds.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Shift Reflection</div>
-          <div class="solution-desc">Three questions at close. Captures wins, bottlenecks, and handoff notes. 5am alert to morning GM.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Audit Readiness</div>
-          <div class="solution-desc">30-day audit prep protocol. Daily compliance system designed to improve consistency and readiness.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">P&amp;L Storyteller</div>
-          <div class="solution-desc">Variance narrative with diagnostic hierarchy. Plain-language explanations for owners who don't live in the numbers.</div>
-        </div>
-        <div class="solution-card">
-          <div class="solution-tag">Live</div>
-          <div class="solution-name display">Pre-Rush Coach</div>
-          <div class="solution-desc">15-min pre-rush check-in. A-position confirmation. Tactical adjustments for the volume ahead.</div>
+        <div class="research-card">
+          <div class="solution-tag">Reference Architecture</div>
+          <div class="what-title" style="font-size: 1.15rem; margin-bottom: 12px;">Agent Configuration Framework</div>
+          <div class="what-desc" style="margin-bottom: 20px;">The public reference architecture behind McPherson AI deployments — role boundaries, bounded actions, memory governance, governance rules, and deployment templates. The pattern language, not the running system.</div>
+          <div style="font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 20px;">GitHub · McphersonAI</div>
+          <a href="https://github.com/McphersonAI/mcpherson-ai-store-agent" target="_blank" class="research-btn">View on GitHub →</a>
         </div>
       </div>
     </div>
@@ -971,6 +967,8 @@
         <a href="/" class="footer-logo">McPherson<span>AI</span></a>
         <div class="footer-links">
           <a href="mailto:admin@mcphersonai.com">Contact</a>
+          <a href="/white-paper.html">White Paper</a>
+          <a href="https://github.com/McphersonAI/mcpherson-ai-store-agent" target="_blank">GitHub</a>
           <a href="https://clawhub.ai" target="_blank">ClawHub</a>
           <a href="#founder">About</a>
         </div>
@@ -989,7 +987,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.what-item, .solution-card, .proof-point, .why-point').forEach(el => {
+    document.querySelectorAll('.what-item, .research-card, .proof-point, .why-point').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(16px)';
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
