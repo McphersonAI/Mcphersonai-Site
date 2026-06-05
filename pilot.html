@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Founder Pilot — McPherson AI</title>
-  <meta name="description" content="Founder Pilot Program — managed AI operations for QSR and shift-based small businesses. Open to the first three local operators. $1,000 to begin, $250/month after, cancel anytime." />
-  <meta property="og:title" content="Founder Pilot — McPherson AI" />
-  <meta property="og:description" content="Managed AI operations for QSR and shift-based small businesses. Open to the first three local operators." />
+  <title>Operator Diagnostic & Founder Pilot — McPherson AI</title>
+  <meta name="description" content="Start with an Operator Diagnostic before committing to a full Founder Pilot. McPherson AI helps QSR and small restaurant managers reduce missed handoffs, recurring follow-up, and the memory load of running a busy store." />
+  <meta property="og:title" content="Operator Diagnostic & Founder Pilot — McPherson AI" />
+  <meta property="og:description" content="AI operator support for restaurant managers. Start with a short diagnostic before committing to a full Founder Pilot." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mcphersonai.com/pilot.html" />
   <meta property="og:image" content="https://mcphersonai.com/thumbnail.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Founder Pilot — McPherson AI" />
-  <meta name="twitter:description" content="Managed AI operations for QSR and shift-based small businesses. Open to the first three local operators." />
+  <meta name="twitter:title" content="Operator Diagnostic & Founder Pilot — McPherson AI" />
+  <meta name="twitter:description" content="AI operator support for restaurant managers. Start with a short diagnostic before committing to a full Founder Pilot." />
   <meta name="twitter:image" content="https://mcphersonai.com/thumbnail.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --ink: #0f0f0f;
@@ -24,11 +24,14 @@
       --ink-muted: #737373;
       --cream: #faf8f5;
       --cream-dark: #f0ede7;
-      --accent: #c8521a;
-      --accent-light: #f5e8e0;
+      --green: #0f0f0f;
+      --accent: #f05a16;
+      --accent-dark: #c8521a;
+      --accent-light: #fff0e8;
       --border: #e0dbd4;
       --white: #ffffff;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -44,12 +47,12 @@
 
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(250, 248, 245, 0.92);
+      background: rgba(250, 248, 245, 0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 16px 0;
     }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .nav-logo {
       font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600;
       color: var(--ink); text-decoration: none; letter-spacing: -0.02em;
@@ -62,287 +65,187 @@
     }
     .nav-link:hover { color: var(--ink); }
     .nav-cta {
-      font-size: 0.85rem; font-weight: 500; color: var(--ink);
-      text-decoration: none; border: 1px solid var(--ink); padding: 8px 18px;
+      font-size: 0.85rem; font-weight: 600; color: var(--green);
+      text-decoration: none; border: 1px solid var(--green); padding: 8px 18px;
       transition: background 0.2s, color 0.2s;
     }
-    .nav-cta:hover { background: var(--ink); color: var(--white); }
+    .nav-cta:hover { background: var(--green); color: var(--white); }
 
-    /* HERO */
-    .pilot-hero {
-      padding: 80px 0 64px;
-      border-bottom: 1px solid var(--border);
-    }
+    .pilot-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--border); }
     .pilot-eyebrow {
-      display: inline-block;
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 24px; padding: 6px 12px;
+      display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 24px; padding: 6px 12px;
       border: 1px solid var(--accent); background: var(--accent-light);
     }
     .pilot-hero h1 {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 600;
-      line-height: 1.1; letter-spacing: -0.03em;
-      color: var(--ink); max-width: 800px; margin-bottom: 24px;
+      font-family: 'Fraunces', serif; font-size: clamp(2.4rem, 6vw, 4.1rem); font-weight: 700;
+      line-height: 1.08; letter-spacing: -0.04em; color: var(--green); max-width: 860px; margin-bottom: 24px;
     }
-    .pilot-hero h1 em { font-style: italic; color: var(--accent); }
-    .pilot-sub {
-      font-size: 1.15rem; color: var(--ink-soft);
-      max-width: 620px; line-height: 1.7;
-      margin-bottom: 0; font-weight: 300;
+    .pilot-sub { font-size: 1.15rem; color: var(--ink-soft); max-width: 690px; line-height: 1.7; margin-bottom: 32px; font-weight: 300; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      display: inline-block; text-decoration: none; font-size: 0.92rem; font-weight: 700;
+      padding: 13px 24px; transition: transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
     }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: var(--white); border: 1px solid var(--accent); }
+    .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+    .btn-secondary { color: var(--green); border: 1px solid var(--green); }
+    .btn-secondary:hover { background: var(--green); color: var(--white); }
 
-    /* PRICING BOX */
-    .pricing-section {
-      padding: 80px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .pricing-box {
-      border: 2px solid var(--accent);
-      background: var(--white);
-      padding: 48px 40px;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 48px;
-      align-items: center;
-    }
-    @media (max-width: 700px) {
-      .pricing-box { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
-    }
-    .pricing-label {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
-    .pricing-detail-label {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 24px;
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 600px) {
-      .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
-    }
-    .price-item .price {
-      font-family: 'Fraunces', serif;
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: var(--accent);
-      line-height: 1;
-      margin-bottom: 6px;
-      letter-spacing: -0.02em;
-    }
-    .price-item .price-note {
-      font-size: 0.85rem;
-      color: var(--ink-muted);
-      line-height: 1.5;
-    }
-
-    /* SECTIONS */
     section { padding: 80px 0; border-bottom: 1px solid var(--border); }
     .section-label {
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
     }
     .section-title {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600;
-      letter-spacing: -0.02em; line-height: 1.15;
-      color: var(--ink); margin-bottom: 20px;
+      font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.12; color: var(--green); margin-bottom: 20px;
     }
-    .section-body {
-      font-size: 1.05rem; color: var(--ink-soft);
-      line-height: 1.75; font-weight: 300;
-    }
+    .section-body { font-size: 1.05rem; color: var(--ink-soft); line-height: 1.75; font-weight: 300; }
+    .section-body strong { color: var(--ink); font-weight: 700; }
 
-    /* WHAT IT HANDLES */
+    .diagnostic-intro {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; margin-top: 28px;
+    }
+    @media (max-width: 800px) { .diagnostic-intro { grid-template-columns: 1fr; gap: 28px; } }
+    .credit-box {
+      background: var(--white); border: 2px solid var(--accent); padding: 30px 32px;
+      color: var(--accent); font-size: 1.05rem; font-weight: 700; line-height: 1.55;
+    }
+    .credit-box small { display: block; margin-top: 12px; color: var(--ink-muted); font-weight: 400; font-size: 0.84rem; }
+
+    .diagnostic-pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
+    @media (max-width: 700px) { .diagnostic-pricing { grid-template-columns: 1fr; } }
+    .diagnostic-card { background: var(--white); border: 1px solid var(--border); padding: 32px 30px; }
+    .diagnostic-card.recommended { border: 2px solid var(--green); }
+    .tag {
+      display: inline-block; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-weight: 700; color: var(--white); background: var(--green); padding: 5px 9px; margin-bottom: 16px;
+    }
+    .diagnostic-price {
+      font-family: 'Fraunces', serif; color: var(--accent); font-weight: 700; font-size: 2.35rem;
+      letter-spacing: -0.03em; margin-bottom: 4px;
+    }
+    .diagnostic-hours { font-weight: 700; color: var(--green); margin-bottom: 12px; }
+    .diagnostic-card p { color: var(--ink-soft); font-size: 0.96rem; line-height: 1.65; }
+
+    .outputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+    @media (max-width: 900px) { .outputs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .outputs-grid { grid-template-columns: 1fr; } }
+    .output-card { background: var(--white); border: 1px solid var(--border); padding: 24px 22px; min-height: 170px; }
+    .output-num {
+      display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center;
+      border-radius: 50%; background: var(--green); color: var(--white); font-weight: 700; margin-bottom: 16px; font-size: 0.9rem;
+    }
+    .output-title {
+      font-family: 'Fraunces', serif; font-weight: 700; color: var(--green); font-size: 1.05rem;
+      line-height: 1.2; margin-bottom: 10px;
+    }
+    .output-desc { color: var(--ink-muted); font-size: 0.86rem; line-height: 1.55; }
+
+    .pricing-section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .pricing-box {
+      border: 2px solid var(--accent); background: var(--white); padding: 48px 40px;
+      display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: center;
+    }
+    @media (max-width: 700px) { .pricing-box { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; } }
+    .pricing-label {
+      font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700;
+      line-height: 1; color: var(--accent); letter-spacing: -0.02em; text-transform: uppercase;
+    }
+    .pricing-detail-label { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 24px; }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    @media (max-width: 600px) { .pricing-grid { grid-template-columns: 1fr; gap: 20px; } }
+    .price-item .price {
+      font-family: 'Fraunces', serif; font-size: 1.75rem; font-weight: 700; color: var(--accent);
+      line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em;
+    }
+    .price-item .price-note { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; }
+
     .handles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 48px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px;
+      background: var(--border); border: 1px solid var(--border); margin-top: 48px;
     }
-    .handles-item {
-      background: var(--cream);
-      padding: 28px 28px;
-      transition: background 0.2s;
-    }
+    .handles-item { background: var(--cream); padding: 28px 28px; transition: background 0.2s; }
     .handles-item:hover { background: var(--white); }
     .handles-title {
-      font-family: 'Fraunces', serif;
-      font-size: 1.05rem; font-weight: 600;
-      color: var(--ink); margin-bottom: 8px;
-      letter-spacing: -0.01em;
+      font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 700; color: var(--green);
+      margin-bottom: 8px; letter-spacing: -0.01em;
     }
-    .handles-desc {
-      font-size: 0.875rem; color: var(--ink-muted); line-height: 1.6;
-    }
+    .handles-desc { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.6; }
 
-    /* HOW IT WORKS */
-    .how-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-      margin-top: 48px;
-    }
-    @media (max-width: 700px) {
-      .how-layout { grid-template-columns: 1fr; gap: 40px; }
-    }
-    .how-text p {
-      font-size: 1.05rem; color: var(--ink-soft);
-      line-height: 1.75; font-weight: 300; margin-bottom: 20px;
-    }
-    .how-text p strong { color: var(--ink); font-weight: 500; }
-    .how-callout {
-      background: var(--ink); color: var(--cream);
-      padding: 36px 36px;
-    }
+    .how-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 48px; }
+    @media (max-width: 700px) { .how-layout { grid-template-columns: 1fr; gap: 40px; } }
+    .how-text p { font-size: 1.05rem; color: var(--ink-soft); line-height: 1.75; font-weight: 300; margin-bottom: 20px; }
+    .how-text p strong { color: var(--ink); font-weight: 700; }
+    .how-callout { background: var(--green); color: var(--cream); padding: 36px 36px; }
     .how-callout-headline {
-      font-family: 'Fraunces', serif;
-      font-size: 1.4rem; font-weight: 500; font-style: italic;
-      line-height: 1.4; margin-bottom: 12px;
-      color: var(--accent);
+      font-family: 'Fraunces', serif; font-size: 1.45rem; font-weight: 700; font-style: italic;
+      line-height: 1.4; margin-bottom: 12px; color: var(--accent);
     }
-    .how-callout-sub {
-      font-size: 0.95rem; color: rgba(255,255,255,0.7);
-      line-height: 1.6;
-    }
+    .how-callout-sub { font-size: 0.95rem; color: rgba(255,255,255,0.78); line-height: 1.6; }
 
-    /* WHY THIS / FOUNDER */
-    .why-pilot {
-      max-width: 720px;
-    }
-    .why-pilot p {
-      font-size: 1.05rem; color: var(--ink-soft);
-      line-height: 1.8; font-weight: 300; margin-bottom: 20px;
-    }
-    .why-pilot p strong { color: var(--ink); font-weight: 500; }
+    .scorecard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    @media (max-width: 800px) { .scorecard-grid { grid-template-columns: 1fr; } }
+    .score-card { background: var(--white); border: 1px solid var(--border); padding: 26px 24px; }
+    .score-kicker { color: var(--accent); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
+    .score-title { font-family: 'Fraunces', serif; color: var(--green); font-size: 1.13rem; font-weight: 700; margin-bottom: 10px; }
+    .score-copy { color: var(--ink-muted); font-size: 0.9rem; line-height: 1.6; }
 
+    .why-pilot { max-width: 760px; }
+    .why-pilot p { font-size: 1.05rem; color: var(--ink-soft); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+    .why-pilot p strong { color: var(--ink); font-weight: 700; }
     .pull-quote {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
-      font-weight: 400; font-style: italic;
-      line-height: 1.4;
-      color: var(--ink);
-      max-width: 720px;
-      padding-left: 28px;
-      border-left: 3px solid var(--accent);
-      margin: 36px 0 0 0;
+      font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 500; font-style: italic;
+      line-height: 1.4; color: var(--green); max-width: 760px; padding-left: 28px; border-left: 4px solid var(--accent); margin: 36px 0 0 0;
     }
 
-    /* CTA */
-    .cta-section {
-      padding: 96px 0;
-      border-bottom: none;
-    }
-    .cta-box {
-      background: var(--ink);
-      padding: 56px 48px;
-      max-width: 820px;
-    }
-    @media (max-width: 600px) {
-      .cta-box { padding: 40px 28px; }
-    }
+    .cta-section { padding: 96px 0; border-bottom: none; }
+    .cta-box { background: var(--green); padding: 56px 48px; max-width: 840px; }
+    @media (max-width: 600px) { .cta-box { padding: 40px 28px; } }
     .cta-label {
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
-      text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); margin-bottom: 16px;
     }
     .cta-title {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600;
-      letter-spacing: -0.02em; line-height: 1.15;
-      color: var(--cream); margin-bottom: 20px;
+      font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.15; color: var(--cream); margin-bottom: 20px;
     }
     .cta-body {
-      font-size: 1rem; color: rgba(255,255,255,0.7);
-      line-height: 1.7; font-weight: 300; margin-bottom: 32px;
-      max-width: 580px;
+      font-size: 1rem; color: rgba(255,255,255,0.78); line-height: 1.7; font-weight: 300; margin-bottom: 32px; max-width: 610px;
     }
-    .cta-contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 32px;
-    }
-    @media (max-width: 600px) {
-      .cta-contact-grid { grid-template-columns: 1fr; gap: 20px; }
-    }
-    .cta-contact-item {
-      padding: 20px 24px;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: border-color 0.2s;
-    }
-    .cta-contact-item:hover {
-      border-color: var(--accent);
-    }
-    .cta-contact-label {
-      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4); margin-bottom: 8px;
-    }
+    .cta-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+    @media (max-width: 600px) { .cta-contact-grid { grid-template-columns: 1fr; gap: 20px; } }
+    .cta-contact-item { padding: 20px 24px; border: 1px solid rgba(255,255,255,0.18); transition: border-color 0.2s; text-decoration: none; }
+    .cta-contact-item:hover { border-color: var(--accent); }
+    .cta-contact-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
     .cta-contact-value {
-      font-family: 'Fraunces', serif;
-      font-size: 1.05rem; font-weight: 500;
-      color: var(--cream); text-decoration: none;
-      transition: color 0.2s;
-      display: block;
-      letter-spacing: -0.01em;
+      font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 700; color: var(--cream); text-decoration: none;
+      transition: color 0.2s; display: block; letter-spacing: -0.01em;
     }
-    .cta-contact-value:hover { color: var(--accent); }
-
+    .cta-contact-item:hover .cta-contact-value { color: var(--accent); }
     .btn-cta {
-      display: inline-block;
-      background: var(--accent); color: var(--white);
-      font-size: 0.9rem; font-weight: 500;
-      padding: 14px 28px; text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
+      display: inline-block; background: var(--accent); color: var(--white); font-size: 0.9rem; font-weight: 700;
+      padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.15s;
     }
-    .btn-cta:hover { background: #b34516; transform: translateY(-1px); }
+    .btn-cta:hover { background: var(--accent-dark); transform: translateY(-1px); }
 
-    /* FOOTER */
     footer { padding: 32px 0; border-top: 1px solid var(--border); }
-    .footer-inner {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .footer-logo {
-      font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600;
-      color: var(--ink); text-decoration: none;
-    }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); text-decoration: none; }
     .footer-logo span { color: var(--accent); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a {
-      font-size: 0.8rem; color: var(--ink-muted); text-decoration: none;
-      transition: color 0.2s;
-    }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8rem; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--ink); }
     .footer-copy { font-size: 0.75rem; color: var(--ink-muted); width: 100%; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .pilot-hero .container > * { animation: fadeUp 0.6s ease both; }
-    .pilot-eyebrow { animation-delay: 0s; }
-    .pilot-hero h1 { animation-delay: 0.1s; }
-    .pilot-sub { animation-delay: 0.2s; }
 
     @media (max-width: 600px) {
       .pilot-hero { padding: 56px 0 40px; }
       section { padding: 56px 0; }
       .nav-right .nav-link { display: none; }
+      .nav-cta { padding: 8px 12px; }
+      .container { padding: 0 20px; }
     }
   </style>
 </head>
@@ -355,7 +258,7 @@
         <div class="nav-right">
           <a href="/" class="nav-link">Home</a>
           <a href="/white-paper.html" class="nav-link">White Paper</a>
-          <a href="#contact" class="nav-cta">Apply for Pilot</a>
+          <a href="#contact" class="nav-cta">Start with a Diagnostic</a>
         </div>
       </div>
     </div>
@@ -363,14 +266,97 @@
 
   <section class="pilot-hero">
     <div class="container">
-      <div class="pilot-eyebrow">Founder Pilot · San Diego · Q2 2026</div>
-      <h1 class="display">Managed AI operations<br>for QSR and<br><em>shift-based small businesses.</em></h1>
-      <p class="pilot-sub">McPherson AI encodes real store judgment into AI workflows that handle the operational work GMs spend hours on every week. The Founder Pilot is open to the first three local operators — at flat pricing, with full setup included.</p>
+      <div class="pilot-eyebrow">Operator Diagnostic · Founder Pilot · San Diego</div>
+      <h1 class="display">AI operator support<br>for restaurant managers.</h1>
+      <p class="pilot-sub">McPherson AI helps QSR and small restaurant operators reduce missed handoffs, recurring follow-up, labor and prep drift, and the memory load of running a busy store.</p>
+      <div class="pull-quote" style="margin: 0 0 32px 0; font-size: clamp(1.1rem, 2.5vw, 1.4rem);">"Built from the kinds of problems I have spent sixteen years actually solving."</div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#diagnostic">Start with the Operator Diagnostic</a>
+      </div>
     </div>
   </section>
 
-  <section class="pricing-section">
+  <section id="diagnostic">
     <div class="container">
+      <div class="section-label">Start Here</div>
+      <h2 class="section-title display">The Operator Diagnostic</h2>
+
+      <div class="diagnostic-intro">
+        <div>
+          <p class="section-body"><strong>A full AI pilot is a big first step for a busy restaurant operator.</strong> The Operator Diagnostic is a short, paid engagement designed to find where AI support actually helps your operation before anything bigger is deployed.</p>
+          <p class="section-body" style="margin-top:18px;">I spend time inside your operation, talk with the people running the shift, and deliver a written assessment of where McPherson AI could meaningfully help — and where it should not be used yet.</p>
+        </div>
+
+        <div class="credit-box">
+          You pay up front. You keep the assessment either way. If you move to a Founder Pilot within 30 days, the full diagnostic fee is credited toward your $1,000 Founder Pilot startup payment.
+          <small>Limited to 3 Founder Pilots total. Contact to confirm current availability.</small>
+        </div>
+      </div>
+
+      <div class="diagnostic-pricing">
+        <div class="diagnostic-card">
+          <div class="diagnostic-price display">$300</div>
+          <div class="diagnostic-hours">3-hour Focused Operator Diagnostic</div>
+          <p>Best for single-location operators who want a focused read on one operational pain point: labor, handoffs, audit readiness, missed follow-ups, or food cost visibility.</p>
+        </div>
+
+        <div class="diagnostic-card recommended">
+          <span class="tag">Recommended</span>
+          <div class="diagnostic-price display">$500</div>
+          <div class="diagnostic-hours">5-hour Broad Operator Diagnostic</div>
+          <p>Best for operators who want a broader sweep across labor, food cost, shift handoffs, recurring issues, audit readiness, and management follow-through. Most operators start here — the broader sweep typically surfaces more than one high-value workflow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="outputs">
+    <div class="container">
+      <div class="section-label">What You Get</div>
+      <h2 class="section-title display">What the Diagnostic Produces</h2>
+      <p class="section-body" style="max-width: 680px;">The goal is not a generic AI demo. The goal is a clear operator assessment: what is breaking, what should stay human-owned, and what could be safely supported in a pilot.</p>
+
+      <div class="outputs-grid">
+        <div class="output-card">
+          <div class="output-num">1</div>
+          <div class="output-title">Current Workflow Map</div>
+          <div class="output-desc">Visualize how work currently moves through the store, including handoffs and communication points.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-num">2</div>
+          <div class="output-title">Top Repetitive Failure Points</div>
+          <div class="output-desc">Identify recurring breakdowns that cause friction, delays, mistakes, or rework.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-num">3</div>
+          <div class="output-title">What Should Stay Human-Owned</div>
+          <div class="output-desc">Clarify the decisions and responsibilities that should remain with the team.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-num">4</div>
+          <div class="output-title">What Could Be Assisted Safely</div>
+          <div class="output-desc">Show the tasks an AI assistant can support in the background to save time and reduce errors.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-num">5</div>
+          <div class="output-title">Required Store Context / Memory</div>
+          <div class="output-desc">Capture the repeating context, habits, policies, and local knowledge the system would need to remember.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-num">6</div>
+          <div class="output-title">Recommended Pilot Scope</div>
+          <div class="output-desc">Define one focused starting point with a clear plan and measurable outcome.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section" id="founder-pilot">
+    <div class="container">
+      <div class="section-label">When There Is Fit</div>
+      <h2 class="section-title display">Founder Pilot</h2>
+      <p class="section-body" style="max-width: 700px; margin-bottom: 36px;">If the diagnostic identifies a strong use case, the Founder Pilot turns that scope into a private operating system for the store. The diagnostic fee credits toward the startup payment if you move forward within 30 days.</p>
+
       <div class="pricing-box">
         <div>
           <div class="pricing-label display">Founder<br>Pilot</div>
@@ -396,76 +382,12 @@
     </div>
   </section>
 
-  <section id="handles">
-    <div class="container">
-      <div class="section-label">What It Handles</div>
-      <h2 class="section-title display">The operational work GMs<br>spend hours on every week.</h2>
-      <p class="section-body" style="max-width: 600px;">Daily monitoring, weekly diagnostics, and the kind of follow-through most stores never get to because the rush always wins.</p>
-
-      <div class="handles-grid">
-        <div class="handles-item">
-          <div class="handles-title">Daily Ops Monitoring</div>
-          <div class="handles-desc">Three-point compliance checks across opening, mid-shift, and close. A running record of what happened — and what didn't.</div>
-        </div>
-        <div class="handles-item">
-          <div class="handles-title">Labor Variance Tracking</div>
-          <div class="handles-desc">Daily labor-vs-revenue tracking with mid-week alerts. Hours-to-cut math runs before payroll closes, not after.</div>
-        </div>
-        <div class="handles-item">
-          <div class="handles-title">Food Cost Diagnostics</div>
-          <div class="handles-desc">Weekly COGS variance analysis across the four control levers — ordering, portioning, recipes, waste. Drift caught weekly, not monthly.</div>
-        </div>
-        <div class="handles-item">
-          <div class="handles-title">Shift-to-Shift Continuity</div>
-          <div class="handles-desc">Structured end-of-shift handoffs. Wins, bottlenecks, follow-up items. The next shift starts with the picture, not blind.</div>
-        </div>
-        <div class="handles-item">
-          <div class="handles-title">Audit Readiness Countdown</div>
-          <div class="handles-desc">A 30-day cadence that turns inspection prep from a scramble into a structured pre-audit walk. Gaps surface before the inspector does.</div>
-        </div>
-        <div class="handles-item">
-          <div class="handles-title">Weekly P&amp;L Narrative</div>
-          <div class="handles-desc">Plain-language explanation of what happened, why, and what's next. Variance translated into operational decisions.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="how">
-    <div class="container">
-      <div class="section-label">How It Works</div>
-      <div class="how-layout">
-        <div class="how-text">
-          <p><strong>Each store gets its own private system.</strong> Your data stays scoped to your store. No shared infrastructure with other clients. No cross-contamination between deployments.</p>
-          <p><strong>Your team interacts through Telegram on their phones.</strong> Natural language in, structured records out. The agent listens, echoes back what it understood, and writes only after explicit confirmation.</p>
-          <p><strong>Setup is included.</strong> McPherson AI handles deployment, configuration, and onboarding. Your team is using the system the same week.</p>
-        </div>
-        <div class="how-callout">
-          <div class="how-callout-headline">No new dashboard.<br>No new login.</div>
-          <div class="how-callout-sub">Your managers already have a phone. They already have Telegram, or they install it once. That's the interface. The rest runs in the background.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="why">
-    <div class="container">
-      <div class="section-label">Why The Pilot Exists</div>
-      <div class="why-pilot">
-        <p><strong>Founder pilots are about getting the first deployments right.</strong> Three operators, flat pricing, full setup, direct access to the founder. The goal is to refine the system in real operating environments — not to sell as much as possible as fast as possible.</p>
-        <p>If you're a local QSR or shift-based small business operator who has been watching labor drift, food cost surprises, or audit scramble eat into your week, this is built for you. The system encodes the judgment a sixteen-year operator brings to those problems and runs it consistently across every shift.</p>
-        <p>If it works for your store, you stay. If it doesn't, you cancel. No lock-in, no termination fees, no fine print.</p>
-      </div>
-      <div class="pull-quote">"Built from the kinds of problems I've spent sixteen years actually solving."</div>
-    </div>
-  </section>
-
   <section class="cta-section" id="contact">
     <div class="container">
       <div class="cta-box">
-        <div class="cta-label">Apply for the Founder Pilot</div>
-        <h2 class="cta-title display">Three spots.<br>San Diego market.<br>Q2 2026.</h2>
-        <p class="cta-body">If your store fits the pilot — high-volume QSR, multi-unit franchise, or shift-based retail — reach out directly. The fastest path is a short call to walk through your operation and confirm fit.</p>
+        <div class="cta-label">Start with a Diagnostic</div>
+        <h2 class="cta-title display">One short assessment before anything bigger.</h2>
+        <p class="cta-body">If your store is dealing with missed handoffs, labor/prep drift, food cost visibility, audit scramble, or follow-up that keeps living in the manager’s head, start with the Operator Diagnostic. The fastest path is a short call to confirm fit.</p>
 
         <div class="cta-contact-grid">
           <a href="mailto:admin@mcphersonai.com" class="cta-contact-item">
@@ -478,7 +400,7 @@
           </a>
         </div>
 
-        <a href="mailto:admin@mcphersonai.com?subject=Founder%20Pilot%20Inquiry" class="btn-cta">Email Blake Directly</a>
+        <a href="mailto:admin@mcphersonai.com?subject=Operator%20Diagnostic%20Inquiry" class="btn-cta">Email Blake Directly</a>
       </div>
     </div>
   </section>
@@ -494,7 +416,7 @@
           <a href="https://github.com/McphersonAI/mcpherson-ai-store-agent" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://clawhub.ai" target="_blank" rel="noopener noreferrer">ClawHub</a>
         </div>
-        <div class="footer-copy">© 2026 McPherson AI · San Diego, CA · Building AI operations systems for QSR managers.</div>
+        <div class="footer-copy">© 2026 McPherson AI · San Diego, CA · AI operator support for restaurant managers.</div>
       </div>
     </div>
   </footer>
