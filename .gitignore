@@ -1,0 +1,23 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# McPherson AI console — PRIVATE internal tool, do not commit to this PUBLIC repo
+mcpai-console*.html
+
+# Console data exports / backups — contain lead and client data, never commit
+mcpai-console-backup-*.json
+mcpai-leads-*.csv
+mcpai-proofs-*.csv
+*.csv
+
+# Databases / secrets — none should ever exist here, belt and suspenders
+*.sqlite
+*.sqlite3
+*.db
+.env
+.env.*
+
+# Editor noise
+.vscode/
+.idea/
