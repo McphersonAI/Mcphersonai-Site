@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.*
+data/*.db
+data/backups/
+exports/
+dist/
+secrets/
+client_data/
+logs/
+*.sqlite
+*.sqlite3
+.pytest_cache/
+.DS_Store
