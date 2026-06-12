@@ -1,0 +1,21 @@
+{
+  "pilot_name": "Pilot Store 001 Fake Deployment",
+  "store_type": "Fake QSR (fictional concept)",
+  "week_number": 1,
+  "starting_problem": "Fake: closing checklist items skipped on weekends.",
+  "diagnostic_finding": "Fake: weekend close tasks lacked an owner.",
+  "pilot_scope": "Fake: assisted weekend close checklist review (human-only mode).",
+  "agent_contribution": "Fake: drafted a checklist gap summary for human review.",
+  "operator_action": "Fake: operator assigned weekend close owner.",
+  "signal_caught_early": "Fake: two skipped temp logs surfaced before audit.",
+  "time_saved_estimate": "~1.5 hours/week (estimate, unverified)",
+  "issue_prevented": "Fake: missed temp log pattern flagged before it repeated.",
+  "follow_up_completed": "Fake: yes, reviewed in weekly meeting.",
+  "proof_event": "Fake: operator confirmed gap summary matched reality.",
+  "operator_feedback": "Fake feedback placeholder. No real quotes.",
+  "screenshots_evidence": "Fake: evidence stored privately (placeholder).",
+  "what_changed_this_week": "Fake: weekend close ownership assigned.",
+  "next_action": "Fake: re-check skip rate next week.",
+  "public_safe_summary": "A fake pilot store assigned ownership of a recurring close-task gap after an assisted review. Time savings are an unverified estimate.",
+  "private_notes": "PRIVATE fake notes. Never published."
+}

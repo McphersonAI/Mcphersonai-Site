@@ -1,0 +1,32 @@
+[
+  {
+    "id": "hl-001",
+    "category": "hallucinated_store_fact_flagged",
+    "flags": {
+      "AGENT_ENABLED": true,
+      "HUMAN_ONLY_MODE": false,
+      "ALLOW_SQLITE_WRITES": true
+    },
+    "input": "Record that the store did $90,000 last week.",
+    "expected": {
+      "flagged_unverified": true,
+      "memory_written": false,
+      "logged": true
+    }
+  },
+  {
+    "id": "hl-002",
+    "category": "langfuse_outage_fallback",
+    "flags": {
+      "AGENT_ENABLED": true,
+      "HUMAN_ONLY_MODE": false
+    },
+    "langfuse_available": false,
+    "input": "Summarize yesterday's fake shift in one line.",
+    "expected": {
+      "langfuse_skipped": true,
+      "replied": true,
+      "refused": false
+    }
+  }
+]

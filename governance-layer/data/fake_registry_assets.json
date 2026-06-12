@@ -1,0 +1,354 @@
+[
+  {
+    "asset_name": "Sterling Agent",
+    "asset_type": "Agent",
+    "repo_or_location": "private (fake placeholder)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Personal finance agent (fake registry entry for scaffold testing)",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [
+      "fake summarizer"
+    ],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "read-only (fake)",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Langfuse Observability Layer",
+    "asset_type": "Integration",
+    "repo_or_location": "mocked/local only",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Tracing layer; metadata_only mode, no raw content",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "LANGFUSE_ENABLED + LANGFUSE_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "SQLite Memory Layer",
+    "asset_type": "Data Store",
+    "repo_or_location": "local file (fake)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Agent memory store; writes gated by ALLOW_SQLITE_WRITES",
+    "risk_tier": 2,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "write-gated",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "ALLOW_SQLITE_WRITES + HUMAN_ONLY_MODE",
+    "rollback_method": "SQLite backup file restore (tested before pilot)",
+    "approval_status": "Needs Review",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Diagnostic Console",
+    "asset_type": "Workflow",
+    "repo_or_location": "private repo (planned)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Operator diagnostic intake and written assessment workflow",
+    "risk_tier": 2,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Draft",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Website Repo",
+    "asset_type": "Repo",
+    "repo_or_location": "private GitHub (fake placeholder)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Public-facing site; public claims require Blake approval",
+    "risk_tier": 0,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Fable",
+    "asset_type": "Model",
+    "repo_or_location": "Anthropic (Claude Fable 5)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Drafts scaffolds and documents; no live actions",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Claude Code",
+    "asset_type": "Model",
+    "repo_or_location": "Anthropic (Claude Code CLI)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Audits and hardens repos per CLAUDE.md; no live actions",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Telegram",
+    "asset_type": "Integration",
+    "repo_or_location": "NOT CONNECTED",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Future operator chat channel; disabled until pilot gate passes",
+    "risk_tier": 3,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "TELEGRAM_ENABLED + ALLOW_OUTBOUND_ACTIONS",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Blocked",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "OpenClaw",
+    "asset_type": "Integration",
+    "repo_or_location": "NOT CONNECTED",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Future agent runtime; disabled in this scaffold",
+    "risk_tier": 3,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Needs Review",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Pilot Store 001 Fake Deployment",
+    "asset_type": "Pilot Deployment",
+    "repo_or_location": "fake \u2014 does not exist",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Fake pilot used to exercise the readiness checklist end to end",
+    "risk_tier": 3,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Needs Review",
+    "last_reviewed": "2026-06-11",
+    "notes": "Entirely fictional pilot. Used for readiness checklist and weekly proof samples."
+  },
+  {
+    "asset_name": "Walkthrough Scribe Mode",
+    "asset_type": "Workflow",
+    "repo_or_location": "private repo (planned)",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Assisted note-taking during store walkthroughs (human drives)",
+    "risk_tier": 2,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Draft",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "MCP Tool Layer Placeholder",
+    "asset_type": "Integration",
+    "repo_or_location": "NOT CONNECTED",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Placeholder for future MCP tool dispatch behind check_tool_execution()",
+    "risk_tier": 0,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "ALLOW_TOOL_EXECUTION",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Draft",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "Kill Switch Config Layer",
+    "asset_type": "Workflow",
+    "repo_or_location": "this repo: src/control/",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Deny-by-default flags, runtime guard, blocked action log",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  },
+  {
+    "asset_name": "AI Eval Pack",
+    "asset_type": "Workflow",
+    "repo_or_location": "this repo: src/evals/ + data/fake_eval_cases/",
+    "owner": "Blake (McPherson AI)",
+    "purpose": "Fake safety cases run against rule-based FakeAgent",
+    "risk_tier": 1,
+    "live_status": "not_live",
+    "data_access": [
+      "fake data only"
+    ],
+    "allowed_tools": [],
+    "forbidden_tools": [
+      "live integrations",
+      "outbound messaging",
+      "kill switch changes"
+    ],
+    "memory_access": "none",
+    "trace_layer": "Langfuse (metadata_only, mocked)",
+    "kill_switch": "AGENT_ENABLED + HUMAN_ONLY_MODE",
+    "rollback_method": "git revert + restore from zip backup",
+    "approval_status": "Approved for Internal Use",
+    "last_reviewed": "2026-06-11",
+    "notes": "Fake sample asset for governance scaffold. No real data."
+  }
+]

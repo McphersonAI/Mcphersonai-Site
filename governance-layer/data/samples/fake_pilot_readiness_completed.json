@@ -1,0 +1,32 @@
+{
+  "pilot_name": "Pilot Store 001 Fake Deployment",
+  "sections": {
+    "client_pilot_identity": "Ready",
+    "diagnostic_completed": "Ready",
+    "written_assessment_completed": "Ready",
+    "pilot_scope_approved": "Approved",
+    "risk_tier_assigned": "Ready",
+    "agent_identity_defined": "Ready",
+    "agent_permissions_defined": "Ready",
+    "prompt_version_approved": "Approved",
+    "langfuse_tracing_ready": "Ready",
+    "sqlite_memory_ready": "Ready",
+    "backup_created": "Ready",
+    "restore_tested": "Ready",
+    "kill_switches_tested": "Ready",
+    "human_only_mode_tested": "Ready",
+    "api_cost_expectations_defined": "Ready",
+    "weekly_review_scheduled": "Ready",
+    "secrets_checked": "Ready",
+    "no_real_data_in_github": "Ready",
+    "fake_evals_passed": "Ready",
+    "go_live_acceptance_ready": "Approved",
+    "blake_approval_recorded": "Approved"
+  },
+  "approval": {
+    "approved_by": "Blake",
+    "date": "2026-06-11",
+    "pilot": "Pilot Store 001 Fake Deployment",
+    "notes": "Fake sample approval. This pilot does not exist."
+  }
+}
