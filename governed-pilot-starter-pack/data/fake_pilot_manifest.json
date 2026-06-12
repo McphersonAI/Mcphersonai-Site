@@ -1,0 +1,10 @@
+{
+  "pilot_id": "pilot_999_fake_taco_test_store",
+  "store_name": "Fake Taco Test Store",
+  "note": "ALL VALUES FICTIONAL. Used only by create_fake_pilot_folder.py for dry-run demonstration.",
+  "risk_tier": "restricted",
+  "approval_status": "pre-approval (fake)",
+  "scope_summary": "Fake dry-run scope: shift notes, follow-ups, handoffs, proof events, weekly summaries on fake data only.",
+  "weekly_proof_day": "Wednesday (fake)",
+  "modules": ["sqlite_memory", "langfuse_observability", "governance"]
+}

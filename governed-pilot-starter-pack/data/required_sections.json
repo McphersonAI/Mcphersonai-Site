@@ -1,0 +1,8 @@
+{
+  "docs/sqlite_setup_checklist.md": ["database initializes", "store profile exists", "Backup works", "Restore works", "No real secrets are stored", "No unapproved client data"],
+  "docs/langfuse_setup_checklist.md": ["Docker stack starts", "is not committed", "Metadata-only mode", "Blake approval", "NullTrace works", "No public exposure"],
+  "docs/governance_setup_checklist.md": ["Pilot deployment is registered", "Risk tier is assigned", "Kill switch behavior is tested", "Human-only mode is tested", "Evals pass", "Blake approval is recorded"],
+  "docs/dry_run_checklist.md": ["Pilot folder structure works", "Kill switches default safe", "Metadata-only mode is enforced", "Blake approval block exists", "No real client data is used"],
+  "docs/go_live_checklist.md": ["Diagnostic is completed", "Pilot scope is approved", "Risk tier is assigned", "Restore path is tested", "Kill switches are tested", "Human-only mode is tested", "Weekly proof review is scheduled", "Blake approval is recorded"],
+  "docs/rollback_checklist.md": ["Bad memory write", "Bad prompt behavior", "Langfuse outage", "SQLite corruption", "Unauthorized outbound action attempt", "Incorrect pilot scope", "Wrong store record", "Accidental sensitive data capture", "Stop agent behavior", "Enable human-only mode", "Preserve incident copy", "Blake approves reactivation"]
+}

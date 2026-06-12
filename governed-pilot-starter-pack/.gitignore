@@ -1,0 +1,24 @@
+# Secrets
+.env
+.env.*
+!.env.example
+secrets/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Build / output
+dist/
+exports/
+fake_pilot_output/
+
+# Never commit these
+backups/
+client_data/
+logs/
+*.db
+*.sqlite
+*.sqlite3

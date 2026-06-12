@@ -1,0 +1,8 @@
+{
+  "note": "Fictional module references for dry-run demonstration only.",
+  "modules": [
+    {"name": "SQLite Memory Layer", "version": "v0.1-fake", "status": "audited (fake)", "target_folder": "04_sqlite_memory"},
+    {"name": "Langfuse Observability Layer", "version": "v0.1-fake", "status": "audited (fake)", "target_folder": "05_langfuse_observability"},
+    {"name": "Governance Layer", "version": "v0.1-fake", "status": "audited (fake)", "target_folder": "06_governance"}
+  ]
+}
