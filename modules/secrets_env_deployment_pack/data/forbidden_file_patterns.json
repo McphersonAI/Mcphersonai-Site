@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "description": "File names and patterns that must never appear in this repo, in GitHub, in reusable snapshots, or in packaged zips.",
+  "forbidden_filenames": [".env", ".env.local", ".env.production", ".env.pilot"],
+  "forbidden_glob_patterns": [".env.*", "*.db", "*.sqlite", "*.sqlite3"],
+  "forbidden_directory_names": ["secrets", "client_data", "backups", "logs", "real_client", "production"],
+  "allowlist_filenames": [".env.example"],
+  "scan_ignore_directories": [".git", ".pytest_cache", "__pycache__", "node_modules", "dist", "exports"],
+  "notes": "fake_environment_output/ is generated fake data and is excluded from packaging, but it is still scanned so fake generation can never produce forbidden names."
+}

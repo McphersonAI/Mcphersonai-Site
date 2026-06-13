@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "description": "Headings/strings that must appear in each required doc. Used by verify_env_pack.py.",
+  "sections": {
+    "README.md": ["## What this repo is", "## What this repo is NOT", "## Why Blake approval remains required"],
+    "CLAUDE.md": ["## Hard rules", "Do NOT add real secrets"],
+    "AGENTS.md": ["does **not run agents**", "## Deferral"],
+    "docs/overview.md": ["## Purpose", "## Boundaries", "## Final rule"],
+    "docs/environment_matrix.md": ["### local_fake", "### dry_run", "### pilot_prelaunch", "### pilot_live_restricted", "### human_only", "### incident_mode"],
+    "docs/secret_classification.md": ["## Class 0", "## Class 1", "## Class 2", "## Class 3"],
+    "docs/env_file_policy.md": ["`.env.example` is the ONLY", "## Enforcement"],
+    "docs/github_safety_policy.md": ["## Allowed in GitHub", "## Never allowed in GitHub"],
+    "docs/snapshot_safety_policy.md": ["## Reusable template snapshots — may include", "## Reusable template snapshots — must NOT include", "## Pilot-specific snapshots"],
+    "docs/deployment_promotion_gates.md": ["## local_fake → dry_run", "## dry_run → pilot_prelaunch", "## pilot_prelaunch → pilot_live_restricted", "## incident_mode → pilot_live_restricted"],
+    "docs/key_rotation_checklist.md": ["## Steps", "Blake approval if the key is a production or pilot key"],
+    "docs/no_secrets_scan_process.md": ["## Automated scans", "## Manual review"],
+    "docs/pilot_specific_config_process.md": ["## Process", "## Rule"],
+    "docs/reusable_template_snapshot_rules.md": ["## The rule", "## If a reusable snapshot is contaminated"],
+    "docs/human_only_mode.md": ["## Activation", "## Restrictions while active", "## Reactivation"],
+    "docs/incident_mode.md": ["## Activation", "## Evidence preservation", "## Patch / retest / reactivation"],
+    "docs/known_limits.md": ["not a live secret manager", "fake-data-only"],
+    "docs/deferred_decisions.md": ["Real secret manager choice", "Key rotation cadence"],
+    "docs/claude_code_audit_prompt.md": ["## mcpherson-ai-core preparation", "modules/secrets_env_deployment_pack/"]
+  }
+}

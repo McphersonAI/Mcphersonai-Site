@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "gates": [
+    {
+      "from": "local_fake",
+      "to": "dry_run",
+      "immediate": false,
+      "requirements": ["fake data only", "tests pass", "no secrets", "no real client data", "package clean"],
+      "approval_required": "none"
+    },
+    {
+      "from": "dry_run",
+      "to": "pilot_prelaunch",
+      "immediate": false,
+      "requirements": ["dry-run completed", "starter pack checklist completed", "no-secrets scan passed", "reusable template snapshot clean"],
+      "approval_required": "Blake approval"
+    },
+    {
+      "from": "pilot_prelaunch",
+      "to": "pilot_live_restricted",
+      "immediate": false,
+      "requirements": ["pilot scope approved", "real .env created outside GitHub", "secrets stored only on deployment machine", "governance approval recorded", "kill switches tested", "rollback tested", "backups tested", "Langfuse mode approved"],
+      "approval_required": "Blake approval"
+    },
+    {
+      "from": "pilot_live_restricted",
+      "to": "human_only",
+      "immediate": true,
+      "requirements": ["can happen immediately if a safety concern appears", "blocks tool execution, memory writes, and outbound actions"],
+      "approval_required": "none to enter; Blake approval to exit"
+    },
+    {
+      "from": "pilot_live_restricted",
+      "to": "incident_mode",
+      "immediate": true,
+      "requirements": ["can happen immediately on unsafe behavior, bad memory write, incorrect tool call, trace issue, operator pause request, or Blake decision", "evidence preserved", "writes and outbound actions blocked"],
+      "approval_required": "none to enter; Blake approval to exit"
+    },
+    {
+      "from": "incident_mode",
+      "to": "pilot_live_restricted",
+      "immediate": false,
+      "requirements": ["issue documented", "evidence preserved", "patch applied", "tests rerun", "rollback/restore verified if needed"],
+      "approval_required": "Blake reactivation approval"
+    }
+  ]
+}

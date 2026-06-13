@@ -1,0 +1,95 @@
+{
+  "version": "1.0",
+  "note": "FAKE-DATA-ONLY pack. This matrix defines rules; it does not enforce them at runtime.",
+  "required_fields": [
+    "name", "description", "allowed_data", "forbidden_data", "secrets_allowed",
+    "real_client_data_allowed", "real_env_file_allowed", "live_tools_allowed",
+    "outbound_actions_allowed", "reusable_snapshot_allowed", "approval_required", "notes"
+  ],
+  "environments": [
+    {
+      "name": "local_fake",
+      "description": "Local development and fake examples.",
+      "allowed_data": ["fake data", "fake store names", "fake users", ".env.example", "placeholder values"],
+      "forbidden_data": ["real secrets", "real client data", "live tokens", "production URLs", "real pilot databases", "real backups"],
+      "secrets_allowed": false,
+      "real_client_data_allowed": false,
+      "real_env_file_allowed": false,
+      "live_tools_allowed": false,
+      "outbound_actions_allowed": false,
+      "reusable_snapshot_allowed": true,
+      "approval_required": "none",
+      "notes": "Reusable snapshot allowed only if clean (fake data, no secrets)."
+    },
+    {
+      "name": "dry_run",
+      "description": "Full fake governed pilot rehearsal.",
+      "allowed_data": ["fake pilot folder", "fake SQLite data", "fake governance registry", "fake trace events", "fake MCP decisions", "fake runtime scenarios"],
+      "forbidden_data": ["real secrets", "real client data", "live Telegram token", "live Langfuse production key", "real pilot .env", "real store database", "real customer backups"],
+      "secrets_allowed": false,
+      "real_client_data_allowed": false,
+      "real_env_file_allowed": false,
+      "live_tools_allowed": false,
+      "outbound_actions_allowed": false,
+      "reusable_snapshot_allowed": true,
+      "approval_required": "none",
+      "notes": "Everything in dry_run is fictional. Reusable snapshot allowed only if clean."
+    },
+    {
+      "name": "pilot_prelaunch",
+      "description": "Real pilot is likely or approved, but before live traffic.",
+      "allowed_data": ["client-specific folder", "approved real pilot metadata", "local secrets outside GitHub", "real .env stored only on private deployment machine", "restricted test runs", "Blake approval records"],
+      "forbidden_data": ["reusable snapshots containing real secrets", "GitHub commits with .env", "public proof", "outbound actions", "live autonomous behavior"],
+      "secrets_allowed": "only on private deployment machine (Class 1-2)",
+      "real_client_data_allowed": "approved pilot metadata only",
+      "real_env_file_allowed": "only outside GitHub on the private deployment machine",
+      "live_tools_allowed": false,
+      "outbound_actions_allowed": false,
+      "reusable_snapshot_allowed": "only if it contains no real data or secrets",
+      "approval_required": "Blake approval required to enter",
+      "notes": "Restricted test runs only. No live autonomous behavior."
+    },
+    {
+      "name": "pilot_live_restricted",
+      "description": "Restricted live pilot use, only after Blake approval.",
+      "allowed_data": ["real pilot .env on the client-specific VPS only", "restricted live agent operation", "governed memory writes if approved", "Langfuse metadata-only tracing if approved", "backups for that pilot only", "weekly proof review"],
+      "forbidden_data": ["reusable template snapshots containing real pilot data", "public proof without approval", "outbound actions unless separately approved", "broad live integrations", "unrestricted tool execution"],
+      "secrets_allowed": "Class 2 on pilot-specific deployment machine only; Class 3 with Blake approval",
+      "real_client_data_allowed": "only inside the pilot-specific environment",
+      "real_env_file_allowed": "only on the pilot-specific VPS / deployment machine",
+      "live_tools_allowed": "restricted, governed set only",
+      "outbound_actions_allowed": "blocked unless separately approved by Blake",
+      "reusable_snapshot_allowed": false,
+      "approval_required": "Blake approval required to enter; outbound actions need separate approval",
+      "notes": "Metadata-only tracing unless Blake approves otherwise. Pilot-specific snapshots allowed only as labeled, sensitive, never-reused artifacts."
+    },
+    {
+      "name": "human_only",
+      "description": "System must not execute agent/tool behavior; humans operate.",
+      "allowed_data": ["human review", "read-only inspection if approved", "incident documentation", "manual operation"],
+      "forbidden_data": ["tool execution", "memory writes", "outbound actions", "reactivation without Blake approval"],
+      "secrets_allowed": "existing secrets remain in place but are not used by agents",
+      "real_client_data_allowed": "read-only inspection if approved",
+      "real_env_file_allowed": "unchanged in place; not used by agents",
+      "live_tools_allowed": false,
+      "outbound_actions_allowed": false,
+      "reusable_snapshot_allowed": false,
+      "approval_required": "Blake approval required for reactivation",
+      "notes": "Can be entered immediately whenever a safety concern appears."
+    },
+    {
+      "name": "incident_mode",
+      "description": "Something must be paused, reviewed, preserved, restored, or investigated.",
+      "allowed_data": ["incident copy", "read-only review", "backup identification", "rollback documentation", "patch and retest process"],
+      "forbidden_data": ["writes", "outbound actions", "live mode", "reactivation without Blake approval", "deleting incident evidence"],
+      "secrets_allowed": "frozen in place; no new secrets created",
+      "real_client_data_allowed": "read-only, evidence-preservation only",
+      "real_env_file_allowed": "frozen in place",
+      "live_tools_allowed": false,
+      "outbound_actions_allowed": false,
+      "reusable_snapshot_allowed": false,
+      "approval_required": "Blake approval required for reactivation",
+      "notes": "Evidence must be preserved. Incident copies are sensitive and never reused as templates."
+    }
+  ]
+}

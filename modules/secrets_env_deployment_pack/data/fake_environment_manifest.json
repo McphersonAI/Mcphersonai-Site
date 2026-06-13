@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "name": "fake_pilot_alpha",
+  "marker": "SAMPLE ONLY — FICTIONAL — NOT REAL SECRET — NOT REAL CLIENT DATA — NOT APPROVED FOR LIVE USE",
+  "folders": ["config", "data", "records"],
+  "files": [
+    {"path": "MANIFEST.json", "kind": "manifest"},
+    {"path": "config/env.example.txt", "kind": "env_example"},
+    {"path": "data/fake_pilot_metadata.json", "kind": "fake_metadata"},
+    {"path": "records/README.md", "kind": "records_readme"}
+  ],
+  "fake_metadata": {
+    "pilot_name": "fake_pilot_alpha",
+    "client": "Fictional Bagels LLC (NOT A REAL CLIENT)",
+    "store": "Fake Store #000",
+    "environment": "dry_run",
+    "owner": "sample_operator",
+    "created": "2026-01-01 (fictional date)"
+  }
+}

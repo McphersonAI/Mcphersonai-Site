@@ -1,0 +1,30 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+secrets/
+client_data/
+backups/
+logs/
+real_client/
+production/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Build / output
+dist/
+exports/
+fake_environment_output/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OS / misc
+.DS_Store
+.git/
