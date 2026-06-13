@@ -1,0 +1,66 @@
+{
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "policy": "These tools must never be available in v0.1 under any mode, approval, or override.",
+  "tools": [
+    {
+      "name": "send_real_text_message",
+      "reason": "Outbound contact with real people is out of scope."
+    },
+    {
+      "name": "send_real_email",
+      "reason": "Outbound contact with real people is out of scope."
+    },
+    {
+      "name": "change_real_payroll",
+      "reason": "Payroll changes carry legal and financial risk."
+    },
+    {
+      "name": "change_real_pos_data",
+      "reason": "POS data integrity must never be touched by a scaffold."
+    },
+    {
+      "name": "place_real_vendor_order",
+      "reason": "Financial commitments require a human."
+    },
+    {
+      "name": "charge_real_payment",
+      "reason": "Payments are categorically excluded."
+    },
+    {
+      "name": "modify_real_employee_record",
+      "reason": "Employee records carry legal/privacy risk."
+    },
+    {
+      "name": "publish_real_public_case_study",
+      "reason": "Public proof requires explicit Blake approval outside this layer."
+    },
+    {
+      "name": "delete_real_records",
+      "reason": "Destructive operations on real data are excluded."
+    },
+    {
+      "name": "connect_live_telegram",
+      "reason": "Live channels are deferred pending separate audit."
+    },
+    {
+      "name": "connect_live_crm",
+      "reason": "Live integrations are deferred pending separate audit."
+    },
+    {
+      "name": "connect_live_pos",
+      "reason": "Live integrations are deferred pending separate audit."
+    },
+    {
+      "name": "connect_live_payroll",
+      "reason": "Live integrations are deferred pending separate audit."
+    },
+    {
+      "name": "unrestricted_shell_execution",
+      "reason": "Unbounded execution defeats the purpose of a tool boundary."
+    },
+    {
+      "name": "unrestricted_web_browsing",
+      "reason": "Unbounded browsing defeats the purpose of a tool boundary."
+    }
+  ]
+}

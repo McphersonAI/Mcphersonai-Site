@@ -1,0 +1,72 @@
+{
+  "policy_version": "0.1.0",
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "modes": {
+    "local_fake": {
+      "mode_name": "local_fake",
+      "reads_allowed": true,
+      "writes_allowed": true,
+      "outbound_allowed": false,
+      "approval_tools_allowed": true,
+      "real_integrations_allowed": false,
+      "human_only": false,
+      "incident_restricted": false,
+      "notes": "Local fake development mode. Fake reads/writes allowed; approval-required tools need fake approval."
+    },
+    "dry_run": {
+      "mode_name": "dry_run",
+      "reads_allowed": true,
+      "writes_allowed": true,
+      "outbound_allowed": false,
+      "approval_tools_allowed": true,
+      "real_integrations_allowed": false,
+      "human_only": false,
+      "incident_restricted": false,
+      "notes": "Pilot rehearsal mode. Fake safe tools only."
+    },
+    "pilot_prelaunch": {
+      "mode_name": "pilot_prelaunch",
+      "reads_allowed": true,
+      "writes_allowed": true,
+      "outbound_allowed": false,
+      "approval_tools_allowed": true,
+      "real_integrations_allowed": false,
+      "human_only": false,
+      "incident_restricted": false,
+      "notes": "Pre-launch checks. Controlled writes only if fake/approved; outbound blocked."
+    },
+    "pilot_live_restricted": {
+      "mode_name": "pilot_live_restricted",
+      "reads_allowed": true,
+      "writes_allowed": true,
+      "outbound_allowed": false,
+      "approval_tools_allowed": true,
+      "real_integrations_allowed": false,
+      "human_only": false,
+      "incident_restricted": false,
+      "notes": "Future live pilot mode. In v0.1 outbound and real integrations remain blocked; approval-required tools require Blake approval."
+    },
+    "human_only": {
+      "mode_name": "human_only",
+      "reads_allowed": false,
+      "writes_allowed": false,
+      "outbound_allowed": false,
+      "approval_tools_allowed": false,
+      "real_integrations_allowed": false,
+      "human_only": true,
+      "incident_restricted": false,
+      "notes": "All tool execution blocked. Humans only. Overrides everything."
+    },
+    "incident_mode": {
+      "mode_name": "incident_mode",
+      "reads_allowed": true,
+      "writes_allowed": false,
+      "outbound_allowed": false,
+      "approval_tools_allowed": false,
+      "real_integrations_allowed": false,
+      "human_only": false,
+      "incident_restricted": true,
+      "notes": "Safe reads allowed only for incident review. Writes, approvals, outbound, and reactivation blocked until Blake approval outside this layer."
+    }
+  }
+}

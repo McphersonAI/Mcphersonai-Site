@@ -1,0 +1,7 @@
+{
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "fake_pilot_id": "PILOT-FAKE-001",
+  "fake_store_name": "Cantina Del Sol (FICTIONAL SAMPLE STORE)",
+  "fake_operator_name": "Sample Operator (FICTIONAL)",
+  "notes": "All identifiers in this file are fictional and exist only for scaffold demos and tests."
+}

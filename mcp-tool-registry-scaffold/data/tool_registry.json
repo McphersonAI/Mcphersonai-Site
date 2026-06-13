@@ -1,0 +1,796 @@
+{
+  "registry_version": "0.1.0",
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "deny_by_default": true,
+  "tools": [
+    {
+      "name": "read_fake_store_profile",
+      "description": "Read the fictional sample store profile.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_shift_notes",
+      "description": "Read fictional shift notes.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_followups",
+      "description": "Read fictional follow-up items.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_weekly_proof",
+      "description": "Read the fictional weekly proof summary.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_pilot_status",
+      "description": "Read fictional pilot status.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_governance_status",
+      "description": "Read fictional governance status.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "read_fake_disabled_demo",
+      "description": "Disabled demo read tool. Exists only to prove disabled tools are blocked.",
+      "category": "safe_read",
+      "action_type": "read",
+      "risk_tier": "low",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "incident_mode"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": true,
+      "can_write": false,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Intentionally disabled for test coverage."
+    },
+    {
+      "name": "create_fake_shift_note",
+      "description": "Create a fictional shift note.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "create_fake_followup",
+      "description": "Create a fictional follow-up item.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "mark_fake_followup_complete",
+      "description": "Mark a fictional follow-up complete.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "create_fake_proof_event",
+      "description": "Create a fictional proof event.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "create_fake_rollback_log",
+      "description": "Create a fictional rollback log entry.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "create_fake_deferred_decision",
+      "description": "Create a fictional deferred-decision record.",
+      "category": "controlled_write",
+      "action_type": "write",
+      "risk_tier": "medium",
+      "enabled": true,
+      "approval_required": false,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": ""
+    },
+    {
+      "name": "mark_fake_pilot_ready",
+      "description": "Mark a fictional pilot as ready.",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "change_fake_approval_status",
+      "description": "Change a fictional approval status.",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "enable_fake_live_mode",
+      "description": "Enable fictional live mode.",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "reactivate_fake_after_incident",
+      "description": "Reactivate a fictional pilot after an incident.",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "export_fake_public_proof",
+      "description": "Export fictional proof for public use.",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "enable_fake_sanitized_content_logging",
+      "description": "Switch from metadata-only to sanitized-content logging (fictional).",
+      "category": "approval_required",
+      "action_type": "control",
+      "risk_tier": "high",
+      "enabled": true,
+      "approval_required": true,
+      "allowed_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted"
+      ],
+      "blocked_modes": [
+        "human_only"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Requires valid (fake in v0.1) Blake approval."
+    },
+    {
+      "name": "send_real_text_message",
+      "description": "ALWAYS BLOCKED in v0.1: send real text message.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "send_real_email",
+      "description": "ALWAYS BLOCKED in v0.1: send real email.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "change_real_payroll",
+      "description": "ALWAYS BLOCKED in v0.1: change real payroll.",
+      "category": "always_blocked",
+      "action_type": "write",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "change_real_pos_data",
+      "description": "ALWAYS BLOCKED in v0.1: change real pos data.",
+      "category": "always_blocked",
+      "action_type": "write",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "place_real_vendor_order",
+      "description": "ALWAYS BLOCKED in v0.1: place real vendor order.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "charge_real_payment",
+      "description": "ALWAYS BLOCKED in v0.1: charge real payment.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "modify_real_employee_record",
+      "description": "ALWAYS BLOCKED in v0.1: modify real employee record.",
+      "category": "always_blocked",
+      "action_type": "write",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "publish_real_public_case_study",
+      "description": "ALWAYS BLOCKED in v0.1: publish real public case study.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "delete_real_records",
+      "description": "ALWAYS BLOCKED in v0.1: delete real records.",
+      "category": "always_blocked",
+      "action_type": "write",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": true,
+      "can_outbound": false,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "connect_live_telegram",
+      "description": "ALWAYS BLOCKED in v0.1: connect live telegram.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "connect_live_crm",
+      "description": "ALWAYS BLOCKED in v0.1: connect live crm.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "connect_live_pos",
+      "description": "ALWAYS BLOCKED in v0.1: connect live pos.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "connect_live_payroll",
+      "description": "ALWAYS BLOCKED in v0.1: connect live payroll.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "unrestricted_shell_execution",
+      "description": "ALWAYS BLOCKED in v0.1: unrestricted shell execution.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    },
+    {
+      "name": "unrestricted_web_browsing",
+      "description": "ALWAYS BLOCKED in v0.1: unrestricted web browsing.",
+      "category": "always_blocked",
+      "action_type": "outbound",
+      "risk_tier": "critical",
+      "enabled": false,
+      "approval_required": false,
+      "allowed_modes": [],
+      "blocked_modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch",
+        "pilot_live_restricted",
+        "human_only",
+        "incident_mode"
+      ],
+      "can_read": false,
+      "can_write": false,
+      "can_outbound": true,
+      "fake_only": true,
+      "notes": "Must never execute in v0.1 under any mode or approval."
+    }
+  ]
+}

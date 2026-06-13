@@ -1,0 +1,36 @@
+{
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "required_docs": [
+    "docs/overview.md",
+    "docs/architecture.md",
+    "docs/tool_registry_model.md",
+    "docs/mode_policy_model.md",
+    "docs/approval_model.md",
+    "docs/blocked_tool_policy.md",
+    "docs/fake_tool_catalog.md",
+    "docs/trace_event_model.md",
+    "docs/governance_integration_notes.md",
+    "docs/sqlite_integration_notes.md",
+    "docs/langfuse_integration_notes.md",
+    "docs/runtime_harness_integration_notes.md",
+    "docs/dry_run_usage.md",
+    "docs/known_limits.md",
+    "docs/deferred_decisions.md",
+    "docs/claude_code_audit_prompt.md"
+  ],
+  "required_data": [
+    "data/tool_registry.json",
+    "data/mode_policy.json",
+    "data/fake_approvals.json",
+    "data/fake_pilot_context.json",
+    "data/blocked_tools.json",
+    "data/required_sections.json"
+  ],
+  "required_root": [
+    "README.md",
+    "CLAUDE.md",
+    "AGENTS.md",
+    ".env.example",
+    ".gitignore"
+  ]
+}

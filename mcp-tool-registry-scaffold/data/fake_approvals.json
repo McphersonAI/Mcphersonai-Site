@@ -1,0 +1,53 @@
+{
+  "fictional_marker": "SAMPLE ONLY — FICTIONAL — NOT REAL CLIENT DATA",
+  "approvals": [
+    {
+      "approval_id": "APPR-FAKE-001",
+      "tool_name": "mark_fake_pilot_ready",
+      "modes": [
+        "local_fake",
+        "dry_run",
+        "pilot_prelaunch"
+      ],
+      "approver": "FAKE_BLAKE_APPROVAL",
+      "expires_at": "2099-01-01T00:00:00+00:00",
+      "fictional": true,
+      "notes": "Valid fake approval for demos and tests."
+    },
+    {
+      "approval_id": "APPR-FAKE-002-EXPIRED",
+      "tool_name": "change_fake_approval_status",
+      "modes": [
+        "local_fake",
+        "dry_run"
+      ],
+      "approver": "FAKE_BLAKE_APPROVAL",
+      "expires_at": "2020-01-01T00:00:00+00:00",
+      "fictional": true,
+      "notes": "Expired fake approval. Must be rejected."
+    },
+    {
+      "approval_id": "APPR-FAKE-003-WRONG-TOOL",
+      "tool_name": "some_unregistered_tool",
+      "modes": [
+        "local_fake",
+        "dry_run"
+      ],
+      "approver": "FAKE_BLAKE_APPROVAL",
+      "expires_at": "2099-01-01T00:00:00+00:00",
+      "fictional": true,
+      "notes": "Approval for a tool that does not exist. Must never enable anything."
+    },
+    {
+      "approval_id": "APPR-FAKE-004-WRONG-MODE",
+      "tool_name": "enable_fake_live_mode",
+      "modes": [
+        "pilot_prelaunch"
+      ],
+      "approver": "FAKE_BLAKE_APPROVAL",
+      "expires_at": "2099-01-01T00:00:00+00:00",
+      "fictional": true,
+      "notes": "Valid only in pilot_prelaunch. Must be rejected in other modes."
+    }
+  ]
+}
