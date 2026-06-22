@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observa — Evidence integrity for AI audit trails | McPherson AI</title>
+<meta name="description" content="Observa is an evidence-integrity layer for AI audit trails and operational accountability. Reconstruct what your AI agents did, what was approved, what's unknown, and what needs review.">
+<style>
+  :root{
+    --navy:#1B2B4D;
+    --navy-deep:#10203B;
+    --ink:#1C2331;
+    --paper:#EBEEF3;
+    --card:#FFFFFF;
+    --line:#D5DBE4;
+    --muted:#697384;
+    --orange:#E0701B;
+    --orange-deep:#C25E12;
+    --orange-soft:#FBEADB;
+    --navy-soft:#E7ECF4;
+    --display:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --body:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;}
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px;}
+
+  /* ---- NAV ---- */
+  nav{background:var(--navy);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .brand{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#fff;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .brand .sub{color:#86A8D8;}
+  .nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+  .nav-links a{font-size:13.5px;color:#C2CFE2;text-decoration:none;padding:6px 10px;border-radius:4px;}
+  .nav-links a:hover{color:#fff;}
+  .nav-links a.cta{background:var(--orange);color:#fff;font-weight:600;}
+  .nav-links a.cta:hover{background:var(--orange-deep);color:#fff;}
+
+  /* ---- HERO ---- */
+  .hero{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:64px 0 58px;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#86A8D8;margin:0 0 16px;}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,52px);line-height:1.05;letter-spacing:-.02em;margin:0 0 18px;max-width:16ch;}
+  h1 .accent{color:#F2A86B;}
+  .hero p.sub{font-size:clamp(16px,2.4vw,19px);color:#C2CFE2;max-width:60ch;margin:0 0 30px;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn{display:inline-block;font-family:var(--display);font-weight:600;font-size:15px;text-decoration:none;padding:13px 22px;border-radius:6px;transition:background .15s,border-color .15s;}
+  .btn.primary{background:var(--orange);color:#fff;}
+  .btn.primary:hover{background:var(--orange-deep);}
+  .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);}
+  .btn.ghost:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+
+  /* ---- THESIS BAND ---- */
+  .thesis{background:var(--navy-deep);color:#fff;border-top:3px solid var(--orange);padding:26px 0;}
+  .thesis p{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(16px,3vw,21px);line-height:1.4;max-width:62ch;}
+  .thesis .b{color:#F2A86B;}
+
+  /* ---- SECTIONS ---- */
+  section.block{padding:56px 0;border-bottom:1px solid var(--line);}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-deep);margin:0 0 10px;}
+  h2{font-family:var(--display);font-weight:800;font-size:clamp(23px,4vw,32px);line-height:1.12;letter-spacing:-.01em;color:var(--navy);margin:0 0 16px;max-width:20ch;}
+  p.body{font-size:16.5px;color:#2c3444;max-width:64ch;margin:0 0 14px;}
+
+  /* big quote */
+  .quote{background:var(--navy);color:#fff;border-radius:8px;padding:40px 36px;text-align:center;}
+  .quote blockquote{margin:0 0 18px;font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,40px);line-height:1.1;letter-spacing:-.015em;}
+  .quote blockquote .accent{color:#F2A86B;}
+  .quote p{margin:0 auto;max-width:56ch;color:#C2CFE2;font-size:15.5px;}
+
+  /* card grids */
+  .grid{display:grid;gap:14px;margin-top:8px;}
+  .grid.g4{grid-template-columns:repeat(4,1fr);}
+  .grid.g3{grid-template-columns:repeat(3,1fr);}
+  .grid.g2{grid-template-columns:repeat(2,1fr);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:18px 18px;}
+  .card .ic{width:26px;height:3px;background:var(--orange);border-radius:2px;margin-bottom:12px;}
+  .card h4{font-family:var(--display);font-weight:700;font-size:15.5px;color:var(--navy);margin:0 0 5px;}
+  .card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.5;}
+
+  /* tracks chips */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+  .chip{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:4px;padding:11px 15px;font-size:14.5px;font-weight:500;color:var(--ink);}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;counter-reset:s;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:22px 20px;position:relative;}
+  .step .n{counter-increment:s;font-family:var(--display);font-weight:800;font-size:30px;color:var(--navy-soft);line-height:1;}
+  .step .n::before{content:counter(s);color:var(--orange);}
+  .step h4{font-family:var(--display);font-weight:700;font-size:16px;color:var(--navy);margin:10px 0 6px;}
+  .step p{font-size:14px;color:var(--muted);margin:0;}
+
+  /* artifact section */
+  .artifact{background:var(--navy);color:#fff;border-radius:8px;padding:38px 34px;}
+  .artifact h2{color:#fff;}
+  .artifact p{color:#C2CFE2;font-size:16px;max-width:60ch;margin:0 0 22px;}
+  .artifact .links{display:flex;flex-wrap:wrap;gap:11px;}
+  .artifact .lk{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;text-decoration:none;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:11px 16px;}
+  .artifact .lk:hover{background:rgba(255,255,255,.16);}
+  .artifact .lk.solid{background:var(--orange);border-color:var(--orange);}
+  .artifact .lk.solid:hover{background:var(--orange-deep);}
+
+  /* boundaries */
+  .bounds{background:#F4F6F9;border:1px solid var(--line);border-radius:8px;padding:30px 30px;}
+  .bounds ul{list-style:none;margin:8px 0 0;padding:0;}
+  .bounds li{position:relative;padding:10px 0 10px 30px;border-bottom:1px solid var(--line);font-size:15.5px;color:#2c3444;}
+  .bounds li:last-child{border-bottom:none;}
+  .bounds li::before{content:"";position:absolute;left:0;top:16px;width:14px;height:14px;border:2px solid var(--navy);border-radius:3px;}
+  .bounds li.do::before{background:var(--orange);border-color:var(--orange);}
+
+  /* final cta */
+  .finalcta{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:60px 0;text-align:center;border-bottom:none;}
+  .finalcta h2{color:#fff;margin:0 auto 22px;max-width:22ch;}
+  .finalcta .accent{color:#F2A86B;}
+
+  /* footer */
+  footer{background:var(--navy-deep);color:#9FB0CC;padding:34px 0 40px;font-size:13px;}
+  footer .line1{color:#E7ECF4;font-family:var(--display);font-weight:600;font-size:14.5px;margin:0 0 10px;}
+  footer .disc{margin:0 0 6px;line-height:1.55;max-width:72ch;}
+  footer .mk{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:#7E93BC;margin-top:14px;}
+
+  @media (max-width:820px){
+    .grid.g4{grid-template-columns:repeat(2,1fr);}
+    .grid.g3,.steps{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .hero{padding:46px 0 42px;}
+    section.block{padding:42px 0;}
+    .grid.g4,.grid.g2{grid-template-columns:1fr;}
+    .nav-inner{flex-direction:column;align-items:flex-start;gap:10px;}
+    .nav-links{justify-content:flex-start;}
+    .quote,.artifact,.bounds{padding-left:22px;padding-right:22px;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="index.html">McPHERSON&nbsp;AI <span class="sub">/ OBSERVA</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="white-paper.html">White Paper</a>
+      <a href="observa.html" class="cta">Agent acted?</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Observa · Evidence integrity for AI</p>
+    <h1>Your AI agent acted. Can you <span class="accent">prove what happened?</span></h1>
+    <p class="sub">Observa helps teams preserve the evidence trail after AI workflows run — so owners can reconstruct what happened, what was approved, what is unknown, and what needs review.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="observa-audit-mode-dogfood-demo-polished.pdf">View the Audit Mode Demo</a>
+      <a class="btn ghost" href="observa-audit-mode-schema-v0.1.html">See the Schema</a>
+    </div>
+  </div>
+</header>
+
+<!-- THESIS BAND -->
+<div class="thesis">
+  <div class="wrap">
+    <p>Uptime tells you whether the system was <span class="b">reachable</span>. Evidence integrity tells you whether the system can be <span class="b">held accountable</span>.</p>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="block">
+  <div class="wrap">
+    <p class="seclabel">The problem</p>
+    <h2>Runtime health is not accountability.</h2>
+    <p class="body">Most tools can tell you whether a system is online, whether a workflow ran, or whether an agent completed a task. But once AI agents start sending, changing, booking, updating, or recommending, the harder question is whether the record is strong enough to explain what happened later.</p>
+  </div>
+</section>
+
+<!-- CORE INSIGHT -->
+<section class="block">
+  <div class="wrap">
+    <div class="quote">
+      <blockquote>Uptime is not <span class="accent">evidence integrity.</span></blockquote>
+      <p>A system can be reachable while the evidence path underneath it degrades. Observa focuses on the accountability layer: records, approvals, gaps, confidence levels, follow-ups, and owner review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT OBSERVA TRACKS -->
+<section class="block">
+  <div class="wrap">
+    <p class="seclabel">What Observa tracks</p>
+    <h2>The pieces that make a record trustworthy.</h2>
+    <div class="grid g4">
+      <div class="card"><div class="ic"></div><h4>Known facts</h4><p>What the records actually support, stated plainly.</p></div>
+      <div class="card"><div class="ic"></div><h4>Unknown gaps</h4><p>What the record can't answer — marked, not glossed over.</p></div>
+      <div class="card"><div class="ic"></div><h4>Evidence IDs</h4><p>Every finding traces back to a specific record.</p></div>
+      <div class="card"><div class="ic"></div><h4>Approval trails</h4><p>What was reviewed and approved before it acted.</p></div>
+      <div class="card"><div class="ic"></div><h4>Confidence levels</h4><p>How certain each finding is — high vs. unconfirmed.</p></div>
+      <div class="card"><div class="ic"></div><h4>Evidence-path degradation</h4><p>When the record itself becomes unreliable.</p></div>
+      <div class="card"><div class="ic"></div><h4>Follow-up items</h4><p>What needs attention, surfaced from the activity.</p></div>
+      <div class="card"><div class="ic"></div><h4>Human review points</h4><p>Where a person should look before it's closed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="block">
+  <div class="wrap">
+    <p class="seclabel">How it works</p>
+    <h2>From scattered records to a readable account.</h2>
+    <div class="steps">
+      <div class="step"><div class="n"></div><h4>Capture</h4><p>Pull the records from your AI workflows — actions, approvals, exceptions, evidence references.</p></div>
+      <div class="step"><div class="n"></div><h4>Reconstruct</h4><p>Audit Mode replays what happened, separating known facts from unknown gaps.</p></div>
+      <div class="step"><div class="n"></div><h4>Report</h4><p>Produce a readable accountability record for the person responsible to review.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="block">
+  <div class="wrap">
+    <p class="seclabel">Who it's for</p>
+    <h2>For the person accountable when an agent acts.</h2>
+    <div class="grid g2">
+      <div class="card"><div class="ic"></div><h4>AI agencies deploying agents for clients</h4><p>Give clients a readable record of what the agent did on their behalf.</p></div>
+      <div class="card"><div class="ic"></div><h4>SMB operators using automation</h4><p>Know what your automated workflows actually did — not just that they ran.</p></div>
+      <div class="card"><div class="ic"></div><h4>Founders building action-taking workflows</h4><p>Keep an accountability trail as your agents start to act with consequence.</p></div>
+      <div class="card"><div class="ic"></div><h4>Teams that need readable audit trails</h4><p>Get an accountable record without enterprise complexity.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTIFACT -->
+<section class="block" id="artifact">
+  <div class="wrap">
+    <div class="artifact">
+      <p class="seclabel" style="color:#86A8D8;">Proof</p>
+      <h2>Built from a real dogfood session.</h2>
+      <p>The first public Observa artifact came from running Audit Mode against my own AI workflow setup. The system stayed reachable, but the evidence path showed degradation. That session became a sanitized public demo and the first Audit Mode schema.</p>
+      <div class="links">
+        <a class="lk solid" href="observa-audit-mode-dogfood-demo-polished.pdf">Sanitized Audit Mode Demo (PDF)</a>
+        <a class="lk" href="observa-audit-mode-schema-v0.1.html">Audit Mode Schema v0.1</a>
+        <!-- TODO: add Observa GitHub repository link once a public repo URL exists (removed dead href="#" placeholder) -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOUNDARIES -->
+<section class="block">
+  <div class="wrap">
+    <p class="seclabel">Boundaries</p>
+    <h2>What Observa does not claim.</h2>
+    <div class="bounds">
+      <ul>
+        <li>It does not certify compliance.</li>
+        <li>It does not replace legal review.</li>
+        <li>It does not replace observability platforms.</li>
+        <li>It does not infer beyond available records.</li>
+        <li class="do">It helps preserve and organize the accountability trail for human review.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="block finalcta">
+  <div class="wrap">
+    <p class="eyebrow" style="text-align:center;">Observa</p>
+    <h2>If your agent acts, your <span class="accent">evidence trail</span> matters.</h2>
+    <a class="btn primary" href="observa-audit-mode-dogfood-demo-polished.pdf">View the Audit Mode Demo</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <p class="line1">Observa by McPherson AI — evidence integrity for AI audit trails and operational accountability.</p>
+    <p class="disc">Observa documents what happened and how it was reviewed. It supports accountability and compliance review; it does not certify compliance or replace legal advice. Observa is an early public artifact and schema, not a finished enterprise platform.</p>
+    <p class="mk">© 2026 McPherson AI · Observa Audit Mode v0.1</p>
+  </div>
+</footer>
+
+</body>
+</html>
