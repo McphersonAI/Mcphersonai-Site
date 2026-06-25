@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Observa Audit Mode Schema v0.1 | McPherson AI</title>
+<meta name="description" content="The Observa Audit Mode schema: a repeatable case structure for the accountability proof layer. Draft, early public artifact.">
+<style>
+:root{--navy:#1B2B4D;--orange:#E0701B;--white:#FFFFFF;--mist:#F7F8FB;--line:#E6EAF0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--mist);color:var(--navy);font-size:17px;line-height:1.62}a{color:var(--navy);text-underline-offset:4px}a:hover{color:var(--orange)}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.read{max-width:880px;margin:0 auto;padding:0 24px}.site-header{position:sticky;top:0;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);z-index:10}.header-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:var(--navy);white-space:nowrap}.brand span{color:var(--orange)}.site-nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}.site-nav a{font-size:14px;font-weight:700;text-decoration:none;color:var(--navy)}.hero{padding:76px 0 52px;background:var(--white);border-bottom:1px solid var(--line)}.eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}.pill{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--orange);color:var(--white);padding:3px 10px;border-radius:4px;margin-left:8px}h1,h2,h3{line-height:1.1;margin:0;color:var(--navy)}h1{font-size:clamp(34px,5vw,52px);max-width:920px}h2{font-size:clamp(26px,3.4vw,34px);margin:0 0 14px;border-bottom:3px solid var(--orange);display:inline-block;padding-bottom:6px}h3{font-size:18px;margin:24px 0 8px}.lead{font-size:20px;max-width:820px;color:rgba(27,43,77,.78)}.section{padding:44px 0;border-bottom:1px solid var(--line)}.note{background:var(--white);border-left:5px solid var(--orange);padding:16px 18px;margin:16px 0;max-width:820px}pre{background:var(--navy);color:var(--white);border-radius:8px;padding:18px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.6;max-width:820px}.fields{border:1px solid var(--line);border-radius:8px;overflow:hidden;max-width:820px;margin-top:10px}.row{display:grid;grid-template-columns:220px 1fr;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:none}.row:nth-child(odd){background:var(--white)}.fname{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;font-weight:700;padding:11px 14px;border-right:1px solid var(--line)}.fdesc{padding:11px 14px;color:rgba(27,43,77,.82)}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;max-width:820px}.chip{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:4px;padding:6px 11px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:10px;max-width:820px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--white);border:1px solid var(--line);border-top:5px solid var(--orange);border-radius:8px;padding:18px}.card .k{font-weight:800}.card p{margin:6px 0 0;color:rgba(27,43,77,.8)}.list{display:grid;gap:10px;margin:16px 0 0;padding:0;list-style:none;max-width:820px}.list li{padding-left:18px;border-left:3px solid var(--orange);color:rgba(27,43,77,.82)}.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:2px solid var(--navy);font-weight:800;text-decoration:none;border-radius:6px;color:var(--navy);background:var(--white)}.btn.primary{background:var(--orange);border-color:var(--orange);color:var(--white)}.site-footer{background:var(--navy);color:var(--white);padding:42px 0}.site-footer a{color:var(--white)}.footer-grid{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap}.fine{font-size:13px;color:rgba(255,255,255,.76);margin-top:18px}@media(max-width:820px){.header-inner{align-items:flex-start;flex-direction:column;padding:16px 0}.site-nav{justify-content:flex-start}.grid,.grid.two{grid-template-columns:1fr}.row{grid-template-columns:1fr}.fname{border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">McPherson <span>AI</span></a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="what-we-build.html">What We Build</a>
+      <a href="qsr-systems.html">QSR Systems</a>
+      <a href="observa.html">Observa</a>
+      <a href="resources.html">Resources</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Observa Audit Mode <span class="pill">Draft &middot; v0.1</span></div>
+      <h1>Audit Mode Schema</h1>
+      <p class="lead">A repeatable case structure for the Observa proof layer: what happened, what was approved, what was blocked, what failed, and what needs review. An early public artifact, not a finished platform.</p>
+    </div>
+  </section>
+
+  <article class="read" style="padding-bottom:24px">
+  <section class="section">
+    <div class="eyebrow">Purpose</div>
+    <h2>One repeatable case structure.</h2>
+    <p>Audit Mode turns available records into readable accountability cases. Each case separates measured evidence from interpretation, known facts from unknown gaps, and follow-up actions from general guidance.</p>
+    <div class="note"><strong>Core principle:</strong> Observa reconstructs what available records support. It does not infer, estimate, or extrapolate beyond the source evidence.</div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Core case object</div>
+    <h2>What an Audit Mode case contains.</h2>
+    <pre>{
+  "case_id": "OBS-DEMO-2026-001",
+  "case_title": "Logging Output Path Flapping",
+  "time_window": { "start": "2026-06-22T15:48:00Z", "end": "2026-06-22T15:57:00Z", "precision": "approximate" },
+  "system_component": "agent host / system logging / file-output actions",
+  "status": "evidence_path_degradation",
+  "confidence": "medium",
+  "summary": "The host remained reachable, but logging output actions repeatedly suspended and resumed.",
+  "known_facts": ["Disk space was available.", "Inodes were available.", "Logging file-output actions repeatedly suspended and resumed.", "The host remained reachable."],
+  "unknowns": ["Exact root cause of the logging suspension.", "Whether specific log files failed to receive messages.", "Whether important application logs were missed during the degraded window."],
+  "evidence_ids": ["EVID-007", "EVID-008"],
+  "observa_flags": ["record_integrity_risk", "evidence_path_degradation"],
+  "follow_up_items": ["Confirm logging service status.", "Inspect log directory permissions and log rotation state.", "Verify whether key service logs were written during the affected window."],
+  "section_a_measured": true,
+  "section_b_guidance": false
+}</pre>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Required fields</div>
+    <h2>Field reference.</h2>
+    <div class="fields">
+      <div class="row"><div class="fname">case_id</div><div class="fdesc">Stable case identifier.</div></div>
+      <div class="row"><div class="fname">case_title</div><div class="fdesc">Human-readable title.</div></div>
+      <div class="row"><div class="fname">time_window</div><div class="fdesc">When the event or review occurred.</div></div>
+      <div class="row"><div class="fname">system_component</div><div class="fdesc">System, workflow, agent, or component involved.</div></div>
+      <div class="row"><div class="fname">status</div><div class="fdesc">Current case classification.</div></div>
+      <div class="row"><div class="fname">confidence</div><div class="fdesc">Strength of reconstruction.</div></div>
+      <div class="row"><div class="fname">summary</div><div class="fdesc">Short readable explanation.</div></div>
+      <div class="row"><div class="fname">known_facts</div><div class="fdesc">What the records support.</div></div>
+      <div class="row"><div class="fname">unknowns</div><div class="fdesc">What remains unresolved.</div></div>
+      <div class="row"><div class="fname">evidence_ids</div><div class="fdesc">Evidence references used by the case.</div></div>
+      <div class="row"><div class="fname">observa_flags</div><div class="fdesc">Audit flags raised.</div></div>
+      <div class="row"><div class="fname">follow_up_items</div><div class="fdesc">Owner-review actions.</div></div>
+      <div class="row"><div class="fname">section_a_measured</div><div class="fdesc">Whether this claim is measured from records.</div></div>
+      <div class="row"><div class="fname">section_b_guidance</div><div class="fdesc">Whether this claim is general guidance.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Allowed values</div>
+    <h2>Status.</h2>
+    <div class="chips">
+      <span class="chip">baseline_no_exception</span><span class="chip">healthy</span><span class="chip">needs_review</span><span class="chip">evidence_path_degradation</span><span class="chip">access_path_degradation</span><span class="chip">record_integrity_risk</span><span class="chip">blocked_action</span><span class="chip">missing_approval</span><span class="chip">missing_evidence</span><span class="chip">unknown_root_cause</span><span class="chip">resolved</span>
+    </div>
+    <h3>Confidence</h3>
+    <div class="grid">
+      <div class="card"><div class="k">High</div><p>The evidence directly supports the case.</p></div>
+      <div class="card"><div class="k">Medium</div><p>The symptoms are clear, but root cause or impact is not fully confirmed.</p></div>
+      <div class="card"><div class="k">Low</div><p>The records suggest a possible issue, but evidence is incomplete.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Evidence object</div>
+    <h2>Each evidence item is referenced separately.</h2>
+    <pre>{
+  "evidence_id": "EVID-007",
+  "evidence_type": "journal_output",
+  "source_label": "Sanitized host journal output",
+  "source_path": "redacted",
+  "captured_at": "2026-06-22T16:00:00Z",
+  "sensitivity": "sanitized",
+  "notes": "Repeated logging output suspend/resume messages."
+}</pre>
+    <h3>Allowed evidence types</h3>
+    <div class="chips">
+      <span class="chip">journal_output</span><span class="chip">test_output</span><span class="chip">git_history</span><span class="chip">shell_history</span><span class="chip">governance_report</span><span class="chip">json_input</span><span class="chip">markdown_report</span><span class="chip">operator_note</span><span class="chip">system_status</span><span class="chip">sanitized_excerpt</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Allowed Observa flags</div>
+    <h2>The signals a case can raise.</h2>
+    <div class="chips">
+      <span class="chip">record_integrity_risk</span><span class="chip">evidence_path_degradation</span><span class="chip">access_path_degradation</span><span class="chip">approval_gap</span><span class="chip">missing_evidence</span><span class="chip">missing_owner</span><span class="chip">unknown_root_cause</span><span class="chip">blocked_action</span><span class="chip">healthy_baseline</span><span class="chip">no_exception_detected</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Section A / Section B rule</div>
+    <h2>Measured evidence and general guidance never mix.</h2>
+    <div class="grid two">
+      <div class="card"><div class="k">Section A &mdash; Measured</div><p>Reconstructed from records. If a claim is measured from evidence, it belongs here.</p></div>
+      <div class="card"><div class="k">Section B &mdash; Guidance</div><p>Advice, interpretation, or general best practice. Not measured from records.</p></div>
+    </div>
+    <p style="margin-top:14px">This separation keeps evidence-backed reconstruction distinct from general recommendations. Audit Mode must not blend the two.</p>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Design principle</div>
+    <h2>Every case states six things.</h2>
+    <ul class="list">
+      <li>What happened.</li>
+      <li>What is known.</li>
+      <li>What is unknown.</li>
+      <li>What evidence supports the case.</li>
+      <li>What needs owner review.</li>
+      <li>What should not be overclaimed.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Boundary</div>
+    <div class="note">Observa documents what happened and how it was reviewed. It supports accountability and compliance review; it does not certify compliance, replace legal review, or infer beyond available records. This is a draft schema for an early public artifact.</div>
+    <div class="cta-row">
+      <a class="btn primary" href="observa-audit-mode-dogfood-demo-polished.pdf">View the Audit Mode Demo (PDF)</a>
+      <a class="btn" href="observa.html">Back to Observa</a>
+    </div>
+  </section>
+  </article>
+</main>
+<footer class="site-footer"><div class="wrap footer-grid"><div><strong>McPherson AI LLC</strong><br>San Diego, CA<br><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><br><a href="tel:+16195679869">(619) 567-9869</a><div class="fine">&copy; 2026 McPherson AI LLC.</div></div><div><a href="observa.html">Observa</a><br><a href="resources.html">Resources</a><br><a href="contact.html">Contact</a></div></div></footer>
+</body>
+</html>
