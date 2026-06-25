@@ -3,352 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>White Paper — Agent Infrastructure for Small Business Operations | McPherson AI</title>
-<meta name="description" content="Why the next wave of small business AI will be built around workflows, memory, and operator judgment — not generic chatbots. The McPherson AI category thesis, with the QSR proof point.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Archivo:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>White Paper - Agent Infrastructure for Small Business Operations | McPherson AI</title>
+<meta name="description" content="McPherson AI white paper on agent infrastructure for small business operations.">
 <style>
-:root{
-  --ink:#1F3D2B; --ink-soft:#3A5443; --paper:#F4F0E4; --paper-deep:#ECE6D4;
-  --flame:#E8731A; --flame-deep:#C95F0F; --rule:#C9C0A8;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-  --disp:'Barlow Condensed',sans-serif;
-  --body:'Archivo',sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{font-family:var(--body);background:var(--paper);color:var(--ink);
-  font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
-.read{max-width:760px;margin:0 auto;padding:0 22px}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--flame-deep);font-weight:600}
-a{color:var(--flame-deep)}
-:focus-visible{outline:3px solid var(--flame);outline-offset:3px}
-.btn{display:inline-block;font-family:var(--disp);font-weight:700;text-transform:uppercase;
-  letter-spacing:.06em;font-size:19px;padding:14px 26px 15px;text-decoration:none;
-  border:2px solid var(--ink);transition:transform .12s ease, box-shadow .12s ease}
-.btn-fill{background:var(--flame);border-color:var(--flame);color:#fff;box-shadow:4px 4px 0 var(--ink)}
-.btn-fill:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.btn-line{background:transparent;color:var(--ink);box-shadow:4px 4px 0 var(--rule)}
-.btn-line:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--rule)}
-.hl{background:linear-gradient(transparent 55%, rgba(232,115,26,.38) 55%);padding:0 .08em}
-
-header.top{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink)}
-.topin{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;max-width:1060px;margin:0 auto}
-.wordmark{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--ink);text-decoration:none}
-.wordmark span{color:var(--flame)}
-nav.main{display:flex;gap:22px;align-items:center}
-nav.main a{font-family:var(--mono);font-size:13px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink);text-decoration:none;font-weight:500}
-nav.main a:hover{color:var(--flame-deep)}
-nav.main a.callout{border:1.5px solid var(--ink);padding:7px 12px}
-@media(max-width:720px){ nav.main a.hidemob{display:none} }
-
-/* paper masthead */
-.mast{padding:70px 0 54px;border-bottom:2px solid var(--ink);
-  background:repeating-linear-gradient(transparent 0 35px, rgba(31,61,43,.045) 35px 36px),var(--paper)}
-.mast h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  font-size:clamp(40px,6.6vw,76px);line-height:.94;margin:14px 0 18px;max-width:18ch}
-.mast .dek{font-size:19px;color:var(--ink-soft);max-width:58ch;margin-bottom:26px}
-.metaline{font-family:var(--mono);font-size:13px;color:var(--ink-soft);line-height:2}
-.metaline b{color:var(--ink)}
-.citebox{margin-top:22px;border:1.5px dashed var(--ink);padding:13px 16px;max-width:640px;
-  font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink-soft)}
-
-/* contents */
-.toc{padding:40px 0;border-bottom:1px solid var(--rule)}
-.toc ol{list-style:none;columns:2;column-gap:44px;max-width:760px;margin:18px auto 0;padding:0 22px}
-.toc li{padding:7px 0;border-bottom:1px dotted var(--rule);break-inside:avoid}
-.toc a{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:17px;
-  letter-spacing:.02em;text-decoration:none;color:var(--ink);display:flex;gap:12px}
-.toc a:hover{color:var(--flame-deep)}
-.toc .n{font-family:var(--mono);font-size:12px;color:var(--flame-deep);font-weight:600;padding-top:3px}
-@media(max-width:640px){.toc ol{columns:1}}
-
-/* body sections */
-.paper{padding:30px 0 60px}
-section.ps{padding:34px 0 8px}
-.snum{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--flame-deep);
-  font-weight:600;text-transform:uppercase}
-.ps h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  font-size:clamp(28px,4.4vw,42px);line-height:.98;margin:6px 0 18px;
-  border-bottom:3px solid var(--flame);display:inline-block;padding-bottom:6px}
-.ps p{margin-bottom:16px;max-width:68ch}
-.ps b{color:var(--ink)}
-.pull{border-left:5px solid var(--flame);padding:4px 0 4px 18px;margin:24px 0;
-  font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:23px;line-height:1.15;
-  max-width:30ch;color:var(--ink)}
-.stack{font-family:var(--mono);font-size:14px;line-height:2.1;background:#FBF8EF;
-  border:1.5px solid var(--ink);box-shadow:6px 6px 0 rgba(31,61,43,.12);
-  padding:22px 26px;margin:26px 0;max-width:480px}
-.stack .lyr{display:block}
-.stack .arr{color:var(--flame-deep);display:block;padding-left:14px}
-.charlist{margin:6px 0 20px}
-.char{display:grid;grid-template-columns:24px 1fr;gap:13px;padding:11px 0;
-  border-bottom:1px dotted var(--rule);max-width:68ch}
-.char .tick{width:17px;height:17px;border:2px solid var(--ink);margin-top:4px;position:relative}
-.char .tick:after{content:"";position:absolute;left:2px;top:-3px;width:13px;height:8px;
-  border-left:3px solid var(--flame);border-bottom:3px solid var(--flame);transform:rotate(-48deg)}
-.char p{margin:0}
-.update{background:var(--ink);color:var(--paper);padding:16px 20px;margin:24px 0;max-width:640px;
-  font-family:var(--mono);font-size:13.5px;line-height:1.7}
-.update b{color:#FFB377}
-.memo{background:#FBF8EF;border:1.5px solid var(--ink);max-width:720px;
-  padding:26px 28px;box-shadow:6px 6px 0 rgba(31,61,43,.12);margin:26px 0}
-.memo .mh{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-soft);border-bottom:1.5px dashed var(--ink);padding-bottom:10px;margin-bottom:16px;
-  display:flex;justify-content:space-between;font-weight:600}
-.memo p{font-size:15.5px;margin-bottom:12px}
-.memo p:last-child{margin-bottom:0}
-.legalnote{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);line-height:1.8;
-  border-top:1px dashed var(--rule);padding-top:20px;margin-top:36px;max-width:68ch}
-
-/* end CTA */
-.final{padding:60px 0 70px;border-top:2px solid var(--ink)}
-.final h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  font-size:clamp(32px,5.4vw,54px);line-height:.95;max-width:20ch;margin-bottom:20px}
-.ctarow{display:flex;gap:14px;flex-wrap:wrap}
-.textme{font-family:var(--mono);font-size:14px;margin-top:14px;color:var(--ink-soft)}
-.textme a{font-weight:600}
-
-footer{background:var(--ink);color:var(--paper);padding:42px 0 48px}
-footer .cols{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
-footer .fm{font-family:var(--mono);font-size:13.5px;line-height:2;color:#C9D4CB}
-footer a{color:#FFB377;text-decoration:none}
-footer a:hover{text-decoration:underline}
-footer .legal{font-family:var(--mono);font-size:11.5px;color:#7E9486;margin-top:26px;
-  border-top:1px dashed #4E6555;padding-top:18px}
+:root{--navy:#1B2B4D;--orange:#E0701B;--white:#FFFFFF;--mist:#F7F8FB;--line:#E6EAF0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--mist);color:var(--navy);font-size:17px;line-height:1.68}a{color:var(--navy);text-underline-offset:4px}a:hover{color:var(--orange)}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.read{max-width:820px;margin:0 auto;padding:0 24px}.site-header{position:sticky;top:0;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);z-index:10}.header-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:var(--navy);white-space:nowrap}.brand span{color:var(--orange)}.site-nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}.site-nav a{font-size:14px;font-weight:700;text-decoration:none;color:var(--navy)}.hero{padding:76px 0 50px;background:var(--white);border-bottom:1px solid var(--line)}.eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}h1,h2,h3{line-height:1.08;margin:0;color:var(--navy)}h1{font-size:clamp(38px,6vw,68px);max-width:920px}h2{font-size:clamp(28px,4vw,42px);margin:42px 0 16px;border-bottom:3px solid var(--orange);display:inline-block;padding-bottom:6px}h3{font-size:22px;margin:26px 0 8px}.lead{font-size:20px;max-width:760px;color:rgba(27,43,77,.78)}.paper{padding:42px 0 72px}.callout{border-left:5px solid var(--orange);padding:14px 0 14px 18px;font-weight:800;font-size:21px}.stack{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:22px;margin:24px 0}.list{display:grid;gap:12px;margin:22px 0;padding:0;list-style:none}.list li{padding-left:18px;border-left:3px solid var(--orange);color:rgba(27,43,77,.78)}.site-footer{background:var(--navy);color:var(--white);padding:42px 0}.site-footer a{color:var(--white)}.footer-grid{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap}.fine{font-size:13px;color:rgba(255,255,255,.76);margin-top:18px}@media(max-width:820px){.header-inner{align-items:flex-start;flex-direction:column;padding:16px 0}.site-nav{justify-content:flex-start}}
 </style>
 </head>
 <body>
-
-<header class="top">
-  <div class="topin">
-    <a class="wordmark" href="index.html">McPherson <span>AI</span></a>
-    <nav class="main">
-      <a href="walkthrough.html">Walk-Through</a>
-      <a href="pilot.html" class="hidemob">Founder Pilot</a>
-      <a href="white-paper.html" class="hidemob">White Paper</a>
-      <a href="sms:+16195679869" class="callout">Text Blake</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">McPherson <span>AI</span></a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="what-we-build.html">What We Build</a>
+      <a href="qsr-systems.html">QSR Systems</a>
+      <a href="observa.html">Observa</a>
+      <a href="resources.html">Resources</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
-
-<div class="mast">
-  <div class="wrap">
-    <div class="eyebrow">White Paper &middot; Version 1.0 &middot; May 2026 &middot; update noted June 2026</div>
-    <h1>Agent Infrastructure for Small Business Operations</h1>
-    <p class="dek">Why the next wave of small business AI will be built around <span class="hl">workflows, memory, and operator judgment</span> — not generic chatbots.</p>
-    <div class="metaline">
-      <b>Blake McPherson</b> &middot; Founder, McPherson AI<br>
-      Document type: Founder white paper / category thesis &middot; mcphersonai.com
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">White paper</div>
+      <h1>Agent Infrastructure for Small Business Operations</h1>
+      <p class="lead">Why the next wave of small business AI will be built around workflows, memory, and operator judgment, not generic chatbots.</p>
+      <p>Blake McPherson, Founder, McPherson AI. Version 1.0, May 2026 with June 2026 update notes.</p>
     </div>
-    <div class="citebox">
-      Suggested citation: McPherson, Blake. &ldquo;Agent Infrastructure for Small Business Operations.&rdquo; McPherson AI, May 2026.<br><br>
-      This is a living founder white paper. Version 1.0 defines the category thesis and initial QSR proof point. Future versions may add additional proof artifacts, implementation diagrams, deployment learnings, and cross-vertical examples.
+  </section>
+  <article class="paper read">
+    <h2>The Gap</h2>
+    <p>Most small businesses are stuck between general-purpose AI tools that do not understand the business and enterprise automation platforms that were designed for companies with procurement teams, IT departments, and large implementation budgets.</p>
+    <p>The middle is where most businesses actually operate: small teams, real workflows, limited time, and work that still depends on one person remembering what happened last week.</p>
+    <div class="callout">Agent infrastructure for small business operations is the missing layer between a foundation model and a working business.</div>
+
+    <h2>What The Missing Layer Is</h2>
+    <p>Agent infrastructure is what turns a language model from a conversational tool into a durable operational system a store, practice, or small team can rely on.</p>
+    <ul class="list">
+      <li><strong>Bounded scope.</strong> Agents operate inside defined permissions and lanes.</li>
+      <li><strong>Role-aware permissions.</strong> The system knows who can log, review, approve, and change durable records.</li>
+      <li><strong>Operational memory.</strong> Structured events persist; casual conversation does not become durable by accident.</li>
+      <li><strong>Operator-friendly interface.</strong> The user can speak plainly while the system keeps structure internally.</li>
+      <li><strong>Per-client isolation.</strong> Data, secrets, runtime, and permissions stay separated by deployment.</li>
+    </ul>
+    <div class="stack">
+      Foundation model -> Skill/workflow layer -> Governance and permission layer -> Operational memory layer -> Human approval -> Durable operational record.
     </div>
-  </div>
-</div>
 
-<div class="toc">
-  <div class="read"><div class="eyebrow">Contents</div></div>
-  <ol>
-    <li><a href="#s1"><span class="n">01</span>The Gap</a></li>
-    <li><a href="#s2"><span class="n">02</span>What the Missing Layer Is</a></li>
-    <li><a href="#s3"><span class="n">03</span>Why Now</a></li>
-    <li><a href="#s4"><span class="n">04</span>The Pattern Is Already Emerging</a></li>
-    <li><a href="#s5"><span class="n">05</span>Why Naming Matters</a></li>
-    <li><a href="#s6"><span class="n">06</span>The QSR Proof Point</a></li>
-    <li><a href="#s7"><span class="n">07</span>Beyond Restaurants</a></li>
-    <li><a href="#s8"><span class="n">08</span>Where Current Frameworks Fall Short</a></li>
-    <li><a href="#s9"><span class="n">09</span>What Happens Next</a></li>
-    <li><a href="#s10"><span class="n">10</span>Call to Action</a></li>
-    <li><a href="#appendix"><span class="n">A</span>Appendix: Proof Artifacts</a></li>
-  </ol>
-</div>
+    <h2>The QSR Proof Point</h2>
+    <p>McPherson AI began from the lived experience of managing a high-volume QSR store in San Diego. The original proof lane was an eight-skill QSR Operations Suite covering daily operations, labor leaks, food cost diagnostics, ghost inventory, shift reflection, audit readiness, weekly P&amp;L storytelling, and pre-rush planning.</p>
+    <p>The suite crossed 1,000 cumulative downloads on April 27, 2026 and 3,000 cumulative downloads on June 4, 2026. QSR remains the origin proof lane, not the whole company.</p>
 
-<div class="paper">
-<div class="read">
+    <h2>Beyond Restaurants</h2>
+    <p>The same architecture applies anywhere there are handoffs, compliance requirements, repeated follow-through, sensitive information boundaries, or a manager carrying too much operational memory alone.</p>
+    <p>What changes across domains is the skill layer. The infrastructure stays the same: workflow scope, source-of-truth discipline, human approval, and accountable records.</p>
 
-<section class="ps" id="s1">
-  <div class="snum">Section 01</div>
-  <h2>The Gap</h2>
-  <p>Most small businesses today are stuck between two bad options.</p>
-  <p>On one side: general-purpose AI tools — chatbots, assistants, prompt-and-response interfaces — that can answer questions but don&rsquo;t understand the business. They have no memory of what happened yesterday. They don&rsquo;t know which shift lead called out, which walk-in cooler is running warm, or that the Thursday bread delivery has been shorted three weeks in a row. Every session starts from zero.</p>
-  <p>On the other side: enterprise automation platforms — workflow engines, integrated operations suites, AI-powered dashboards — that were designed for companies with procurement teams, IT departments, and six-figure implementation budgets. These systems work. They also cost more than most small businesses spend on rent.</p>
-  <p>Both ends of this market have grown over the past two years. The middle has not.</p>
-  <p>That middle is where most of America&rsquo;s businesses actually operate. The 4-chair dental practice with 6 staff. The plumbing company with one owner and three techs. The franchise restaurant where the GM runs the store from a phone between rushes. These operators are not waiting for better chatbots. They are not budgeting for Salesforce. They need something that doesn&rsquo;t exist yet — or rather, something that exists in fragments but hasn&rsquo;t been named.</p>
-  <p><b>This paper names it.</b></p>
-</section>
+    <h2>Where Frameworks Fall Short</h2>
+    <p>Most agent frameworks were designed for developer productivity, support automation, or enterprise orchestration. Small business workflows need something narrower: memory that is operational rather than conversational, role boundaries enforced outside prompts, isolated client environments, explicit write confirmation, and observability that explains decisions rather than only logging errors.</p>
 
-<section class="ps" id="s2">
-  <div class="snum">Section 02</div>
-  <h2>What the Missing Layer Is</h2>
-  <p><b>Agent infrastructure for small business operations</b> is the structural layer that sits between a foundation model and a working business. It is what turns a language model from a conversational novelty into a durable operational system that a store, a practice, or a small team can actually rely on.</p>
-  <p>The layer has five defining characteristics.</p>
-  <div class="charlist">
-    <div class="char"><div class="tick"></div><p><b>Bounded scope.</b> Agents operate within defined permissions and lanes, not as open-ended assistants. A store operations agent handles shift handoffs, issue tracking, and daily compliance checks. It does not draft marketing copy, answer trivia, or attempt tasks outside its defined role. Boundaries are structural — enforced at the system level, not carried in prompts where they can be manipulated or forgotten.</p></div>
-    <div class="char"><div class="tick"></div><p><b>Role-aware permissions.</b> The system knows who it serves and what they can authorize. A shift lead can log an issue. A general manager can promote a recurring pattern into durable store knowledge. A district manager can read across stores but cannot write to any individual store&rsquo;s memory. These tiers are not suggestions. They are enforced at every layer of the system.</p></div>
-    <div class="char"><div class="tick"></div><p><b>Operational memory.</b> The agent remembers what happened last shift, last week, and last month. Not because it stored a chat transcript, but because structured operational events — handoffs submitted, issues flagged, follow-ups created, patterns observed — were captured, attributed, and made durable. Memory is selective. Casual conversation passes through and disappears. Operational events persist and compound.</p></div>
-    <div class="char"><div class="tick"></div><p><b>Operator-friendly interface.</b> Team members speak naturally from a phone, often mid-shift, often in fragments. The agent listens in natural language, extracts structured records internally, echoes them back in plain English, and writes only after explicit confirmation. Schemas are internal. The team never sees JSON, never fills a form, never learns a syntax.</p></div>
-    <div class="char"><div class="tick"></div><p><b>Per-client isolation.</b> Each deployment is its own runtime, with separated data, separated secrets, and separated messaging. One client&rsquo;s agent cannot see another client&rsquo;s data — not through a policy, but through architecture. Container-level isolation, namespace-scoped memory, and per-deployment allowlists make cross-client data access structurally constrained and significantly harder to trigger accidentally.</p></div>
-  </div>
-  <p>In practice, the stack looks like this:</p>
-  <div class="stack">
-    <span class="lyr">Foundation Model</span><span class="arr">&darr;</span>
-    <span class="lyr">Skill / Workflow Layer</span><span class="arr">&darr;</span>
-    <span class="lyr">Governance + Permission Layer</span><span class="arr">&darr;</span>
-    <span class="lyr">Operational Memory Layer</span><span class="arr">&darr;</span>
-    <span class="lyr">Messaging Interface</span><span class="arr">&darr;</span>
-    <span class="lyr">Human Approval</span><span class="arr">&darr;</span>
-    <span class="lyr"><b>Durable Operational Record</b></span>
-  </div>
-  <p>Each layer has a defined job. The foundation model provides language capability. The skill layer encodes domain-specific workflows. The governance layer enforces role boundaries, scope rules, and approval gates. The memory layer persists structured operational events with attribution. The messaging interface translates between natural language and structured records. Human approval gates every consequential write. And the durable record is the end product — an attributed, timestamped, scoped operational history that compounds in value over time.</p>
-  <p>It is worth stating plainly what this layer is not. It is not a replacement for managers. It is not full autonomy. It is not a dashboard. It is not a chatbot. It is an operating layer for bounded workflows, memory, approvals, and follow-through — designed to reduce the cognitive load on owner-operators while preserving human control over every consequential decision.</p>
-  <p>This is a distinct architectural pattern — one that has been emerging independently across industries, built by operators who needed it before anyone named it.</p>
-</section>
-
-<section class="ps" id="s3">
-  <div class="snum">Section 03</div>
-  <h2>Why Now</h2>
-  <p>Three things changed at roughly the same time.</p>
-  <p><b>Foundation models became operationally useful.</b> For years, language models were conversationally interesting but operationally unreliable. They hallucinated, lost context, and couldn&rsquo;t be trusted with anything consequential. That changed. Current models can often extract structured data from natural language, follow bounded instructions, and operate usefully within defined constraints when placed inside a governed system. They are not perfect. They are good enough to be useful inside a governed system — and that threshold is the one that matters.</p>
-  <p><b>Small businesses hit software saturation.</b> The average small business owner now juggles more software tools than they have staff to operate them. Scheduling platforms, inventory systems, POS dashboards, payroll tools, communication apps — each one solves a narrow problem and creates a new tab to check. The bottleneck is no longer access to software. It is the cognitive load of operating all of it. What operators need is not another tool but a layer that sits across their existing workflows and handles the follow-through, the handoffs, and the pattern recognition they don&rsquo;t have time for.</p>
-  <p><b>The cost model finally works.</b> Running a continuously operating agent system for a single small business — including model inference, memory persistence, messaging, and infrastructure — can be done for a fraction of what enterprise automation costs. The specific economics vary, but the order of magnitude is tens of dollars per month, not tens of thousands per year. That changes the math completely for a business doing mid-six-figure revenue.</p>
-  <p>The gap between what is technically possible and what small businesses can afford to deploy has never been smaller. For the first time, the architecture described in this paper is not aspirational. It is buildable, deployable, and economically viable at the scale of a single store.</p>
-</section>
-
-<section class="ps" id="s4">
-  <div class="snum">Section 04</div>
-  <h2>The Pattern Is Already Emerging</h2>
-  <p>The strongest evidence that this category is real is that people are building it independently, without coordination, across unrelated industries. The examples that follow are drawn from public discussions among small-business AI builders and operators. They are early market signals, not audited case studies — but the convergence they reveal is striking.</p>
-  <p>In early 2026, a two-person consulting shop publicly documented their experience deploying AI agents to seven small businesses over nine weeks. The businesses ranged from a dental practice in rural Ohio to a plumbing company in the Pacific Northwest to a solo insurance broker to a family-owned bakery with three locations. Different industries, different sizes, different pain points. The patterns that emerged were strikingly consistent.</p>
-  <p>The deployments that stuck shared four characteristics: narrow workflow scope, human approval on anything consequential, isolated client environments, and measurable before-and-after outcomes. The dental practice went from two hours a day of administrative work to thirty minutes of approving drafts. The plumber&rsquo;s quote turnaround dropped from four hours to forty-five minutes and won two extra jobs the following month. The insurance broker, nine months behind on policy renewal reminders, was fully caught up in two weeks.</p>
-  <p>The deployment that failed was equally instructive. An HVAC contractor churned after three weeks because the owner&rsquo;s scheduling rules — which tech goes where, based on experience levels and customer relationships — lived entirely in his head and couldn&rsquo;t be codified into the agent&rsquo;s workflow. The consulting shop&rsquo;s takeaway: if the operator can&rsquo;t articulate the workflow, the agent can&rsquo;t help.</p>
-  <p>Their lessons learned read like a design specification for the architecture described in this paper. Start with one workflow, not three — it&rsquo;s easier to succeed with one and expand than to launch three and watch two drift. Per-client container isolation from day one — they learned this the hard way after a prompt-bleed incident on their third deployment. And the most important lesson: the pain that agents solve best is administrative, not operational. The agent drafts; a human approves. Nothing that touches money, promises dates, or talks to customers goes out without human review.</p>
-  <p>Meanwhile, from an entirely different direction, a multi-unit QSR operator running approximately 40 restaurants described the system she had built independently — not from the deployment side, but from the demand side. She had wired her own agent into cron jobs that scraped operational data into spreadsheets and summarized it daily. The system tracked whether stores were shorthanded, whether payroll was projected to blow targets, and whether sales projections were inconsistent with the last three months of actuals. It monitored employee compliments and complaints, appending them to existing records for use in performance reviews. It filtered 150 daily operational emails down to the ones that actually mattered. She described it as &ldquo;basically a trumped-up DM&rdquo; — a district manager replacement built from the operator&rsquo;s side because no product existed that did the job.</p>
-  <p>The architecture she described — scheduled data pulls, exception-based alerting, memory that accumulates over time, multi-store awareness — is structurally identical to what this paper defines as agent infrastructure. She built it without a framework, without a category name, and without knowing that builders on the supply side were converging on the same shape.</p>
-  <div class="pull">Two independent vectors arriving at the same architecture. The category exists in practice. It lacks a name.</div>
-</section>
-
-<section class="ps" id="s5">
-  <div class="snum">Section 05</div>
-  <h2>Why Naming Matters</h2>
-  <p>Categories without names tend to be underbuilt. When builders can&rsquo;t find each other, they waste time solving problems someone else already solved. When customers can&rsquo;t articulate what they need, they end up bolting together inadequate substitutes — a chatbot here, a Zapier flow there, a shared Google Sheet holding it all together with duct tape. When the market can&rsquo;t see the category, capital can&rsquo;t price the opportunity, which slows investment and leaves the space fragmented.</p>
-  <p>Naming creates shared language. Shared language creates coordination. Coordination creates a market that actually functions.</p>
-  <p>The argument for this paper&rsquo;s existence is not that McPherson AI wants to plant a flag. It is that this market is held back by not having a name, and naming it unlocks coordination that benefits everyone — operators who need these systems, builders who are creating them, and the broader ecosystem that will eventually support them.</p>
-  <p><b>Agent infrastructure for small business operations.</b> That is the name. The rest of this paper is the proof that the name describes something real.</p>
-</section>
-
-<section class="ps" id="s6">
-  <div class="snum">Section 06</div>
-  <h2>The QSR Proof Point</h2>
-  <p>McPherson AI began from the lived experience of managing a high-volume QSR store in San Diego. The founder spent sixteen years in restaurant operations, including more than four years as a general manager. The store was not a lab. It was a working restaurant with real shifts, real labor budgets, real food cost targets, and real compliance requirements.</p>
-  <p>The project did not start with a business plan. It started with a recurring frustration: watching the same operational problems resurface week after week — the same labor drift, the same missed handoffs, the same audit scramble — and knowing that the pattern recognition to catch them existed, but only inside one person&rsquo;s head. The question became: could that judgment be encoded into a system that doesn&rsquo;t forget?</p>
-  <p>The answer, built between February 27 and April 19, 2026, was an eight-skill QSR Operations Suite built on OpenClaw — the open-source agent operating system — and published on ClawHub, its public skill marketplace. The suite covers the recurring workflows that store-level managers live with every day.</p>
-  <p>A daily operations monitor that runs three compliance checks per day — opening, mid-shift, closing — tracking food safety, equipment, sanitation, and team readiness. A labor leak auditor that catches labor cost drift weekly instead of waiting for the monthly P&amp;L surprise, with real-time variance surfacing and manager override awareness. A food cost diagnostic that translates weekly COGS movement into ordering, waste, and portion control decisions. A ghost inventory hunter that cross-references sales volume against theoretical recipe yields to pinpoint where product is disappearing. A shift reflection system that captures what happened, what&rsquo;s unresolved, and what the next shift needs to know. An audit readiness countdown that turns compliance preparation from a scramble into a structured 30-day cadence. A weekly P&amp;L storyteller that translates financial reports into the operational decisions that drove them. And a pre-rush strategy coach that forces a 60-second strategic pause before the chaos starts — staffing positions, bottleneck identification, contingency plans.</p>
-  <p>By April 27, 2026, the suite had crossed 1,000 cumulative downloads. The strongest performers were the tools addressing the most acute daily operator pain points: the Labor Leak Auditor, the Daily Ops Monitor, Shift Reflection, and Food Cost Diagnostic. That ordering is itself a signal. Operators aren&rsquo;t pulling these skills to experiment with AI. They&rsquo;re pulling them because labor, daily execution, shift continuity, and food cost are the leaks they live with every day.</p>
-  <div class="update"><b>Update — June 2026:</b> the suite crossed 3,000 cumulative downloads on June 4, 2026, roughly 77 days after the first skill launched. Version 1.0 figures above are preserved as written for citation integrity.</div>
-  <p>As of this writing, public ClawHub searches suggest the suite is unusually concentrated in this niche. A search for &ldquo;QSR&rdquo; returns seven skills — all McPherson AI. A search for &ldquo;quick service restaurant&rdquo; returns zero results from any publisher. A search for &ldquo;shift handoff&rdquo; returns zero. Adjacent terms like &ldquo;labor,&rdquo; &ldquo;food cost,&rdquo; and &ldquo;inventory&rdquo; return results, but they are general-purpose tools — Chinese labor law references, Amazon FBA inventory planners, food import cost calculators. None are built for the QSR store manager&rsquo;s daily workflow.</p>
-  <p>But QSR is the proof point, not the whole category.</p>
-</section>
-
-<section class="ps" id="s7">
-  <div class="snum">Section 07</div>
-  <h2>Beyond Restaurants</h2>
-  <p>The same architecture that runs a QSR operations suite applies anywhere there are shifts, handoffs, compliance requirements, inventory, labor budgets, and daily follow-through.</p>
-  <p>Shift-based retail. Convenience stores. Auto repair shops. Dental practices. Veterinary clinics. Insurance brokerages. Residential service companies. Any business where the owner or manager <em>is</em> the system — where institutional knowledge lives in one person&rsquo;s head, where the opening shift doesn&rsquo;t know what the closing shift left behind, where compliance prep is a scramble instead of a cadence, where the weekly numbers arrive too late to change the decisions that drove them.</p>
-  <p>These businesses share a structural reality: they are too small for enterprise automation and too operationally complex for generic AI. They need bounded agents with memory, role-aware permissions, and workflow-specific skills — deployed affordably, operated without technical staff, and isolated per client.</p>
-  <p>The architecture described here was built for one restaurant. It was designed to generalize. The role tiers (base store, general manager, district) map naturally to any business with frontline staff, a manager, and an owner or regional operator. The bounded action model — named operations with attribution, scope enforcement, and approval gates — applies to any domain where agents need to act within limits. The memory architecture — selective persistence, pattern promotion through repetition, and explicit approval for durable claims — is domain-agnostic by design.</p>
-  <p>What changes across domains is the skill layer. The labor leak auditor becomes a billable-hours tracker. The shift reflection becomes a patient handoff summary. The audit readiness countdown becomes a license renewal cadence. The infrastructure stays the same. The domain expertise is what makes each deployment valuable.</p>
-</section>
-
-<section class="ps" id="s8">
-  <div class="snum">Section 08</div>
-  <h2>Where Current Agent Frameworks Fall Short</h2>
-  <p>Most agent frameworks available today were not designed for this use case. They were built for developer productivity, customer support automation, or enterprise workflow orchestration. When applied to small business operations, they fail in predictable ways.</p>
-  <p><b>Memory is treated as an afterthought.</b> Most frameworks offer session-scoped context or vector-search retrieval over past conversations. Neither is operational memory. Operational memory means structured events — attributed, scoped, and selectively persisted — that compound over months. A shift handoff from March should be retrievable in June if the issue it flagged was never resolved. No mainstream agent framework provides this out of the box.</p>
-  <p><b>Role boundaries live in prompts.</b> When the only thing preventing a shift-lead-level agent from performing GM-level actions is an instruction in a system prompt, the boundary is advisory. Under adversarial input, novel edge cases, or simple prompt drift, advisory boundaries fail silently. The action layer — not the prompt — must be the enforcement surface.</p>
-  <p><b>Client isolation is an afterthought.</b> Multi-tenant architectures that share infrastructure across clients are standard practice in SaaS. For agent systems that process natural language and generate structured records from it, shared infrastructure creates prompt-bleed risk. One consulting shop learned this on their third deployment. Per-client containers are more expensive. They are also the only architecture that prevents one client&rsquo;s data from surfacing in another client&rsquo;s context.</p>
-  <p><b>Write confirmation doesn&rsquo;t exist.</b> Most agent frameworks let agents write to databases, send messages, or trigger actions without a structured confirmation step. For a team member dictating a shift handoff from a phone at 6 AM, the difference between &ldquo;the agent wrote what I meant&rdquo; and &ldquo;the agent wrote what it inferred&rdquo; is the difference between a useful system and a liability.</p>
-  <p><b>Observability stops at logs.</b> System logs capture errors. They do not capture reasoning. When an agent makes a judgment call — triaging an issue as low-priority, omitting a detail from a summary, choosing which pattern to surface — that decision must be reconstructable. Not for surveillance. For the moment a client asks &ldquo;why did the agent do that?&rdquo; and the answer needs to be specific, not speculative.</p>
-  <p>These are not edge cases. They are the default failure modes of deploying agent frameworks designed for other purposes into small business operations.</p>
-</section>
-
-<section class="ps" id="s9">
-  <div class="snum">Section 09</div>
-  <h2>What Happens Next</h2>
-  <p>The first market for agent infrastructure will not be fully autonomous businesses. It will be approval-based agent workflows that reduce owner and manager cognitive load while preserving human control. The agent drafts; the human approves. The agent surfaces; the human decides. The agent remembers; the human governs what becomes durable.</p>
-  <p>That is a smaller claim than most AI pitches make. It is also a more honest one — and the deployments that are actually sticking in the field bear it out.</p>
-  <p>The operators adopting these systems first will gain an advantage that compounds every month the system runs, because operational memory is cumulative. A system that remembers six months of shift patterns, labor trends, and unresolved issues is fundamentally more valuable than one that started yesterday.</p>
-</section>
-
-<section class="ps" id="s10">
-  <div class="snum">Section 10</div>
-  <h2>Call to Action</h2>
-  <p>What&rsquo;s clear from talking to operators across QSR, retail, and shift-based small businesses is that the same patterns keep getting reinvented. Independent builders, in-house technical operators, and vertical SaaS vendors are converging on a common shape — bounded, role-aware, memory-capable agent systems sized for the small business operator.</p>
-  <div class="pull">Everyone is building the same thing. No one has named it. This paper names it.</div>
-  <p><b>Agent infrastructure for small business operations.</b> The category is real. It&rsquo;s been real for some time. The architecture exists. The proof points are accumulating. The economics work for the first time.</p>
-  <p>What remains is to build it intentionally — with the governance, the memory discipline, and the operator-first design that the market deserves — for the operators who need it most.</p>
-</section>
-
-<section class="ps" id="appendix">
-  <div class="snum">Appendix</div>
-  <h2>Proof Artifacts</h2>
-  <p>The claims in this paper are backed by a public evidence trail. The following artifacts are available for verification.</p>
-  <p><b>Public skill pages:</b> All eight QSR Operations Suite skills are published and visible on ClawHub under McPherson AI-controlled publisher accounts. Each skill page shows download counts, version history, publication dates, and full skill descriptions.</p>
-  <p><b>GitHub repository:</b> The McPherson AI Agent Configuration Framework repository contains the sanitized reference architecture — role boundaries, bounded actions, memory governance, governance rules, and implementation notes — as separate public documents. No production configs, tokens, or client data are included.</p>
-  <p><b>Download milestone:</b> 1,000 cumulative downloads across eight skills confirmed via publisher dashboard on April 27, 2026. 3,000 cumulative downloads confirmed June 4, 2026. Screenshot evidence maintained in internal proof library.</p>
-  <div class="memo">
-    <div class="mh"><span>Build timeline</span><span>2026</span></div>
-    <p>First OpenClaw installation and configuration: <b>February 27</b></p>
-    <p>First skill published (QSR Daily Ops Monitor): <b>March 19</b></p>
-    <p>Full eight-skill QSR suite completed: <b>April 19</b></p>
-    <p>1,000 cumulative downloads crossed: <b>April 27</b></p>
-    <p>3,000 cumulative downloads crossed: <b>June 4</b></p>
-  </div>
-  <p><b>Weekly scorecards:</b> Internal weekly scorecards documenting download growth, content performance, market validation signals, and product development have been maintained continuously since Week 1 (March 30, 2026).</p>
-  <p><b>Platform search audit:</b> ClawHub search results for nine QSR-related terms were captured on April 29, 2026, documenting the niche positioning of the suite relative to adjacent skills on the platform.</p>
-  <p><b>Architecture documentation:</b> The companion document — McPherson AI: Agent Infrastructure Architecture — provides the full technical reference for the system described in this paper, including the three-tier role model, two-layer allowlist, governor framework, capture-and-confirm protocol, memory architecture, and client isolation model.</p>
-  <div class="legalnote">McPherson AI is an independent company based in San Diego, California. It is not affiliated with, endorsed by, sponsored by, or connected to any restaurant brand or employer. The product was built independently using general industry experience, public tools, original workflows, and synthetic or rounded example data.</div>
-</section>
-
-</div>
-</div>
-
-<section class="final">
-  <div class="wrap">
-    <div class="eyebrow">From thesis to floor</div>
-    <h2>The method starts in a real store. Maybe yours.</h2>
-    <p style="max-width:62ch;color:var(--ink-soft);margin-bottom:26px">Everything in this paper gets proven one walk-through at a time. If you run a restaurant in San Diego, the first step is three hours and three hundred bucks.</p>
-    <div class="ctarow">
-      <a class="btn btn-fill" href="walkthrough.html">Request a $300 walk-through</a>
-      <a class="btn btn-line" href="index.html">Back to the homepage</a>
-    </div>
-    <p class="textme">Or just text me: <a href="sms:+16195679869">(619) 567-9869</a></p>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap cols">
-    <div class="fm">
-      <strong style="color:var(--paper)">McPherson AI LLC</strong><br>
-      San Diego, CA<br>
-      <a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><br>
-      <a href="tel:+16195679869">(619) 567-9869</a>
-    </div>
-    <div class="fm">
-      <a href="index.html">Home</a><br>
-      <a href="walkthrough.html">Operator Walk-Through</a><br>
-      <a href="pilot.html">Founder Pilot</a>
-    </div>
-  </div>
-  <div class="wrap legal">&copy; 2026 McPherson AI LLC. Operator-built in San Diego. Agent Infrastructure for Small Business Operations.</div>
-</footer>
-
+    <h2>What Happens Next</h2>
+    <p>The first durable market is not fully autonomous businesses. It is approval-based agent workflows that reduce owner and manager cognitive load while preserving human control.</p>
+    <p>The agent drafts; the human approves. The agent surfaces; the human decides. The agent remembers; the human governs what becomes durable.</p>
+  </article>
+</main>
+<footer class="site-footer"><div class="wrap footer-grid"><div><strong>McPherson AI LLC</strong><br>San Diego, CA<br><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><br><a href="tel:+16195679869">(619) 567-9869</a><div class="fine">&copy; 2026 McPherson AI LLC.</div></div><div><a href="resources.html">Resources</a><br><a href="when-agent-acts.html">When the Agent Acts</a><br><a href="what-we-build.html">What We Build</a></div></div></footer>
 </body>
 </html>
