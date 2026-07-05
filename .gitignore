@@ -1,0 +1,15 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor leftovers
+*~
+*.swp
+*.swo
+
+# Logs and local scratch
+*.log
+
+# Never commit environment/secret files
+.env
+.env.*
