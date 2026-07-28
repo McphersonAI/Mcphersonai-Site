@@ -1,3 +1,19 @@
+# Build output and audit scratch
 dist/
-.DS_Store
 project-docs/screenshots/*.tmp.png
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor leftovers
+*~
+*.swp
+*.swo
+
+# Logs and local scratch
+*.log
+
+# Never commit environment/secret files
+.env
+.env.*
