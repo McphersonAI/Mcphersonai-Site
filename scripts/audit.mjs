@@ -160,7 +160,8 @@ for (const expected of [
   "/what-we-build /services 301",
   "/what-we-build.html /services 301",
   "/resources /proof 301",
-  "/resources.html /proof 301"
+  "/resources.html /proof 301",
+  "/observa-audit-mode-schema-v0.1 /observa-audit-mode-schema-v0.1.html 301"
 ]) {
   if (!redirects.includes(expected)) errors.push(`missing redirect: ${expected}`);
 }
@@ -174,13 +175,15 @@ const css = await readFile(join(outputRoot, "styles.css"), "utf8");
 if (!css.includes(":focus-visible")) errors.push("visible focus style missing");
 if (!css.includes("@media (max-width: 760px)")) errors.push("mobile layout breakpoint missing");
 if (!css.includes("prefers-reduced-motion")) errors.push("reduced-motion handling missing");
+if (!css.includes(".section.navy .resource-links a")) errors.push("reusable dark-section link treatment missing");
 
 const coreColorPairs = [
   ["primary text on white", "18243a", "ffffff"],
   ["secondary text on white", "58657a", "ffffff"],
   ["orange text on white", "963b08", "ffffff"],
   ["white text on orange CTA", "ffffff", "c6530d"],
-  ["white text on navy", "ffffff", "0a172d"]
+  ["white text on navy", "ffffff", "0a172d"],
+  ["bright orange link on navy", "ff9a4d", "0a172d"]
 ];
 for (const [label, foreground, background] of coreColorPairs) {
   const ratio = contrastRatio(foreground, background);
@@ -190,6 +193,31 @@ for (const [label, foreground, background] of coreColorPairs) {
 const contact = await readFile(join(outputRoot, "contact.html"), "utf8");
 for (const contactHref of ["mailto:admin@mcphersonai.com", "tel:+16195679869", "sms:+16195679869"]) {
   if (!contact.includes(contactHref)) errors.push(`contact path missing: ${contactHref}`);
+}
+
+const observa = await readFile(join(outputRoot, "observa.html"), "utf8");
+const proof = await readFile(join(outputRoot, "proof.html"), "utf8");
+const qsr = await readFile(join(outputRoot, "qsr-systems.html"), "utf8");
+const whitePaper = await readFile(join(outputRoot, "white-paper.html"), "utf8");
+const schema = await readFile(join(outputRoot, "observa-audit-mode-schema-v0.1.html"), "utf8");
+const schemaHref = 'href="/observa-audit-mode-schema-v0.1.html"';
+
+if (!observa.includes(schemaHref)) errors.push("Observa schema card does not use the production-safe .html destination");
+if (!proof.includes(schemaHref)) errors.push("Proof schema card does not use the production-safe .html destination");
+if (!schema.includes("<h1>Audit Mode Schema</h1>") || !schema.includes('"case_id": "OBS-DEMO-2026-001"')) {
+  errors.push("Observa schema destination is missing its intended schema content");
+}
+if (!qsr.includes("The public QSR skill suite has surpassed 5,000 cumulative downloads.")) {
+  errors.push("QSR page is missing the confirmed 5,000+ adoption claim");
+}
+if (!proof.includes("<h3>5,000+ cumulative downloads</h3>")) {
+  errors.push("Proof page is missing the confirmed 5,000+ adoption claim");
+}
+if (!whitePaper.includes("has since surpassed 5,000 cumulative downloads")) {
+  errors.push("QSR adoption-history destination does not distinguish the current milestone from historical proof");
+}
+if (/latest dated proof states[^<]*3,000|<h3>3,000 cumulative downloads<\/h3>/i.test(`${qsr}\n${proof}`)) {
+  errors.push("current-facing 3,000-download claim remains");
 }
 
 if (errors.length) {

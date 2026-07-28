@@ -69,6 +69,27 @@ await send("Runtime.evaluate", {
   awaitPromise: true,
   returnByValue: true
 });
+if (args.selector) {
+  const selector = JSON.stringify(args.selector);
+  const focusSelector = args["focus-selector"] ? JSON.stringify(args["focus-selector"]) : null;
+  const align = args.align === "start" ? "start" : "center";
+  const topOffset = Number(args["top-offset"] || 0);
+  const positioning = await send("Runtime.evaluate", {
+    expression: `(async () => {
+      const target = document.querySelector(${selector});
+      if (!target) throw new Error("Screenshot selector not found: " + ${selector});
+      document.documentElement.style.scrollBehavior = "auto";
+      target.scrollIntoView({ behavior: "instant", block: ${JSON.stringify(align)}, inline: "nearest" });
+      window.scrollBy(0, -${topOffset});
+      ${focusSelector ? `document.querySelector(${focusSelector})?.focus();` : ""}
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      return { x: window.scrollX, y: window.scrollY };
+    })()`,
+    awaitPromise: true,
+    returnByValue: true
+  });
+  if (positioning.exceptionDetails) throw new Error(positioning.exceptionDetails.text);
+}
 if (args.inspect === "true") {
   const inspection = await send("Runtime.evaluate", {
     expression: `JSON.stringify({
@@ -82,11 +103,21 @@ if (args.inspect === "true") {
   });
   console.log(`Inspection: ${inspection.result.value}`);
 }
+const viewportPosition = await send("Runtime.evaluate", {
+  expression: "({ x: window.scrollX, y: window.scrollY })",
+  returnByValue: true
+});
 const screenshot = await send("Page.captureScreenshot", {
   format: "png",
   fromSurface: true,
   captureBeyondViewport: true,
-  clip: { x: 0, y: 0, width, height, scale: 1 }
+  clip: {
+    x: viewportPosition.result.value.x,
+    y: viewportPosition.result.value.y,
+    width,
+    height,
+    scale: 1
+  }
 });
 
 await writeFile(outputPath, Buffer.from(screenshot.data, "base64"));

@@ -132,7 +132,7 @@ The site therefore:
 - does not recommend broad installation
 - does not claim active enforcement, compliance, safety, or complete visibility
 - identifies all numerical Governance proof as verified v0.5.0 release evidence
-- retains the QSR `3,000` cumulative count only with its existing June 4, 2026 evidence date
+- presents Blake’s confirmed `5,000+` cumulative QSR adoption milestone as a dated proof point, while preserving the earlier 3,000 milestone only as historical context
 
 ## Intentionally omitted or constrained content
 

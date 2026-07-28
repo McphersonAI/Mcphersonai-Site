@@ -5,7 +5,16 @@ const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, inde
 
 const debugPort = Number(args["debug-port"] || 9223);
 const baseUrl = (args["base-url"] || "http://127.0.0.1:4173").replace(/\/$/, "");
-const routes = ["/", "/governance", "/observa", "/qsr-systems", "/services", "/proof", "/contact"];
+const routes = [
+  "/",
+  "/governance",
+  "/observa",
+  "/observa-audit-mode-schema-v0.1.html",
+  "/qsr-systems",
+  "/services",
+  "/proof",
+  "/contact"
+];
 const viewports = [
   { label: "mobile", width: 390, height: 844 },
   { label: "desktop", width: 1440, height: 1200 }
@@ -89,6 +98,72 @@ async function inspectPage(route, viewport) {
   if (state.overflow > 0) errors.push(`${route} ${viewport.label}: ${state.overflow}px horizontal overflow`);
   if (!state.headerVisible) errors.push(`${route} ${viewport.label}: header is not visible`);
   if (!state.brandVisible) errors.push(`${route} ${viewport.label}: brand is not visible`);
+
+  if (route === "/observa") {
+    const schemaResult = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const link = document.querySelector('a[href="/observa-audit-mode-schema-v0.1.html"]');
+        if (!link) return JSON.stringify({ found: false });
+        const response = await fetch(link.href);
+        const text = await response.text();
+        return JSON.stringify({
+          found: true,
+          status: response.status,
+          contentType: response.headers.get("content-type"),
+          hasSchemaHeading: text.includes("<h1>Audit Mode Schema</h1>"),
+          hasSchemaObject: text.includes('"case_id": "OBS-DEMO-2026-001"')
+        });
+      })()`,
+      awaitPromise: true,
+      returnByValue: true
+    });
+    const schemaState = JSON.parse(schemaResult.result.value);
+    if (!schemaState.found) errors.push(`Observa ${viewport.label}: schema link is missing`);
+    if (
+      schemaState.status !== 200
+      || !String(schemaState.contentType).startsWith("text/html")
+      || !schemaState.hasSchemaHeading
+      || !schemaState.hasSchemaObject
+    ) {
+      errors.push(`Observa ${viewport.label}: schema destination did not return the intended HTML artifact`);
+    }
+  }
+
+  if (route === "/qsr-systems") {
+    const proofResult = await send("Runtime.evaluate", {
+      expression: `JSON.stringify((() => {
+        const panel = [...document.querySelectorAll(".boundary-panel")]
+          .find((element) => element.querySelector("h3")?.textContent.trim() === "Evidence, not hype");
+        const link = panel?.querySelector(".resource-links a");
+        if (!panel || !link) return { found: false };
+        link.focus();
+        const style = getComputedStyle(link);
+        return {
+          found: true,
+          text: panel.textContent,
+          color: style.color,
+          decoration: style.textDecorationLine,
+          outlineStyle: style.outlineStyle,
+          outlineWidth: style.outlineWidth
+        };
+      })())`,
+      returnByValue: true
+    });
+    const proofState = JSON.parse(proofResult.result.value);
+    if (!proofState.found) errors.push(`QSR ${viewport.label}: Evidence, not hype panel is missing`);
+    if (!proofState.text.includes("surpassed 5,000 cumulative downloads")) {
+      errors.push(`QSR ${viewport.label}: 5,000+ adoption statement is missing`);
+    }
+    if (proofState.text.includes("latest dated proof states") || proofState.text.includes("crossed 3,000")) {
+      errors.push(`QSR ${viewport.label}: stale current-facing 3,000 claim remains`);
+    }
+    if (proofState.color !== "rgb(255, 201, 159)" || !proofState.decoration.includes("underline")) {
+      errors.push(`QSR ${viewport.label}: dark-section proof link lacks the accessible orange focus treatment`);
+    }
+    if (proofState.outlineStyle === "none" || proofState.outlineWidth === "0px") {
+      errors.push(`QSR ${viewport.label}: dark-section proof link lacks visible keyboard focus`);
+    }
+  }
 
   if (route === "/" && viewport.label === "mobile") {
     const before = await send("Runtime.evaluate", {
