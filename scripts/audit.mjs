@@ -255,9 +255,43 @@ for (const rule of redirectRules) {
 }
 
 const statusSource = await readFile(join(outputRoot, "release-status.js"), "utf8");
-if (!statusSource.includes('publicVersion: "v0.5.0"')) errors.push("release status is not pinned to verified public v0.5.0");
-if (!statusSource.includes("broadInstallationRecommended: false")) errors.push("broad installation recommendation must remain false");
-if (!statusSource.includes('ctaMode: "founding-setup"')) errors.push("CTA mode must remain founding-setup");
+const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.5.1";
+for (const [label, value] of [
+  ["release version", 'publicVersion: "v0.5.1"'],
+  ["numeric release version", 'publicVersionNumber: "0.5.1"'],
+  ["public status", 'releaseStatus: "Public and verified"'],
+  ["release label", 'releaseLabel: "Public release"'],
+  ["primary CTA", 'primaryCtaLabel: "Install the Free Plugin"'],
+  ["ClawHub URL", `clawHubListing: "${expectedClawHubUrl}"`],
+  ["GitHub release URL", `githubRelease: "${expectedGithubReleaseUrl}"`],
+  ["minimum OpenClaw version", 'openClawPluginApiMinimum: "2026.6.5"'],
+  ["shadow-only authority", 'authority: "shadow-only"'],
+  ["inactive enforcement", "activeEnforcement: false"],
+  ["public install CTA mode", 'ctaMode: "public-install"']
+]) {
+  if (!statusSource.includes(value)) errors.push(`release status has incorrect ${label}`);
+}
+if (!renderedText.includes("Shadow mode is designed to evaluate policy without actively controlling production actions.")) {
+  errors.push("exact shadow-mode authority language is missing");
+}
+if (!renderedText.includes("It has no authority to block, approve, deny, or rewrite your agents’ actions.")) {
+  errors.push("exact shadow-only authority boundary is missing");
+}
+if (/\bv?0\.5\.0\b/.test(renderedText)) {
+  errors.push("a stale v0.5.0 label remains in current public output");
+}
+if (renderedText.includes("/releases/tag/v0.5.0") || renderedText.includes("/blob/v0.5.0/")) {
+  errors.push("a stale v0.5.0 public release link remains");
+}
+for (const page of ["index.html", "governance.html", "proof.html"]) {
+  const html = await readFile(join(outputRoot, page), "utf8");
+  const hasInstallCta = new RegExp(
+    `<a[^>]+data-release-href=["']clawHubListing["'][^>]+data-release-text=["']primaryCtaLabel["'][^>]*>`
+  ).test(html);
+  if (!hasInstallCta) errors.push(`${page}: missing centralized Install the Free Plugin CTA`);
+  if (!html.includes(`href="${expectedClawHubUrl}"`)) errors.push(`${page}: missing ClawHub CTA fallback URL`);
+}
 
 const css = await readFile(join(outputRoot, "styles.css"), "utf8");
 if (!css.includes(":focus-visible")) errors.push("visible focus style missing");
@@ -364,6 +398,6 @@ if (errors.length) {
 
 console.log(
   `Audit passed: ${htmlFiles.length} HTML pages and ${files.length} public files; internal links/fragments, `
-  + "metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
+  + "v0.5.1 release state and CTAs, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
   + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean."
 );

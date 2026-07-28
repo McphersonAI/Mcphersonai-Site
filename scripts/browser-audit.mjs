@@ -20,6 +20,10 @@ const viewports = [
   { label: "mobile", width: 390, height: 844 },
   { label: "desktop", width: 1440, height: 1200 }
 ];
+const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.5.1";
+const releaseRoutes = new Set(["/", "/governance", "/observa", "/proof"]);
+const installRoutes = new Set(["/", "/governance", "/proof"]);
 const errors = [];
 
 async function inspectPage(route, viewport) {
@@ -93,6 +97,18 @@ async function inspectPage(route, viewport) {
       })(),
       skipLinkPresent: Boolean(document.querySelector(".skip-link")),
       primaryCtaPresent: Boolean(document.querySelector(".btn.primary")),
+      bodyText: document.body.innerText,
+      installCtas: [...document.querySelectorAll("a")]
+        .filter((element) => element.textContent.trim() === "Install the Free Plugin")
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return {
+            href: element.href,
+            visible: rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+          };
+        }),
+      githubReleaseLinks: [...document.querySelectorAll("a[href*='/releases/tag/']")].map((element) => element.href),
       positiveTabIndexes: [...document.querySelectorAll("[tabindex]")]
         .filter((element) => Number(element.getAttribute("tabindex")) > 0)
         .map((element) => element.outerHTML.slice(0, 100)),
@@ -115,6 +131,26 @@ async function inspectPage(route, viewport) {
   if (!state.brandVisible) errors.push(`${route} ${viewport.label}: brand is not visible`);
   if (!state.skipLinkPresent) errors.push(`${route} ${viewport.label}: skip link is missing`);
   if (!state.primaryCtaPresent) errors.push(`${route} ${viewport.label}: primary CTA hierarchy is missing`);
+  if (state.bodyText.includes("v0.5.0")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.0 label remains`);
+  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.5.1")) {
+    errors.push(`${route} ${viewport.label}: current v0.5.1 release label is not visible`);
+  }
+  if (installRoutes.has(route)) {
+    if (!state.installCtas.length) {
+      errors.push(`${route} ${viewport.label}: Install the Free Plugin CTA is missing`);
+    } else if (!state.installCtas.some((cta) => cta.visible && cta.href === expectedClawHubUrl)) {
+      errors.push(`${route} ${viewport.label}: install CTA is not visible with the correct ClawHub destination`);
+    }
+    if (!state.githubReleaseLinks.includes(expectedGithubReleaseUrl)) {
+      errors.push(`${route} ${viewport.label}: v0.5.1 GitHub release link is missing`);
+    }
+  }
+  if (["/governance", "/proof"].includes(route) && !state.bodyText.includes("2026.6.5")) {
+    errors.push(`${route} ${viewport.label}: OpenClaw 2026.6.5 minimum is not visible`);
+  }
+  if (["/", "/governance", "/proof"].includes(route) && !state.bodyText.toLowerCase().includes("shadow-only")) {
+    errors.push(`${route} ${viewport.label}: shadow-only authority language is not visible`);
+  }
   if (state.positiveTabIndexes.length) {
     errors.push(`${route} ${viewport.label}: positive tabindex can disrupt keyboard order`);
   }
@@ -142,6 +178,19 @@ async function inspectPage(route, viewport) {
   }
   if (focusState.outlineStyle === "none" || focusState.outlineWidth === "0px") {
     errors.push(`${route} ${viewport.label}: focused skip link has no visible outline`);
+  }
+  await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter" });
+  await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter" });
+  const skipped = await send("Runtime.evaluate", {
+    expression: `JSON.stringify({
+      hash: location.hash,
+      targetExists: Boolean(document.querySelector("#main"))
+    })`,
+    returnByValue: true
+  });
+  const skippedState = JSON.parse(skipped.result.value);
+  if (!skippedState.targetExists || skippedState.hash !== "#main") {
+    errors.push(`${route} ${viewport.label}: skip link did not reach #main`);
   }
 
   if (route === "/observa") {
@@ -320,10 +369,15 @@ async function inspectPage(route, viewport) {
     await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
     await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape" });
     const closed = await send("Runtime.evaluate", {
-      expression: `document.querySelector("[data-nav-toggle]").getAttribute("aria-expanded")`,
+      expression: `JSON.stringify({
+        expanded: document.querySelector("[data-nav-toggle]").getAttribute("aria-expanded"),
+        toggleFocused: document.activeElement === document.querySelector("[data-nav-toggle]")
+      })`,
       returnByValue: true
     });
-    if (closed.result.value !== "false") errors.push("mobile navigation: Escape did not close the menu");
+    const closedState = JSON.parse(closed.result.value);
+    if (closedState.expanded !== "false") errors.push("mobile navigation: Escape did not close the menu");
+    if (!closedState.toggleFocused) errors.push("mobile navigation: Escape did not return focus to the toggle");
 
   }
 
@@ -344,6 +398,7 @@ if (errors.length) {
 }
 
 console.log(
-  `Browser audit passed: ${routes.length} routes at 390px and 1440px, CTA hierarchy, mobile menu toggle/Escape, `
-  + "first-Tab skip links, visible focus, dark-link normal/hover/focus states, and no horizontal overflow or viewport clipping."
+  `Browser audit passed: ${routes.length} routes at 390px and 1440px, v0.5.1 release/CTA/link assertions, `
+  + "mobile menu toggle/Escape focus return, working skip links, visible focus, dark-link normal/hover/focus states, "
+  + "and no horizontal overflow or viewport clipping."
 );
