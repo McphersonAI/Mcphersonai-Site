@@ -47,6 +47,10 @@ button {
   -webkit-font-smoothing: antialiased;
 }
 
+.error-page {
+  background: var(--navy-950);
+}
+
 img {
   display: block;
   max-width: 100%;

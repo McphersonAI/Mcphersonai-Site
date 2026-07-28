@@ -69,6 +69,20 @@ await send("Runtime.evaluate", {
   awaitPromise: true,
   returnByValue: true
 });
+if (args["click-selector"]) {
+  const clickSelector = JSON.stringify(args["click-selector"]);
+  const clickResult = await send("Runtime.evaluate", {
+    expression: `(async () => {
+      const target = document.querySelector(${clickSelector});
+      if (!target) throw new Error("Click selector not found: " + ${clickSelector});
+      target.click();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    })()`,
+    awaitPromise: true,
+    returnByValue: true
+  });
+  if (clickResult.exceptionDetails) throw new Error(clickResult.exceptionDetails.text);
+}
 if (args.selector) {
   const selector = JSON.stringify(args.selector);
   const focusSelector = args["focus-selector"] ? JSON.stringify(args["focus-selector"]) : null;
@@ -103,21 +117,10 @@ if (args.inspect === "true") {
   });
   console.log(`Inspection: ${inspection.result.value}`);
 }
-const viewportPosition = await send("Runtime.evaluate", {
-  expression: "({ x: window.scrollX, y: window.scrollY })",
-  returnByValue: true
-});
 const screenshot = await send("Page.captureScreenshot", {
   format: "png",
   fromSurface: true,
-  captureBeyondViewport: true,
-  clip: {
-    x: viewportPosition.result.value.x,
-    y: viewportPosition.result.value.y,
-    width,
-    height,
-    scale: 1
-  }
+  captureBeyondViewport: false
 });
 
 await writeFile(outputPath, Buffer.from(screenshot.data, "base64"));

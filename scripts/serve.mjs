@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { access, readFile, stat } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
 
@@ -21,13 +21,21 @@ const contentTypes = {
   ".xml": "application/xml; charset=utf-8"
 };
 
-async function exists(path) {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
+async function resolveExactPath(relativePath) {
+  const segments = relativePath.split("/").filter(Boolean);
+  let current = root;
+  for (const segment of segments) {
+    let entries;
+    try {
+      entries = await readdir(current, { withFileTypes: true });
+    } catch {
+      return null;
+    }
+    const match = entries.find((entry) => entry.name === segment);
+    if (!match) return null;
+    current = join(current, match.name);
   }
+  return current;
 }
 
 const redirectRules = (await readFile(join(root, "_redirects"), "utf8"))
@@ -50,23 +58,36 @@ createServer(async (request, response) => {
       return;
     }
 
+    if (pathname.endsWith(".html")) {
+      const htmlRelativePath = pathname.replace(/^\/+/, "");
+      const htmlFile = await resolveExactPath(htmlRelativePath);
+      if (htmlFile) {
+        const extensionless = pathname.slice(0, -5) || "/";
+        response.writeHead(301, { Location: extensionless });
+        response.end();
+        return;
+      }
+    }
+
     const cleanPath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
-    let filePath = normalize(join(root, cleanPath));
-    if (!filePath.startsWith(root)) {
+    const normalizedPath = normalize(join(root, cleanPath));
+    if (!normalizedPath.startsWith(root)) {
       response.writeHead(403);
       response.end("Forbidden");
       return;
     }
 
-    if (!(await exists(filePath)) && !extname(filePath) && await exists(`${filePath}.html`)) {
-      filePath = `${filePath}.html`;
-    } else if (await exists(filePath) && (await stat(filePath)).isDirectory()) {
-      filePath = join(filePath, "index.html");
-    }
+    let filePath = await resolveExactPath(cleanPath);
+    if (!filePath) filePath = await resolveExactPath(`${cleanPath}.html`);
 
-    if (!(await exists(filePath))) {
-      response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-      response.end("Not found");
+    if (!filePath) {
+      const notFoundPath = await resolveExactPath("404.html");
+      response.writeHead(404, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store"
+      });
+      if (notFoundPath) createReadStream(notFoundPath).pipe(response);
+      else response.end("Not found");
       return;
     }
 

@@ -13,6 +13,7 @@ const publicFiles = [
   "services.html",
   "proof.html",
   "contact.html",
+  "404.html",
   "what-we-build.html",
   "resources.html",
   "white-paper.html",
@@ -50,7 +51,7 @@ const routeByFile = {
   "when-the-agent-acts.html": "/when-the-agent-acts",
   "when-agent-acts.html": "/when-the-agent-acts",
   "regulated-crm-proof.html": "/regulated-crm-proof",
-  "observa-audit-mode-schema-v0.1.html": "/observa-audit-mode-schema-v0.1.html",
+  "observa-audit-mode-schema-v0.1.html": "/observa-audit-mode-schema-v0.1",
   "pilot.html": "/services",
   "walkthrough.html": "/qsr-systems"
 };

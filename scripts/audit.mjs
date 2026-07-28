@@ -89,6 +89,8 @@ async function exists(path) {
 const files = await walk(outputRoot);
 const htmlFiles = files.filter((file) => extname(file) === ".html");
 const indexableTitles = new Map();
+const indexableCanonicals = new Map();
+const htmlCache = new Map();
 
 for (const file of htmlFiles) {
   const rel = relative(outputRoot, file);
@@ -112,6 +114,16 @@ for (const file of htmlFiles) {
     } else {
       indexableTitles.set(title, rel);
     }
+    const canonical = matches(html, /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+    if (!canonical.startsWith("https://mcphersonai.com/")) {
+      errors.push(`${rel}: canonical is outside the public origin`);
+    } else if (canonical.endsWith(".html")) {
+      errors.push(`${rel}: canonical must use the clean extensionless route`);
+    } else if (indexableCanonicals.has(canonical)) {
+      errors.push(`${rel}: duplicate canonical also used by ${indexableCanonicals.get(canonical)}`);
+    } else {
+      indexableCanonicals.set(canonical, rel);
+    }
   }
 
   if (primaryPages.has(rel)) {
@@ -131,9 +143,31 @@ for (const file of htmlFiles) {
       errors.push(`${rel}: local reference escapes output root: ${rawValue}`);
       continue;
     }
-    if (await exists(target)) continue;
-    if (await exists(`${target}.html`) || await exists(join(target, "index.html"))) continue;
-    errors.push(`${rel}: missing internal target ${rawValue}`);
+    let resolvedTarget = null;
+    for (const candidate of [target, `${target}.html`, join(target, "index.html")]) {
+      if (await exists(candidate)) {
+        resolvedTarget = candidate;
+        break;
+      }
+    }
+    if (!resolvedTarget) {
+      errors.push(`${rel}: missing internal target ${rawValue}`);
+      continue;
+    }
+    const fragment = rawValue.includes("#")
+      ? decodeURIComponent(rawValue.split("#")[1].split("?")[0])
+      : "";
+    if (fragment && extname(resolvedTarget) === ".html") {
+      let targetHtml = htmlCache.get(resolvedTarget);
+      if (!targetHtml) {
+        targetHtml = await readFile(resolvedTarget, "utf8");
+        htmlCache.set(resolvedTarget, targetHtml);
+      }
+      const escapedFragment = fragment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      if (!new RegExp(`(?:id|name)=["']${escapedFragment}["']`).test(targetHtml)) {
+        errors.push(`${rel}: missing internal fragment ${rawValue}`);
+      }
+    }
   }
 }
 
@@ -151,19 +185,73 @@ for (const phrase of prohibitedPhrases) {
   }
 }
 
-for (const privatePattern of ["/Users/", "internal-evidence", "FINAL_PUBLIC_RELEASE_AUDIT", "FINAL_CLEAN_PUBLIC_HISTORY_AUDIT", "BEGIN PRIVATE KEY"]) {
+for (const privatePattern of [
+  "/Users/",
+  "internal-evidence",
+  "governance-launch-independent-audit",
+  "governance-launch-pre-deployment-repair-report",
+  "FINAL_PUBLIC_RELEASE_AUDIT",
+  "FINAL_CLEAN_PUBLIC_HISTORY_AUDIT",
+  "BEGIN PRIVATE KEY"
+]) {
   if (renderedText.includes(privatePattern)) errors.push(`private or internal pattern found: ${privatePattern}`);
+}
+for (const [label, pattern] of [
+  ["AWS access key", /\bAKIA[0-9A-Z]{16}\b/],
+  ["GitHub token", /\bgh[pousr]_[A-Za-z0-9_]{20,}\b/],
+  ["OpenAI-style secret", /\bsk-[A-Za-z0-9_-]{20,}\b/],
+  ["private key", /-----BEGIN [A-Z ]*PRIVATE KEY-----/],
+  ["bearer credential", /\bBearer\s+[A-Za-z0-9._~+/=-]{20,}/i],
+  ["assigned API secret", /\b(?:api[_-]?key|api[_-]?token|client[_-]?secret|password)\s*[:=]\s*["'][^"']{12,}["']/i]
+]) {
+  if (pattern.test(renderedText)) errors.push(`possible ${label} found in production text output`);
 }
 
 const redirects = await readFile(join(outputRoot, "_redirects"), "utf8");
 for (const expected of [
+  "/governance/ /governance 301",
+  "/observa/ /observa 301",
+  "/qsr-systems/ /qsr-systems 301",
+  "/services/ /services 301",
+  "/proof/ /proof 301",
+  "/contact/ /contact 301",
+  "/observa-audit-mode-schema-v0.1/ /observa-audit-mode-schema-v0.1 301",
   "/what-we-build /services 301",
   "/what-we-build.html /services 301",
   "/resources /proof 301",
   "/resources.html /proof 301",
-  "/observa-audit-mode-schema-v0.1 /observa-audit-mode-schema-v0.1.html 301"
+  "/when-agent-acts /when-the-agent-acts 301",
+  "/when-agent-acts.html /when-the-agent-acts 301"
 ]) {
   if (!redirects.includes(expected)) errors.push(`missing redirect: ${expected}`);
+}
+if (/^\/observa-audit-mode-schema-v0\.1\s+\/observa-audit-mode-schema-v0\.1\.html(?:\s|$)/m.test(redirects)) {
+  errors.push("schema redirect reverses the Cloudflare .html-to-extensionless canonicalization");
+}
+
+const redirectRules = redirects
+  .split(/\r?\n/)
+  .map((line) => line.trim())
+  .filter((line) => line && !line.startsWith("#"))
+  .map((line) => {
+    const [from, to, status = "302"] = line.split(/\s+/);
+    return { from, to, status: Number(status) };
+  });
+const redirectBySource = new Map(redirectRules.map((rule) => [rule.from, rule]));
+for (const rule of redirectRules) {
+  if (!Number.isInteger(rule.status) || rule.status < 300 || rule.status > 399) {
+    errors.push(`redirect uses a non-redirect status: ${rule.from} ${rule.to} ${rule.status}`);
+  }
+  const visited = new Set();
+  let current = rule.from;
+  while (redirectBySource.has(current)) {
+    if (visited.has(current)) {
+      errors.push(`redirect cycle detected from ${rule.from}`);
+      break;
+    }
+    visited.add(current);
+    current = redirectBySource.get(current).to;
+  }
 }
 
 const statusSource = await readFile(join(outputRoot, "release-status.js"), "utf8");
@@ -200,21 +288,69 @@ const proof = await readFile(join(outputRoot, "proof.html"), "utf8");
 const qsr = await readFile(join(outputRoot, "qsr-systems.html"), "utf8");
 const whitePaper = await readFile(join(outputRoot, "white-paper.html"), "utf8");
 const schema = await readFile(join(outputRoot, "observa-audit-mode-schema-v0.1.html"), "utf8");
-const schemaHref = 'href="/observa-audit-mode-schema-v0.1.html"';
+const notFound = await readFile(join(outputRoot, "404.html"), "utf8");
+const sitemap = await readFile(join(outputRoot, "sitemap.xml"), "utf8");
+const schemaHref = 'href="/observa-audit-mode-schema-v0.1"';
+const schemaCanonical = matches(schema, /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+const expectedSchemaCanonical = "https://mcphersonai.com/observa-audit-mode-schema-v0.1";
 
-if (!observa.includes(schemaHref)) errors.push("Observa schema card does not use the production-safe .html destination");
-if (!proof.includes(schemaHref)) errors.push("Proof schema card does not use the production-safe .html destination");
+if (!observa.includes(schemaHref)) errors.push("Observa schema card does not use the extensionless destination");
+if (!proof.includes(schemaHref)) errors.push("Proof schema card does not use the extensionless destination");
+if (observa.includes('href="/observa-audit-mode-schema-v0.1.html"') || proof.includes('href="/observa-audit-mode-schema-v0.1.html"')) {
+  errors.push("an Observa or Proof schema link still uses the .html URL");
+}
+if (schemaCanonical !== expectedSchemaCanonical) {
+  errors.push(`schema canonical is not extensionless: ${schemaCanonical || "missing"}`);
+}
+if (!sitemap.includes(`<loc>${expectedSchemaCanonical}</loc>`)) {
+  errors.push("sitemap and schema canonical do not agree on the extensionless URL");
+}
+const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+if (new Set(sitemapLocations).size !== sitemapLocations.length) errors.push("sitemap contains duplicate URLs");
+for (const canonical of indexableCanonicals.keys()) {
+  if (!sitemapLocations.includes(canonical)) errors.push(`sitemap is missing indexable canonical ${canonical}`);
+}
+for (const location of sitemapLocations) {
+  if (!indexableCanonicals.has(location)) errors.push(`sitemap URL has no indexable canonical page: ${location}`);
+}
 if (!schema.includes("<h1>Audit Mode Schema</h1>") || !schema.includes('"case_id": "OBS-DEMO-2026-001"')) {
   errors.push("Observa schema destination is missing its intended schema content");
 }
-if (!qsr.includes("The public QSR skill suite has surpassed 5,000 cumulative downloads.")) {
-  errors.push("QSR page is missing the confirmed 5,000+ adoption claim");
+if (!schema.includes(":focus-visible")) errors.push("standalone schema page lacks explicit focus-visible styling");
+if (!schema.includes("prefers-reduced-motion")) errors.push("standalone schema page lacks reduced-motion handling");
+if (!schema.includes('class="skip-link"')) errors.push("standalone schema page lacks a keyboard skip link");
+
+if (!notFound.includes("<h1>Page not found.</h1>")) errors.push("404 page is missing its clear Page not found message");
+if (!/<meta\s+name=["']robots["']\s+content=["']noindex,\s*follow["']/i.test(notFound)) {
+  errors.push("404 page must declare noindex, follow");
+}
+for (const href of ['href="/"', 'href="/governance"', 'href="/contact"']) {
+  if (!notFound.includes(href)) errors.push(`404 page is missing required destination ${href}`);
+}
+if (!notFound.includes('class="skip-link"') || !notFound.includes("data-nav-toggle")) {
+  errors.push("404 page is missing shared keyboard navigation affordances");
+}
+if (sitemap.includes("/404") || sitemap.includes("404.html")) errors.push("404 page must not appear in the sitemap");
+
+const companyTrackedClaim = "Based on McPherson AI’s cumulative ClawHub download tracking, the public QSR skill suite surpassed 5,000 cumulative downloads as of July 2026.";
+const evidenceBoundary = "dated company-tracked milestone, not a live counter";
+if (!qsr.includes(companyTrackedClaim) || !qsr.includes(evidenceBoundary) || !qsr.includes("count of unique users")) {
+  errors.push("QSR page is missing the dated, company-tracked 5,000+ evidence boundary");
 }
 if (!proof.includes("<h3>5,000+ cumulative downloads</h3>")) {
   errors.push("Proof page is missing the confirmed 5,000+ adoption claim");
 }
-if (!whitePaper.includes("has since surpassed 5,000 cumulative downloads")) {
-  errors.push("QSR adoption-history destination does not distinguish the current milestone from historical proof");
+if (!proof.includes(companyTrackedClaim) || !proof.includes(evidenceBoundary) || !proof.includes("count of unique users")) {
+  errors.push("Proof page is missing the dated, company-tracked 5,000+ evidence boundary");
+}
+if (!whitePaper.includes(companyTrackedClaim) || !whitePaper.includes(evidenceBoundary) || !whitePaper.includes("do not independently prove the later total")) {
+  errors.push("QSR adoption history does not distinguish the company-tracked current milestone from historical proof");
+}
+if (!whitePaper.includes("1,000 cumulative downloads on April 27, 2026") || !whitePaper.includes("3,000 cumulative downloads on June 4, 2026")) {
+  errors.push("historical QSR milestones are not visibly dated");
+}
+if (/Documented adoption signal|documented proof/i.test(`${qsr}\n${proof}\n${whitePaper}`)) {
+  errors.push("QSR claim uses an independent-proof label that the public destination cannot substantiate");
 }
 if (/latest dated proof states[^<]*3,000|<h3>3,000 cumulative downloads<\/h3>/i.test(`${qsr}\n${proof}`)) {
   errors.push("current-facing 3,000-download claim remains");
@@ -226,4 +362,8 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Audit passed: ${htmlFiles.length} HTML pages, ${files.length} public files, no broken local links or prohibited claims.`);
+console.log(
+  `Audit passed: ${htmlFiles.length} HTML pages and ${files.length} public files; internal links/fragments, `
+  + "metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
+  + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean."
+);

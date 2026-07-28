@@ -9,11 +9,12 @@ const routes = [
   "/",
   "/governance",
   "/observa",
-  "/observa-audit-mode-schema-v0.1.html",
+  "/observa-audit-mode-schema-v0.1",
   "/qsr-systems",
   "/services",
   "/proof",
-  "/contact"
+  "/contact",
+  "/this-route-does-not-exist"
 ];
 const viewports = [
   { label: "mobile", width: 390, height: 844 },
@@ -89,7 +90,21 @@ async function inspectPage(route, viewport) {
         const brand = document.querySelector(".brand");
         const rect = brand?.getBoundingClientRect();
         return Boolean(rect && rect.width > 0 && rect.height > 0);
-      })()
+      })(),
+      skipLinkPresent: Boolean(document.querySelector(".skip-link")),
+      primaryCtaPresent: Boolean(document.querySelector(".btn.primary")),
+      positiveTabIndexes: [...document.querySelectorAll("[tabindex]")]
+        .filter((element) => Number(element.getAttribute("tabindex")) > 0)
+        .map((element) => element.outerHTML.slice(0, 100)),
+      escapedElements: [...document.body.querySelectorAll("*")]
+        .filter((element) => {
+          const style = getComputedStyle(element);
+          if (style.display === "none" || style.visibility === "hidden" || style.position === "fixed") return false;
+          const rect = element.getBoundingClientRect();
+          return rect.width > 0 && (rect.left < -1 || rect.right > window.innerWidth + 1);
+        })
+        .slice(0, 5)
+        .map((element) => element.tagName + (element.className ? "." + String(element.className).split(" ").join(".") : ""))
     })`,
     returnByValue: true
   });
@@ -98,11 +113,41 @@ async function inspectPage(route, viewport) {
   if (state.overflow > 0) errors.push(`${route} ${viewport.label}: ${state.overflow}px horizontal overflow`);
   if (!state.headerVisible) errors.push(`${route} ${viewport.label}: header is not visible`);
   if (!state.brandVisible) errors.push(`${route} ${viewport.label}: brand is not visible`);
+  if (!state.skipLinkPresent) errors.push(`${route} ${viewport.label}: skip link is missing`);
+  if (!state.primaryCtaPresent) errors.push(`${route} ${viewport.label}: primary CTA hierarchy is missing`);
+  if (state.positiveTabIndexes.length) {
+    errors.push(`${route} ${viewport.label}: positive tabindex can disrupt keyboard order`);
+  }
+  if (state.escapedElements.length) {
+    errors.push(`${route} ${viewport.label}: elements escape the viewport (${state.escapedElements.join(", ")})`);
+  }
+
+  await send("Runtime.evaluate", {
+    expression: `document.body.setAttribute("tabindex", "-1"); document.body.focus(); document.body.removeAttribute("tabindex")`,
+    returnByValue: true
+  });
+  await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab" });
+  await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab" });
+  const focused = await send("Runtime.evaluate", {
+    expression: `JSON.stringify({
+      className: document.activeElement.className,
+      outlineWidth: getComputedStyle(document.activeElement).outlineWidth,
+      outlineStyle: getComputedStyle(document.activeElement).outlineStyle
+    })`,
+    returnByValue: true
+  });
+  const focusState = JSON.parse(focused.result.value);
+  if (!String(focusState.className).includes("skip-link")) {
+    errors.push(`${route} ${viewport.label}: first Tab did not focus the skip link`);
+  }
+  if (focusState.outlineStyle === "none" || focusState.outlineWidth === "0px") {
+    errors.push(`${route} ${viewport.label}: focused skip link has no visible outline`);
+  }
 
   if (route === "/observa") {
     const schemaResult = await send("Runtime.evaluate", {
       expression: `(async () => {
-        const link = document.querySelector('a[href="/observa-audit-mode-schema-v0.1.html"]');
+        const link = document.querySelector('a[href="/observa-audit-mode-schema-v0.1"]');
         if (!link) return JSON.stringify({ found: false });
         const response = await fetch(link.href);
         const text = await response.text();
@@ -130,38 +175,109 @@ async function inspectPage(route, viewport) {
   }
 
   if (route === "/qsr-systems") {
-    const proofResult = await send("Runtime.evaluate", {
+    const normalResult = await send("Runtime.evaluate", {
       expression: `JSON.stringify((() => {
         const panel = [...document.querySelectorAll(".boundary-panel")]
           .find((element) => element.querySelector("h3")?.textContent.trim() === "Evidence, not hype");
         const link = panel?.querySelector(".resource-links a");
         if (!panel || !link) return { found: false };
-        link.focus();
+        document.documentElement.style.scrollBehavior = "auto";
+        link.scrollIntoView({ behavior: "instant", block: "center", inline: "nearest" });
         const style = getComputedStyle(link);
+        const background = getComputedStyle(link.closest(".section.navy")).backgroundColor;
+        const rect = link.getBoundingClientRect();
         return {
           found: true,
           text: panel.textContent,
           color: style.color,
           decoration: style.textDecorationLine,
-          outlineStyle: style.outlineStyle,
-          outlineWidth: style.outlineWidth
+          decorationThickness: style.textDecorationThickness,
+          background,
+          center: { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
         };
       })())`,
       returnByValue: true
     });
-    const proofState = JSON.parse(proofResult.result.value);
-    if (!proofState.found) errors.push(`QSR ${viewport.label}: Evidence, not hype panel is missing`);
-    if (!proofState.text.includes("surpassed 5,000 cumulative downloads")) {
+    const proofState = JSON.parse(normalResult.result.value);
+    if (!proofState.found) {
+      errors.push(`QSR ${viewport.label}: Evidence, not hype panel is missing`);
+    } else if (!proofState.text.includes("surpassed 5,000 cumulative downloads")) {
       errors.push(`QSR ${viewport.label}: 5,000+ adoption statement is missing`);
     }
-    if (proofState.text.includes("latest dated proof states") || proofState.text.includes("crossed 3,000")) {
+    if (proofState.found && (
+      !proofState.text.includes("as of July 2026")
+      || !proofState.text.includes("dated company-tracked milestone")
+      || !proofState.text.includes("not a live counter")
+      || !proofState.text.includes("not a live counter or a count of unique users")
+    )) {
+      errors.push(`QSR ${viewport.label}: company-tracked evidence boundary is incomplete`);
+    }
+    if (proofState.found && (
+      proofState.text.includes("latest dated proof states")
+      || proofState.text.includes("crossed 3,000")
+    )) {
       errors.push(`QSR ${viewport.label}: stale current-facing 3,000 claim remains`);
     }
-    if (proofState.color !== "rgb(255, 201, 159)" || !proofState.decoration.includes("underline")) {
-      errors.push(`QSR ${viewport.label}: dark-section proof link lacks the accessible orange focus treatment`);
+    if (proofState.found && (
+      proofState.color !== "rgb(255, 154, 77)"
+      || proofState.background !== "rgb(10, 23, 45)"
+      || !proofState.decoration.includes("underline")
+      || proofState.decorationThickness !== "2px"
+    )) {
+      errors.push(`QSR ${viewport.label}: dark-section proof link normal treatment is incorrect`);
     }
-    if (proofState.outlineStyle === "none" || proofState.outlineWidth === "0px") {
-      errors.push(`QSR ${viewport.label}: dark-section proof link lacks visible keyboard focus`);
+
+    if (proofState.center) {
+      await send("Input.dispatchMouseEvent", {
+        type: "mouseMoved",
+        x: proofState.center.x,
+        y: proofState.center.y
+      });
+      const hoverResult = await send("Runtime.evaluate", {
+        expression: `JSON.stringify((() => {
+          const link = document.querySelector(".section.navy .resource-links a");
+          const style = getComputedStyle(link);
+          return { color: style.color, decoration: style.textDecorationLine, thickness: style.textDecorationThickness };
+        })())`,
+        returnByValue: true
+      });
+      const hoverState = JSON.parse(hoverResult.result.value);
+      if (
+        hoverState.color !== "rgb(255, 201, 159)"
+        || !hoverState.decoration.includes("underline")
+        || hoverState.thickness !== "3px"
+      ) {
+        errors.push(
+          `QSR ${viewport.label}: dark-section proof link hover treatment is incorrect `
+          + `(${hoverState.color}, ${hoverState.decoration}, ${hoverState.thickness})`
+        );
+      }
+
+      const focusResult = await send("Runtime.evaluate", {
+        expression: `JSON.stringify((() => {
+          const link = document.querySelector(".section.navy .resource-links a");
+          link.focus();
+          const style = getComputedStyle(link);
+          return {
+            color: style.color,
+            decoration: style.textDecorationLine,
+            thickness: style.textDecorationThickness,
+            outlineStyle: style.outlineStyle,
+            outlineWidth: style.outlineWidth
+          };
+        })())`,
+        returnByValue: true
+      });
+      const darkFocusState = JSON.parse(focusResult.result.value);
+      if (
+        darkFocusState.color !== "rgb(255, 201, 159)"
+        || !darkFocusState.decoration.includes("underline")
+        || darkFocusState.thickness !== "3px"
+        || darkFocusState.outlineStyle === "none"
+        || darkFocusState.outlineWidth === "0px"
+      ) {
+        errors.push(`QSR ${viewport.label}: dark-section proof link focus-visible treatment is incorrect`);
+      }
     }
   }
 
@@ -209,27 +325,6 @@ async function inspectPage(route, viewport) {
     });
     if (closed.result.value !== "false") errors.push("mobile navigation: Escape did not close the menu");
 
-    await send("Runtime.evaluate", {
-      expression: `document.body.setAttribute("tabindex", "-1"); document.body.focus(); document.body.removeAttribute("tabindex")`,
-      returnByValue: true
-    });
-    await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab" });
-    await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab" });
-    const focused = await send("Runtime.evaluate", {
-      expression: `JSON.stringify({
-        className: document.activeElement.className,
-        outlineWidth: getComputedStyle(document.activeElement).outlineWidth,
-        outlineStyle: getComputedStyle(document.activeElement).outlineStyle
-      })`,
-      returnByValue: true
-    });
-    const focusState = JSON.parse(focused.result.value);
-    if (!String(focusState.className).includes("skip-link")) {
-      errors.push(`keyboard navigation: first Tab focused ${focusState.className || "an unknown element"}`);
-    }
-    if (focusState.outlineStyle === "none" || focusState.outlineWidth === "0px") {
-      errors.push("keyboard navigation: focused skip link has no visible outline");
-    }
   }
 
   socket.close();
@@ -249,5 +344,6 @@ if (errors.length) {
 }
 
 console.log(
-  `Browser audit passed: ${routes.length} primary routes at 390px and 1440px, mobile menu toggle/Escape, first-Tab skip link, visible focus, and no horizontal overflow.`
+  `Browser audit passed: ${routes.length} routes at 390px and 1440px, CTA hierarchy, mobile menu toggle/Escape, `
+  + "first-Tab skip links, visible focus, dark-link normal/hover/focus states, and no horizontal overflow or viewport clipping."
 );

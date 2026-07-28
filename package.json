@@ -9,6 +9,9 @@
     "test": "node scripts/audit.mjs",
     "audit": "npm run build && npm test",
     "audit:browser": "node scripts/browser-audit.mjs",
+    "audit:routes": "node scripts/route-audit.mjs",
+    "audit:external": "node scripts/external-link-audit.mjs",
+    "audit:assets": "node scripts/public-asset-audit.mjs",
     "preview": "node scripts/serve.mjs dist"
   },
   "engines": {
