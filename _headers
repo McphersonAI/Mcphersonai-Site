@@ -1,0 +1,12 @@
+# Keep archived development snapshots out of search indexes if the repository
+# root remains the Cloudflare Pages output directory.
+/index-*
+  X-Robots-Tag: noindex, nofollow
+/pilot-*
+  X-Robots-Tag: noindex, nofollow
+/white-paper-*
+  X-Robots-Tag: noindex, nofollow
+/mcphersonai-site-backup-apr-1.html
+  X-Robots-Tag: noindex, nofollow
+/index0v1-5:6:26 .html
+  X-Robots-Tag: noindex, nofollow

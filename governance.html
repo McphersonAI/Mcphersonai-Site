@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>McPherson Governance for OpenClaw | Shadow Policy and Evidence</title>
+  <meta name="description" content="McPherson Governance observes supported OpenClaw activity, evaluates explicit policy in shadow mode, and produces operator-readable evidence.">
+  <link rel="canonical" href="https://mcphersonai.com/governance">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="McPherson AI">
+  <meta property="og:title" content="McPherson Governance for OpenClaw | Shadow Policy and Evidence">
+  <meta property="og:description" content="See what your OpenClaw agents did before you give governance the power to stop them.">
+  <meta property="og:url" content="https://mcphersonai.com/governance">
+  <meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+  <meta property="og:image:alt" content="McPherson AI governance evidence flow for action-taking AI agents">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="McPherson Governance for OpenClaw">
+  <meta name="twitter:description" content="Shadow policy evaluation and readable evidence for supported OpenClaw activity.">
+  <meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/release-status.js"></script>
+  <script defer src="/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
+        <a href="/">Home</a>
+        <a href="/governance" aria-current="page">Governance</a>
+        <a href="/observa">Observa</a>
+        <a href="/qsr-systems">QSR Systems</a>
+        <a href="/services">Services</a>
+        <a href="/proof">Proof</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">McPherson Governance for OpenClaw</div>
+          <h1>See what your OpenClaw agents did before you give governance the power to stop them.</h1>
+          <p class="lead">McPherson Governance evaluates supported tool activity against explicit policy and records what happened, what policy would have decided, what needs review, and what remains unknown.</p>
+          <p class="boundary-note">The current release operates in shadow mode and has no authority to block, approve, deny, or rewrite production actions.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="/contact#governance-setup">Request Founding Setup</a>
+            <a class="btn" data-release-href="clawHubListing" href="https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw">View the OpenClaw Plugin</a>
+          </div>
+          <div class="status-bar">
+            <span class="badge"><span data-release-text="publicVersion">v0.5.0</span> public</span>
+            <span class="badge warning" data-release-text="installationRecommendation">Review before installation</span>
+          </div>
+        </div>
+        <aside class="evidence-card" aria-label="Current Governance product structure">
+          <div class="label">Current product structure</div>
+          <h2>Three parts, one evidence path.</h2>
+          <div class="evidence-list">
+            <div class="evidence-row"><div class="evidence-index">01</div><div><strong>OpenClaw plugin</strong><span>Observes supported, configured activity.</span></div></div>
+            <div class="evidence-row"><div class="evidence-index">02</div><div><strong>Policy service</strong><span>Records the decision policy would produce.</span></div></div>
+            <div class="evidence-row"><div class="evidence-index">03</div><div><strong>Observa</strong><span>Separates facts, gaps, and review items.</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="logs-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Why activity logs are not enough</div>
+          <h2 id="logs-title">A tool event and governance evidence answer different questions.</h2>
+        </div>
+        <div class="comparison">
+          <article class="comparison-card">
+            <span class="meta">Agent activity</span>
+            <p class="quote-line">“The refund tool ran.”</p>
+          </article>
+          <article class="comparison-card governed">
+            <span class="meta">Governance evidence</span>
+            <p class="quote-line">“Who requested it, which policy applied, whether approval was required, whether the action completed, and whether the evidence is sufficient.”</p>
+          </article>
+        </div>
+        <p class="caption">Illustrative example only. It does not describe a specific production integration or claim that the current release observes every refund workflow.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">How it works</div>
+            <h2 id="how-title">Build evidence without overstating authority.</h2>
+          </div>
+          <p class="lead">Shadow mode is designed to evaluate policy without actively controlling production actions.</p>
+        </div>
+        <ol class="flow" aria-label="Detailed governed evidence path">
+          <li><strong>Agent proposes</strong><span>A supported tool action enters the configured path.</span></li>
+          <li><strong>Plugin observes</strong><span>An attempt receipt and minimized metadata are produced.</span></li>
+          <li><strong>Policy evaluates</strong><span>Explicit rules produce a non-authoritative shadow decision.</span></li>
+          <li><strong>Evidence is bound</strong><span>Directly observed completion is correlated to the attempt.</span></li>
+          <li><strong>Observa explains</strong><span>Measured facts stay separate from assumptions.</span></li>
+          <li><strong>Operator reviews</strong><span>Gaps and exceptions become follow-up work.</span></li>
+        </ol>
+        <div class="architecture-line">
+          <strong>Agent proposes. Policy decides. Runtime enforces. Observa explains.</strong>
+          <span>In the current v0.5 release, policy decisions are recorded in shadow mode. Runtime enforcement is not active.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="release-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Current release</div>
+            <h2 id="release-title">McPherson Governance v0.5.x</h2>
+          </div>
+          <div class="status-bar" aria-label="Public release status">
+            <span class="badge" data-release-text="releaseStatus">Public shadow-governance release</span>
+            <span class="badge warning"><span data-release-text="publicVersion">v0.5.0</span> public version</span>
+          </div>
+        </div>
+        <div class="grid three">
+          <article class="card accent"><h3>Observe</h3><ul class="compact-list"><li>OpenClaw plugin</li><li>Supported attempt and completion observation</li><li>Manual capability mappings</li></ul></article>
+          <article class="card accent"><h3>Evaluate</h3><ul class="compact-list"><li>Metadata-minimized receipts</li><li>Shadow policy evaluation</li><li>Non-blocking failure behavior</li></ul></article>
+          <article class="card accent"><h3>Explain</h3><ul class="compact-list"><li>Operator-readable evidence</li><li>Explicit unknowns</li><li>Coverage-gap reporting</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy" aria-labelledby="coverage-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Coverage and limitations</div>
+          <h2 id="coverage-title">Observation has a boundary. The product should say where it is.</h2>
+        </div>
+        <div class="boundary-grid">
+          <article class="boundary-panel">
+            <h3>Coverage depends on configuration</h3>
+            <ul class="list">
+              <li>Coverage depends on supported hooks, correct mappings, selected tools, and the configured observation path.</li>
+              <li>Actions outside that path may not be represented.</li>
+              <li>A missing receipt does not prove that no action occurred.</li>
+            </ul>
+          </article>
+          <article class="boundary-panel">
+            <h3>Shadow decisions do not execute</h3>
+            <ul class="list">
+              <li>A shadow policy decision does not control production execution.</li>
+              <li>McPherson Governance does not certify compliance, safety, or completeness.</li>
+              <li>It has no authority to block, approve, deny, or rewrite your agents’ actions.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proof-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Proof</div>
+          <h2 id="proof-title">Operator proof and technical proof serve different readers.</h2>
+        </div>
+        <div class="grid two">
+          <article class="card lead-card">
+            <span class="meta">Operator proof</span>
+            <h3>What an operator needs to review</h3>
+            <ul class="list">
+              <li>What was attempted</li>
+              <li>What completed</li>
+              <li>What policy would have decided</li>
+              <li>What needs review</li>
+              <li>What remains unknown</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="meta">Technical proof</span>
+            <h3>What the public release can substantiate</h3>
+            <ul class="list">
+              <li>Live shadow-soak evidence for v0.5.0</li>
+              <li>Test and audit evidence</li>
+              <li>Release checksum and source link</li>
+              <li>Shadow-authority verification</li>
+              <li>Documented privacy boundary</li>
+              <li>GitHub source and ClawHub package</li>
+            </ul>
+            <div class="resource-links">
+              <a data-release-href="githubRelease" href="https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.5.0">Public release</a>
+              <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.5.0/VERIFY.md">Verification guide</a>
+              <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.5.0/PRIVACY.md">Privacy boundary</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="options-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Free plugin and managed setup</div>
+          <h2 id="options-title">Choose the level of help your environment needs.</h2>
+        </div>
+        <div class="grid two">
+          <article class="card">
+            <span class="meta">Free OpenClaw plugin</span>
+            <h3>For technical operators</h3>
+            <p>For technical OpenClaw operators who can install, configure, map, and validate their own environment.</p>
+            <p>The public <span data-release-text="publicVersion">v0.5.0</span> package is available for review. Broad installation is not currently recommended while clean-install follow-up is prepared.</p>
+            <a class="btn" data-release-href="clawHubListing" href="https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw">Review the public plugin</a>
+          </article>
+          <article class="card lead-card">
+            <span class="meta">Founding Governance Setup</span>
+            <h3>For operators who want a guided start</h3>
+            <p>For operators who want McPherson AI to help map tools, define policy, review shadow evidence, and identify coverage gaps.</p>
+            <a class="btn primary" href="/contact#governance-setup">Request Founding Setup</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="roadmap-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Roadmap</div>
+          <h2 id="roadmap-title">Observation first. Authority only after gates are verified.</h2>
+        </div>
+        <div class="roadmap">
+          <div class="roadmap-row"><strong>v0.5</strong><p>Observe supported activity and produce shadow policy decisions and evidence.</p></div>
+          <div class="roadmap-row"><strong>v0.6</strong><p>Discover capabilities, assist mappings, detect drift, and diagnose governability.</p></div>
+          <div class="roadmap-row"><strong>v0.7</strong><p>Introduce bounded enforcement only after policy, runtime, approval, and evidence gates are verified.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">FAQ</div>
+          <h2 id="faq-title">Questions to resolve before relying on the connector.</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Does the current release block my agents?</summary>
+            <p>No. The current release evaluates policy in shadow mode. Remote decisions have no execution authority, and the connector does not actively block, approve, deny, delay, or rewrite ordinary tool actions.</p>
+          </details>
+          <details>
+            <summary>What data leaves my environment?</summary>
+            <p>When enabled, the connector can send a closed allowlist of identifiers, class labels, one-way hashes, timestamps, and mapped metadata to the governance endpoint you configure. It does not send prompts, message bodies, tool parameters, file contents, credentials, customer records, or local receipt ledgers. Operator-chosen identifiers can themselves be sensitive, so naming and retention still require review.</p>
+          </details>
+          <details>
+            <summary>What happens if the policy service is unavailable?</summary>
+            <p>The connector remains non-blocking. A slow, malformed, absent, or hostile remote response can change the local observation record, but it receives no authority over the ordinary production action. Bounded queues and circuit behavior also mean some observations may be dropped and recorded as such.</p>
+          </details>
+          <details>
+            <summary>Does it observe every tool?</summary>
+            <p>No. Observation depends on supported OpenClaw hooks, correct manual mappings, selected tools, and the configured path. Unmapped activity may produce an unknown-tool observation, and activity outside the path may not be represented.</p>
+          </details>
+          <details>
+            <summary>Can I use it without managed setup?</summary>
+            <p>Yes. The free public plugin is intended for technical OpenClaw operators who can verify the package, configure the endpoint and private state paths, map tools, start disabled, and validate the evidence themselves. Review the current release notes before installing.</p>
+          </details>
+          <details>
+            <summary>Does it certify compliance?</summary>
+            <p>No. McPherson Governance does not certify compliance, security, safety, visibility, or completeness. Its evidence can support review, but the meaning and sufficiency of that evidence remain bounded by coverage and operator context.</p>
+          </details>
+          <details>
+            <summary>What happens before enforcement receives authority?</summary>
+            <p>Policy behavior, runtime integration, approval handling, evidence quality, failure behavior, and operator controls must be verified as explicit gates. The roadmap does not grant the current release authority it does not have.</p>
+          </details>
+          <details>
+            <summary>How do I install or uninstall it?</summary>
+            <p>Use the tagged public <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.5.0/INSTALL.md">installation guide</a>: verify the package and file manifest, install through OpenClaw’s supported mechanism, configure it disabled, check status, and enable deliberately. For removal, disable first, unpair if needed, run <code>connector-ctl uninstall</code>, and reload the OpenClaw gateway. The tagged <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.5.0/LIFECYCLE.md">lifecycle guide</a> preserves receipts by default and documents irreversible data removal separately.</p>
+          </details>
+          <details>
+            <summary>What OpenClaw versions are supported?</summary>
+            <p>The public <span data-release-text="publicVersion">v0.5.0</span> documentation requires OpenClaw plugin API <code>&gt;=<span data-release-text="openClawPluginApiMinimum">2026.6.5</span></code> and says it was built and tested against OpenClaw <code><span data-release-text="openClawTestedVersion">2026.6.5</span></code>. That is a documented compatibility floor, not a guarantee for every later host version or environment.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Independence statement">
+      <div class="wrap independence">McPherson Governance is an independent product and is not affiliated with or endorsed by the OpenClaw project.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+          <p class="footer-copy">Governance, evidence, and operating systems for action-taking AI agents.</p>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <div class="footer-links"><a href="/governance">Governance</a><a href="/observa">Observa</a><a href="/qsr-systems">QSR Systems</a><a href="/services">Workflow Services</a></div>
+        </div>
+        <div>
+          <h2>Proof and contact</h2>
+          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/contact#governance-setup">Request Founding Setup</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Current public release: <span data-release-text="publicVersion">v0.5.0</span> · Shadow mode</span></div>
+    </div>
+  </footer>
+</body>
+</html>

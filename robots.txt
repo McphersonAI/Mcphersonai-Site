@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /index-*
+Disallow: /pilot-*
+Disallow: /white-paper-*
+Disallow: /mcphersonai-site-backup-apr-1.html
+
+Sitemap: https://mcphersonai.com/sitemap.xml
