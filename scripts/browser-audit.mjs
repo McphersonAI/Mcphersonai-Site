@@ -8,12 +8,14 @@ const baseUrl = (args["base-url"] || "http://127.0.0.1:4173").replace(/\/$/, "")
 const routes = [
   "/",
   "/governance",
+  "/private-beta",
   "/observa",
   "/observa-audit-mode-schema-v0.1",
   "/qsr-systems",
   "/services",
   "/proof",
   "/contact",
+  "/contact?utm_source=clawhub&utm_medium=skill&utm_campaign=governance-v6-shadow-beta&utm_content=qsr-daily-ops-monitor#governance-setup",
   "/this-route-does-not-exist"
 ];
 const viewports = [
@@ -36,6 +38,7 @@ async function inspectPage(route, viewport) {
   const target = await targetResponse.json();
   const socket = new WebSocket(target.webSocketDebuggerUrl);
   const pending = new Map();
+  const browserErrors = [];
   let nextId = 1;
 
   await new Promise((resolve, reject) => {
@@ -45,7 +48,23 @@ async function inspectPage(route, viewport) {
 
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
-    if (!message.id || !pending.has(message.id)) return;
+    if (!message.id) {
+      if (message.method === "Runtime.exceptionThrown") {
+        browserErrors.push(message.params?.exceptionDetails?.text || "uncaught runtime exception");
+      }
+      if (message.method === "Runtime.consoleAPICalled" && message.params?.type === "error") {
+        browserErrors.push("console.error: " + (message.params.args || []).map((arg) => arg.value || arg.description || "").join(" "));
+      }
+      if (message.method === "Log.entryAdded" && message.params?.entry?.level === "error") {
+        const entry = message.params.entry;
+        const expectedDocument404 = route === "/this-route-does-not-exist"
+          && entry.url === url
+          && entry.text.includes("status of 404");
+        if (!expectedDocument404) browserErrors.push("browser log: " + entry.text);
+      }
+      return;
+    }
+    if (!pending.has(message.id)) return;
     const { resolve, reject } = pending.get(message.id);
     pending.delete(message.id);
     if (message.error) reject(new Error(message.error.message));
@@ -62,6 +81,7 @@ async function inspectPage(route, viewport) {
 
   await send("Page.enable");
   await send("Runtime.enable");
+  await send("Log.enable");
   await send("Emulation.setDeviceMetricsOverride", {
     width: viewport.width,
     height: viewport.height,
@@ -109,6 +129,16 @@ async function inspectPage(route, viewport) {
           };
         }),
       githubReleaseLinks: [...document.querySelectorAll("a[href*='/releases/tag/']")].map((element) => element.href),
+      unlabeledControls: [...document.querySelectorAll("input:not([type='hidden']), select, textarea, button")]
+        .filter((element) => {
+          if (element.getAttribute("aria-label") || element.getAttribute("aria-labelledby")) return false;
+          if (element.closest("label")) return false;
+          if (element.id && document.querySelector('label[for="' + CSS.escape(element.id) + '"]')) return false;
+          return element.tagName !== "BUTTON" || !element.textContent.trim();
+        })
+        .map((element) => element.outerHTML.slice(0, 120)),
+      headingLevels: [...document.querySelectorAll("h1, h2, h3, h4, h5, h6")]
+        .map((heading) => Number(heading.tagName.slice(1))),
       positiveTabIndexes: [...document.querySelectorAll("[tabindex]")]
         .filter((element) => Number(element.getAttribute("tabindex")) > 0)
         .map((element) => element.outerHTML.slice(0, 100)),
@@ -156,6 +186,68 @@ async function inspectPage(route, viewport) {
   }
   if (state.escapedElements.length) {
     errors.push(`${route} ${viewport.label}: elements escape the viewport (${state.escapedElements.join(", ")})`);
+  }
+  if (state.unlabeledControls.length) {
+    errors.push(`${route} ${viewport.label}: unlabeled form controls (${state.unlabeledControls.join(", ")})`);
+  }
+  for (let index = 1; index < state.headingLevels.length; index += 1) {
+    if (state.headingLevels[index] - state.headingLevels[index - 1] > 1) {
+      errors.push(`${route} ${viewport.label}: heading level skips from h${state.headingLevels[index - 1]} to h${state.headingLevels[index]}`);
+      break;
+    }
+  }
+
+  if (route.includes("utm_campaign=governance-v6-shadow-beta")) {
+    const funnelResult = await send("Runtime.evaluate", {
+      expression: `JSON.stringify({
+        pathname: location.pathname,
+        search: location.search,
+        hash: location.hash
+      })`,
+      returnByValue: true
+    });
+    const funnelState = JSON.parse(funnelResult.result.value);
+    if (
+      funnelState.pathname !== "/private-beta"
+      || funnelState.hash !== "#apply"
+      || !funnelState.search.includes("utm_source=clawhub")
+      || !funnelState.search.includes("utm_content=qsr-daily-ops-monitor")
+    ) {
+      errors.push(`${route} ${viewport.label}: tracked skill funnel did not preserve its application attribution`);
+    }
+  }
+
+  if (route === "/private-beta") {
+    const formResult = await send("Runtime.evaluate", {
+      expression: `JSON.stringify((() => {
+        const form = document.querySelector("[data-beta-application]");
+        if (!form) return { found: false };
+        const initialValid = form.checkValidity();
+        form.elements.name.value = "Synthetic Tester";
+        form.elements.email.value = "not-an-email";
+        form.elements.role.value = "Operator";
+        form.elements.agents.value = "1";
+        form.elements.goal.value = "Synthetic non-sensitive validation only";
+        form.elements.boundary_acknowledged.checked = true;
+        const invalidEmailRejected = !form.checkValidity();
+        form.elements.email.value = "synthetic@example.invalid";
+        return {
+          found: true,
+          initialValid,
+          invalidEmailRejected,
+          completeValid: form.checkValidity(),
+          action: form.getAttribute("action"),
+          method: form.getAttribute("method")
+        };
+      })())`,
+      returnByValue: true
+    });
+    const formState = JSON.parse(formResult.result.value);
+    if (!formState.found) errors.push(`private beta ${viewport.label}: application form is missing`);
+    if (formState.initialValid) errors.push(`private beta ${viewport.label}: empty required application unexpectedly validates`);
+    if (!formState.invalidEmailRejected) errors.push(`private beta ${viewport.label}: invalid email was not rejected`);
+    if (!formState.completeValid) errors.push(`private beta ${viewport.label}: complete synthetic application did not validate`);
+    if (formState.action || formState.method) errors.push(`private beta ${viewport.label}: form unexpectedly declares a network submission target`);
   }
 
   await send("Runtime.evaluate", {
@@ -361,9 +453,9 @@ async function inspectPage(route, viewport) {
       openState.expanded !== "true"
       || openState.open !== "true"
       || openState.display === "none"
-      || openState.links !== 7
+      || openState.links !== 8
     ) {
-      errors.push("mobile navigation: toggle did not expose all seven links");
+      errors.push("mobile navigation: toggle did not expose all eight links");
     }
 
     await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
@@ -379,6 +471,10 @@ async function inspectPage(route, viewport) {
     if (closedState.expanded !== "false") errors.push("mobile navigation: Escape did not close the menu");
     if (!closedState.toggleFocused) errors.push("mobile navigation: Escape did not return focus to the toggle");
 
+  }
+
+  if (browserErrors.length) {
+    errors.push(`${route} ${viewport.label}: unexpected browser error(s): ${browserErrors.join(" | ")}`);
   }
 
   socket.close();
@@ -399,6 +495,7 @@ if (errors.length) {
 
 console.log(
   `Browser audit passed: ${routes.length} routes at 390px and 1440px, v0.5.1 release/CTA/link assertions, `
-  + "mobile menu toggle/Escape focus return, working skip links, visible focus, dark-link normal/hover/focus states, "
+  + "tracked skill-funnel attribution, synthetic beta-form validation, mobile menu toggle/Escape focus return, "
+  + "working skip links, accessible labels/headings, visible focus, zero browser errors, dark-link normal/hover/focus states, "
   + "and no horizontal overflow or viewport clipping."
 );

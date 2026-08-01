@@ -9,6 +9,7 @@ const errors = [];
 const canonicalRoutes = [
   "/",
   "/governance",
+  "/private-beta",
   "/observa",
   "/qsr-systems",
   "/services",

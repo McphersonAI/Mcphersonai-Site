@@ -9,6 +9,7 @@ const errors = [];
 const primaryPages = new Set([
   "index.html",
   "governance.html",
+  "private-beta.html",
   "observa.html",
   "qsr-systems.html",
   "services.html",
@@ -92,6 +93,21 @@ const indexableTitles = new Map();
 const indexableCanonicals = new Map();
 const htmlCache = new Map();
 
+for (const forbiddenOutput of [
+  "project-docs",
+  "screenshots",
+  ".git",
+  "scripts",
+  "package.json",
+  "package-lock.json",
+  "node_modules",
+  ".env"
+]) {
+  if (files.some((file) => relative(outputRoot, file).split("/").includes(forbiddenOutput))) {
+    errors.push(`forbidden internal output entered dist: ${forbiddenOutput}`);
+  }
+}
+
 for (const file of htmlFiles) {
   const rel = relative(outputRoot, file);
   const html = await readFile(file, "utf8");
@@ -127,7 +143,7 @@ for (const file of htmlFiles) {
   }
 
   if (primaryPages.has(rel)) {
-    const expectedLabels = ["Home", "Governance", "Observa", "QSR Systems", "Services", "Proof", "Contact"];
+    const expectedLabels = ["Home", "Governance", "Private Beta", "Observa", "QSR Systems", "Services", "Proof", "Contact"];
     for (const label of expectedLabels) {
       if (!new RegExp(`>${label}<`).test(html)) errors.push(`${rel}: missing primary navigation label ${label}`);
     }
@@ -210,6 +226,7 @@ for (const [label, pattern] of [
 const redirects = await readFile(join(outputRoot, "_redirects"), "utf8");
 for (const expected of [
   "/governance/ /governance 301",
+  "/private-beta/ /private-beta 301",
   "/observa/ /observa 301",
   "/qsr-systems/ /qsr-systems 301",
   "/services/ /services 301",
@@ -315,6 +332,43 @@ for (const [label, foreground, background] of coreColorPairs) {
 const contact = await readFile(join(outputRoot, "contact.html"), "utf8");
 for (const contactHref of ["mailto:admin@mcphersonai.com", "tel:+16195679869", "sms:+16195679869"]) {
   if (!contact.includes(contactHref)) errors.push(`contact path missing: ${contactHref}`);
+}
+
+const privateBeta = await readFile(join(outputRoot, "private-beta.html"), "utf8");
+for (const requiredBoundary of [
+  "Authority remains <strong>NONE</strong>",
+  "Enforcement remains <strong>OFF</strong>",
+  "No public self-service signup",
+  "No billing, payment flow, plans, or enforcement credits",
+  "Applying does not create an account",
+  "receives the information only to evaluate beta fit and reply",
+  "data-beta-application",
+  "https://mcphersonai.com/og-private-beta.png",
+  "mailto:admin@mcphersonai.com"
+]) {
+  if (!privateBeta.includes(requiredBoundary)) errors.push(`private beta boundary missing: ${requiredBoundary}`);
+}
+
+const privateBetaCard = await readFile(join(outputRoot, "og-private-beta.png"));
+if (privateBetaCard.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") {
+  errors.push("private beta social card is not a valid PNG");
+} else {
+  const cardWidth = privateBetaCard.readUInt32BE(16);
+  const cardHeight = privateBetaCard.readUInt32BE(20);
+  if (cardWidth !== 1200 || cardHeight !== 630) {
+    errors.push(`private beta social card is ${cardWidth}x${cardHeight}; expected 1200x630`);
+  }
+}
+
+const siteSource = await readFile(join(outputRoot, "site.js"), "utf8");
+for (const funnelRequirement of [
+  'utm_campaign") === "governance-v6-shadow-beta"',
+  'new URL("/private-beta", window.location.origin)',
+  'betaUrl.search = window.location.search',
+  'betaUrl.hash = "apply"',
+  '"utm_content"'
+]) {
+  if (!siteSource.includes(funnelRequirement)) errors.push(`skill-funnel preservation missing: ${funnelRequirement}`);
 }
 
 const observa = await readFile(join(outputRoot, "observa.html"), "utf8");

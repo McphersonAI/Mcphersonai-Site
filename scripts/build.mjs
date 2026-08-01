@@ -8,6 +8,7 @@ const outputRoot = join(projectRoot, "dist");
 const publicFiles = [
   "index.html",
   "governance.html",
+  "private-beta.html",
   "observa.html",
   "qsr-systems.html",
   "services.html",
@@ -29,6 +30,7 @@ const publicFiles = [
   "observa-audit-mode-dogfood-demo-polished.pdf",
   "sample-assessment.pdf",
   "og-governance.png",
+  "og-private-beta.png",
   "_redirects",
   "_headers",
   "robots.txt",
@@ -40,6 +42,7 @@ const publicDirectories = ["assets"];
 const routeByFile = {
   "index.html": "/",
   "governance.html": "/governance",
+  "private-beta.html": "/private-beta",
   "observa.html": "/observa",
   "qsr-systems.html": "/qsr-systems",
   "services.html": "/services",

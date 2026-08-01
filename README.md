@@ -7,6 +7,8 @@ visible, so nothing lands in this repo unless it is meant to be public.
 ## Live pages (linked from site navigation)
 
 - `index.html` — home: Accountability for Automated Work
+- `governance.html` — McPherson Governance product and OpenClaw release boundary
+- `private-beta.html` — v0.6 invite-only shadow-beta application and qualification path
 - `what-we-build.html` — services overview
 - `observa.html` — Observa accountability layer + Audit Mode artifacts
 - `observa-audit-mode-schema-v0.1.html` — Audit Mode schema (early public draft)
@@ -36,6 +38,11 @@ visible, so nothing lands in this repo unless it is meant to be public.
 No deployment configuration lives in this repo (no CI workflow, CNAME, or
 host config file). Hosting is managed outside the repo; pushing here does
 not by itself publish anything.
+
+The last verified production release used `main` as the externally managed
+Cloudflare publishing branch. Reconfirm that hosting connection before any
+approved deployment; do not invent or run a direct Cloudflare command from
+this repository.
 
 ## Change policy
 

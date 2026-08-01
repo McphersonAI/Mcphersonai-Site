@@ -1,5 +1,6 @@
 # Cloudflare Pages redirects. Keep old public routes working.
 /governance/ /governance 301
+/private-beta/ /private-beta 301
 /observa/ /observa 301
 /qsr-systems/ /qsr-systems 301
 /services/ /services 301

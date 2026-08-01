@@ -30,6 +30,17 @@
     element.textContent = String(new Date().getFullYear());
   });
 
+  const currentQuery = new URLSearchParams(window.location.search);
+  const isGovernanceBetaCampaign = currentQuery.get("utm_campaign") === "governance-v6-shadow-beta";
+  const isLegacyContactPath = ["/contact", "/contact.html"].includes(window.location.pathname);
+  if (isGovernanceBetaCampaign && isLegacyContactPath) {
+    const betaUrl = new URL("/private-beta", window.location.origin);
+    betaUrl.search = window.location.search;
+    betaUrl.hash = "apply";
+    window.location.replace(betaUrl);
+    return;
+  }
+
   document.querySelectorAll("[data-nav-toggle]").forEach(function (button) {
     const navId = button.getAttribute("aria-controls");
     const nav = document.getElementById(navId);
@@ -55,6 +66,55 @@
         closeNav();
         button.focus();
       }
+    });
+  });
+
+  document.querySelectorAll("[data-beta-application]").forEach(function (form) {
+    const statusMessage = form.querySelector("[data-beta-form-status]");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const query = new URLSearchParams(window.location.search);
+      const attribution = ["utm_source", "utm_medium", "utm_campaign", "utm_content"]
+        .map(function (key) {
+          const attributionValue = query.get(key);
+          return attributionValue ? key + "=" + attributionValue : "";
+        })
+        .filter(Boolean);
+      const source = attribution.join("; ") || query.get("source") || "Website";
+      const value = function (key) {
+        return String(data.get(key) || "").trim();
+      };
+      const lines = [
+        "Observa / McPherson Governance v0.6 Private Beta Application",
+        "",
+        "Name: " + value("name"),
+        "Email: " + value("email"),
+        "Company or project: " + (value("company") || "Not provided"),
+        "Role: " + value("role"),
+        "OpenClaw agents: " + value("agents"),
+        "OpenClaw version or channel: " + (value("openclaw") || "Not provided"),
+        "Open to design-partner conversation: " + (value("design_partner") || "No"),
+        "Application source: " + source,
+        "",
+        "Workflow and review goal:",
+        value("goal"),
+        "",
+        "Boundary acknowledged: " + value("boundary_acknowledged")
+      ];
+      const subject = "Observa v0.6 Private Beta Application — " + value("name");
+      const mailto = "mailto:admin@mcphersonai.com?subject="
+        + encodeURIComponent(subject)
+        + "&body="
+        + encodeURIComponent(lines.join("\n"));
+
+      if (statusMessage) {
+        statusMessage.textContent = "Your mail app is opening. Review the application before sending it to Blake.";
+      }
+      window.location.href = mailto;
     });
   });
 })();

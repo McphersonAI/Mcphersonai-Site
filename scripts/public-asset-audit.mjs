@@ -9,6 +9,7 @@ const assets = [
   ["/release-status.js", "javascript"],
   ["/site.js", "javascript"],
   ["/og-governance.png", "image/png"],
+  ["/og-private-beta.png", "image/png"],
   ["/observa-audit-mode-dogfood-demo-polished.pdf", "application/pdf"],
   ["/sample-assessment.pdf", "application/pdf"],
   ["/assets/papers/McPherson_AI_Agent_Infrastructure_White_Paper_v1.0.pdf", "application/pdf"],
