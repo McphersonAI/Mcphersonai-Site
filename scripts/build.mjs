@@ -27,6 +27,8 @@ const publicFiles = [
   "styles.css",
   "release-status.js",
   "site.js",
+  "favicon.ico",
+  "favicon.svg",
   "observa-audit-mode-dogfood-demo-polished.pdf",
   "sample-assessment.pdf",
   "og-governance.png",

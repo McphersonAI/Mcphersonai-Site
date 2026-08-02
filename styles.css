@@ -869,6 +869,14 @@ p {
   color: var(--white);
 }
 
+.split-callout .eyebrow {
+  color: #ffc99f;
+}
+
+.split-callout .eyebrow::before {
+  background: #ff9a4d;
+}
+
 .split-callout p {
   margin-top: 16px;
   color: rgba(255, 255, 255, 0.74);
@@ -1144,7 +1152,7 @@ p {
 .field textarea {
   width: 100%;
   min-height: 50px;
-  border: 1px solid #bac5d4;
+  border: 1px solid #8391a5;
   border-radius: 9px;
   background: var(--white);
   color: var(--ink);
@@ -1160,15 +1168,37 @@ p {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #707c8f;
+  color: #657286;
+  opacity: 1;
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   border-color: var(--orange);
-  outline: 3px solid rgba(198, 83, 13, 0.18);
-  outline-offset: 1px;
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled,
+.beta-application button:disabled {
+  border-color: #8391a5;
+  background: #eef1f5;
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"],
+.field textarea[aria-invalid="true"],
+.field input:user-invalid,
+.field select:user-invalid,
+.field textarea:user-invalid {
+  border-color: #a3342d;
+  outline-color: #a3342d;
 }
 
 .choice {
@@ -1202,6 +1232,54 @@ p {
   margin-top: 14px;
   color: var(--muted);
   font-size: 13px;
+}
+
+.application-fallback {
+  margin-top: 22px;
+  border: 2px solid #8391a5;
+  border-radius: var(--radius-sm);
+  background: var(--mist);
+  padding: 20px;
+}
+
+.application-fallback[hidden] {
+  display: none;
+}
+
+.application-fallback h3 {
+  font-size: 20px;
+}
+
+.application-fallback p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.application-fallback .field {
+  margin-top: 16px;
+}
+
+.application-fallback textarea {
+  min-height: 260px;
+  background: var(--white);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.application-fallback .cta-row {
+  margin-top: 16px;
+}
+
+.copy-status {
+  min-height: 1.5em;
+  color: var(--navy-800);
+  font-weight: 800;
+}
+
+.copy-status[data-state="error"] {
+  color: #8a2d27;
 }
 
 .independence {

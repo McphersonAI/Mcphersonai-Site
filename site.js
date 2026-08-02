@@ -62,7 +62,7 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && nav.dataset.open === "true") {
         closeNav();
         button.focus();
       }
@@ -71,6 +71,52 @@
 
   document.querySelectorAll("[data-beta-application]").forEach(function (form) {
     const statusMessage = form.querySelector("[data-beta-form-status]");
+    const fallback = form.querySelector("[data-beta-fallback]");
+    const preparedApplication = form.querySelector("[data-beta-prepared]");
+    const mailtoLink = form.querySelector("[data-beta-mailto]");
+    const copyButton = form.querySelector("[data-beta-copy]");
+    const copyStatus = form.querySelector("[data-beta-copy-status]");
+    let preparedText = "";
+
+    function announceCopy(message, state) {
+      if (!copyStatus) return;
+      copyStatus.dataset.state = state;
+      copyStatus.textContent = message;
+    }
+
+    if (copyButton) {
+      copyButton.addEventListener("click", async function () {
+        if (!preparedText) {
+          announceCopy("Prepare the application before copying it.", "error");
+          return;
+        }
+
+        try {
+          if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+            throw new Error("Clipboard API unavailable");
+          }
+          await navigator.clipboard.writeText(preparedText);
+          announceCopy("Application copied. Email it to admin@mcphersonai.com.", "success");
+        } catch (error) {
+          let copied = false;
+          if (preparedApplication) {
+            preparedApplication.focus();
+            preparedApplication.select();
+            try {
+              copied = typeof document.execCommand === "function" && document.execCommand("copy");
+            } catch (fallbackError) {
+              copied = false;
+            }
+          }
+          announceCopy(
+            copied
+              ? "Application copied. Email it to admin@mcphersonai.com."
+              : "Copy failed. Select the prepared application and copy it manually, then email admin@mcphersonai.com.",
+            copied ? "success" : "error"
+          );
+        }
+      });
+    }
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -78,7 +124,7 @@
 
       const data = new FormData(form);
       const query = new URLSearchParams(window.location.search);
-      const attribution = ["utm_source", "utm_medium", "utm_campaign", "utm_content"]
+      const attribution = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
         .map(function (key) {
           const attributionValue = query.get(key);
           return attributionValue ? key + "=" + attributionValue : "";
@@ -111,10 +157,22 @@
         + "&body="
         + encodeURIComponent(lines.join("\n"));
 
+      preparedText = [
+        "To: admin@mcphersonai.com",
+        "Subject: " + subject,
+        "",
+        lines.join("\n")
+      ].join("\n");
+
+      if (preparedApplication) preparedApplication.value = preparedText;
+      if (mailtoLink) mailtoLink.setAttribute("href", mailto);
+      if (fallback) fallback.hidden = false;
+      announceCopy("", "");
+
       if (statusMessage) {
-        statusMessage.textContent = "Your mail app is opening. Review the application before sending it to Blake.";
+        statusMessage.textContent = "Your application has been prepared for your email app. If it does not open, copy the application below and email it to admin@mcphersonai.com.";
       }
-      window.location.href = mailto;
+      if (mailtoLink) mailtoLink.click();
     });
   });
 })();

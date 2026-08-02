@@ -117,6 +117,12 @@ for (const file of htmlFiles) {
   const h1Count = (html.match(/<h1(?:\s|>)/gi) || []).length;
 
   if (!title) errors.push(`${rel}: missing title`);
+  for (const iconDeclaration of [
+    '<link rel="icon" href="/favicon.ico" type="image/x-icon">',
+    '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
+  ]) {
+    if (!html.includes(iconDeclaration)) errors.push(`${rel}: missing valid root icon declaration ${iconDeclaration}`);
+  }
   if (!noindex) {
     if (!description) errors.push(`${rel}: missing meta description`);
     if (!/<link\s+rel=["']canonical["']/i.test(html)) errors.push(`${rel}: missing canonical`);
@@ -329,6 +335,26 @@ for (const [label, foreground, background] of coreColorPairs) {
   if (ratio < 4.5) errors.push(`${label}: ${ratio.toFixed(2)}:1 contrast is below 4.5:1`);
 }
 
+for (const [label, foreground, background, minimum] of [
+  ["dark-callout eyebrow on navy", "ffc99f", "0a172d", 4.5],
+  ["form-control boundary on white", "8391a5", "ffffff", 3],
+  ["form placeholder on white", "657286", "ffffff", 4.5],
+  ["form focus indicator on white", "c6530d", "ffffff", 3]
+]) {
+  const ratio = contrastRatio(foreground, background);
+  if (ratio < minimum) errors.push(`${label}: ${ratio.toFixed(2)}:1 contrast is below ${minimum}:1`);
+}
+for (const requiredStyle of [
+  ".split-callout .eyebrow",
+  "border: 1px solid #8391a5",
+  "color: #657286",
+  ".field input:disabled",
+  'input[aria-invalid="true"]',
+  "outline: 3px solid var(--orange)"
+]) {
+  if (!css.includes(requiredStyle)) errors.push(`repaired contrast/state style missing: ${requiredStyle}`);
+}
+
 const contact = await readFile(join(outputRoot, "contact.html"), "utf8");
 for (const contactHref of ["mailto:admin@mcphersonai.com", "tel:+16195679869", "sms:+16195679869"]) {
   if (!contact.includes(contactHref)) errors.push(`contact path missing: ${contactHref}`);
@@ -344,7 +370,13 @@ for (const requiredBoundary of [
   "receives the information only to evaluate beta fit and reply",
   "data-beta-application",
   "https://mcphersonai.com/og-private-beta.png",
-  "mailto:admin@mcphersonai.com"
+  "mailto:admin@mcphersonai.com",
+  "data-beta-fallback",
+  "data-beta-prepared",
+  "data-beta-copy",
+  "data-beta-copy-status",
+  "Your application has been prepared for your email app",
+  "admin@mcphersonai.com"
 ]) {
   if (!privateBeta.includes(requiredBoundary)) errors.push(`private beta boundary missing: ${requiredBoundary}`);
 }
@@ -360,16 +392,69 @@ if (privateBetaCard.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") {
   }
 }
 
+const favicon = await readFile(join(outputRoot, "favicon.ico"));
+if (favicon.length < 16 || favicon.subarray(0, 4).toString("hex") !== "00000100") {
+  errors.push("root favicon.ico is missing or is not a valid ICO resource");
+}
+const faviconSvg = await readFile(join(outputRoot, "favicon.svg"), "utf8");
+if (!faviconSvg.includes("#10213f") || !faviconSvg.includes("#ff9a4d")) {
+  errors.push("favicon.svg does not preserve the McPherson AI navy/orange brand colors");
+}
+
 const siteSource = await readFile(join(outputRoot, "site.js"), "utf8");
 for (const funnelRequirement of [
   'utm_campaign") === "governance-v6-shadow-beta"',
   'new URL("/private-beta", window.location.origin)',
   'betaUrl.search = window.location.search',
   'betaUrl.hash = "apply"',
-  '"utm_content"'
+  '"utm_content"',
+  '"utm_term"',
+  'event.key === "Escape" && nav.dataset.open === "true"',
+  "navigator.clipboard.writeText(preparedText)",
+  'document.execCommand("copy")',
+  "Application copied. Email it to admin@mcphersonai.com.",
+  "Copy failed. Select the prepared application"
 ]) {
   if (!siteSource.includes(funnelRequirement)) errors.push(`skill-funnel preservation missing: ${funnelRequirement}`);
 }
+
+if (siteSource.includes("Your mail app is opening") || siteSource.includes("mail app opened")) {
+  errors.push("application experience still claims that an external mail handler opened");
+}
+
+const headers = await readFile(join(outputRoot, "_headers"), "utf8");
+for (const headerRequirement of [
+  "Content-Security-Policy: default-src 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "Permissions-Policy:",
+  "Referrer-Policy: strict-origin-when-cross-origin",
+  "X-Content-Type-Options: nosniff",
+  "X-Frame-Options: DENY"
+]) {
+  if (!headers.includes(headerRequirement)) errors.push(`security header disposition missing: ${headerRequirement}`);
+}
+if (/script-src[^;\n]*'unsafe-inline'/.test(headers) || /default-src[^;\n]*\*/.test(headers)) {
+  errors.push("security headers contain an unsafe broad script/default source allowance");
+}
+
+const readme = await readFile(join(projectRoot, "README.md"), "utf8");
+const packageJson = JSON.parse(await readFile(join(projectRoot, "package.json"), "utf8"));
+for (const documentationRequirement of [
+  `Node.js ${packageJson.engines.node.replace(">=", "")} or newer`,
+  "`npm run build`",
+  "`dist/`",
+  "`npm run preview`",
+  "The production branch",
+  "assumption is `main`",
+  "may trigger an externally managed",
+  "requires Blake's explicit approval"
+]) {
+  if (!readme.includes(documentationRequirement)) {
+    errors.push(`README build/deployment documentation missing: ${documentationRequirement}`);
+  }
+}
+if (/no build step/i.test(readme)) errors.push("README still contradicts the authoritative build command");
 
 const observa = await readFile(join(outputRoot, "observa.html"), "utf8");
 const proof = await readFile(join(outputRoot, "proof.html"), "utf8");
