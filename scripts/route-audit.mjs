@@ -9,6 +9,7 @@ const errors = [];
 const canonicalRoutes = [
   "/",
   "/governance",
+  "/private-beta",
   "/observa",
   "/qsr-systems",
   "/services",
@@ -40,13 +41,15 @@ async function request(path) {
     status: response.status,
     location: response.headers.get("location"),
     contentType: response.headers.get("content-type") || "",
+    headers: Object.fromEntries(response.headers.entries()),
     body: await response.text()
   };
 }
 
-function locationPath(result) {
+function locationTarget(result) {
   if (!result.location) return "";
-  return new URL(result.location, `${baseUrl}${result.path}`).pathname;
+  const destination = new URL(result.location, `${baseUrl}${result.path}`);
+  return `${destination.pathname}${destination.search}${destination.hash}`;
 }
 
 async function expectSingleRedirect(from, to, allowedStatuses = [301]) {
@@ -55,7 +58,7 @@ async function expectSingleRedirect(from, to, allowedStatuses = [301]) {
     errors.push(`${from}: expected redirect ${allowedStatuses.join("/")}, received ${first.status}`);
     return;
   }
-  const actualTarget = locationPath(first);
+  const actualTarget = locationTarget(first);
   if (actualTarget !== to) {
     errors.push(`${from}: expected Location ${to}, received ${first.location || "none"}`);
     return;
@@ -84,6 +87,33 @@ await expectSingleRedirect(
   "/observa-audit-mode-schema-v0.1",
   [301, 302, 307, 308]
 );
+
+const preservedQuery = "?utm_source=route-audit&utm_medium=preview&ref=case-17";
+const queryRedirects = [
+  ...slashRoutes.map(([from, to]) => [`${from}${preservedQuery}`, `${to}${preservedQuery}`]),
+  ...legacyRoutes.map(([from, to]) => [`${from}${preservedQuery}`, `${to}${preservedQuery}`]),
+  [`/governance.html${preservedQuery}`, `/governance${preservedQuery}`],
+  [
+    `/observa-audit-mode-schema-v0.1.html${preservedQuery}`,
+    `/observa-audit-mode-schema-v0.1${preservedQuery}`
+  ]
+];
+for (const [from, to] of queryRedirects) {
+  await expectSingleRedirect(from, to, [301, 302, 307, 308]);
+}
+
+const headerResult = await request("/");
+for (const [name, expected] of [
+  ["content-security-policy", "default-src 'self'"],
+  ["permissions-policy", "camera=()"],
+  ["referrer-policy", "strict-origin-when-cross-origin"],
+  ["x-content-type-options", "nosniff"],
+  ["x-frame-options", "DENY"]
+]) {
+  if (!headerResult.headers[name]?.includes(expected)) {
+    errors.push(`/: missing or incorrect ${name} defense-in-depth header`);
+  }
+}
 
 for (const path of ["/this-route-does-not-exist"]) {
   const result = await request(path);
@@ -125,5 +155,6 @@ if (errors.length) {
 console.log(
   `Route audit passed against ${baseUrl}: ${canonicalRoutes.length} canonical 200 routes, `
   + `${slashRoutes.length} one-step slash redirects, ${legacyRoutes.length} one-step legacy redirects, `
-  + "Cloudflare-compatible schema .html canonicalization, a custom unknown-route 404, and no case mismatch returned the homepage."
+  + `${queryRedirects.length} query-preserving redirect cases, Cloudflare-compatible .html canonicalization, `
+  + "five security-header checks, a custom unknown-route 404, and no case mismatch returned the homepage."
 );

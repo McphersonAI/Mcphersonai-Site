@@ -1,12 +1,24 @@
 # McPherson AI — mcphersonai.com
 
-Public marketing site for McPherson AI. Plain static HTML — no build step,
-no framework, no server-side code. Every file committed here is publicly
-visible, so nothing lands in this repo unless it is meant to be public.
+Public marketing site for McPherson AI. It uses plain static HTML with no
+framework or server-side application code. The authoritative build copies and
+validates the public surface before preview or release. Every file committed
+here is potentially visible to repository readers, so nothing lands in this
+repo unless it is appropriate for that audience.
+
+## Build and local preview
+
+- Node.js 20 or newer is required.
+- Run `npm run build` to create the production candidate in `dist/`.
+- Run `npm run preview` to serve `dist/` at `http://127.0.0.1:4173`.
+- Run `npm run audit` and the route, asset, external-link, and browser audits
+  before approving a release candidate.
 
 ## Live pages (linked from site navigation)
 
 - `index.html` — home: Accountability for Automated Work
+- `governance.html` — McPherson Governance product and OpenClaw release boundary
+- `private-beta.html` — v0.6 invite-only shadow-beta application and qualification path
 - `what-we-build.html` — services overview
 - `observa.html` — Observa accountability layer + Audit Mode artifacts
 - `observa-audit-mode-schema-v0.1.html` — Audit Mode schema (early public draft)
@@ -34,8 +46,12 @@ visible, so nothing lands in this repo unless it is meant to be public.
 ## Deployment
 
 No deployment configuration lives in this repo (no CI workflow, CNAME, or
-host config file). Hosting is managed outside the repo; pushing here does
-not by itself publish anything.
+host config file). Hosting is managed outside the repo. The production branch
+assumption is `main`: pushing `main` may trigger an externally managed
+Cloudflare deployment. Any push or merge that could update `main` therefore
+requires Blake's explicit approval. Reconfirm the hosting connection before
+an approved deployment; do not invent or run a direct Cloudflare command from
+this repository.
 
 ## Change policy
 

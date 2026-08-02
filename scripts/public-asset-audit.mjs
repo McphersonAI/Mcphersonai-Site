@@ -5,10 +5,13 @@ const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, inde
 
 const baseUrl = (args["base-url"] || "http://127.0.0.1:4173").replace(/\/$/, "");
 const assets = [
+  ["/favicon.ico", "image/x-icon"],
+  ["/favicon.svg", "image/svg+xml"],
   ["/styles.css", "text/css"],
   ["/release-status.js", "javascript"],
   ["/site.js", "javascript"],
   ["/og-governance.png", "image/png"],
+  ["/og-private-beta.png", "image/png"],
   ["/observa-audit-mode-dogfood-demo-polished.pdf", "application/pdf"],
   ["/sample-assessment.pdf", "application/pdf"],
   ["/assets/papers/McPherson_AI_Agent_Infrastructure_White_Paper_v1.0.pdf", "application/pdf"],
