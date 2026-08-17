@@ -16,11 +16,14 @@ repo unless it is appropriate for that audience.
 
 ## Live pages (linked from site navigation)
 
-- `index.html` — home: Accountability for Automated Work
-- `governance.html` — McPherson Governance product and OpenClaw release boundary
-- `private-beta.html` — v0.6 invite-only shadow-beta application and qualification path
-- `what-we-build.html` — services overview
-- `observa.html` — Observa accountability layer + Audit Mode artifacts
+- `index.html`: home. Agent says it worked. Observa checks reality.
+- `governance.html`: McPherson Governance public OpenClaw plugin and the
+  public-plugin/private-beta distinction
+- `private-beta.html`: Observa private beta (n8n + OpenClaw) request and
+  onboarding path; the canonical beta conversion page
+- `what-we-build.html`: services overview
+- `observa.html`: Observa governance and independent-verification layer
+  (discover, map, observe, govern, verify) + Audit Mode artifacts
 - `observa-audit-mode-schema-v0.1.html` — Audit Mode schema (early public draft)
 - `when-the-agent-acts.html` — "When the Agent Acts" white paper page
 - `white-paper.html` — Agent Infrastructure white paper page
@@ -39,6 +42,7 @@ repo unless it is appropriate for that audience.
 ## Assets
 
 - `assets/papers/` — downloadable white paper PDFs
+- `assets/video/`: the Observa private beta demo video and its poster frame
 - `observa-audit-mode-dogfood-demo-polished.pdf`, `sample-assessment.pdf`
   — public proof artifacts linked from pages
 - `workflow-proof-panel.png`, `thumbnail.jpg` — images

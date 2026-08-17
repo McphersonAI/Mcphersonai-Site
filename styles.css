@@ -1567,3 +1567,22 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+.video-frame {
+  margin-top: 26px;
+  max-width: 960px;
+}
+
+.video-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(16, 33, 63, 0.16);
+  background: var(--navy-950);
+  box-shadow: 0 18px 50px rgba(10, 23, 45, 0.16);
+}
+
+.video-frame .caption {
+  margin-top: 12px;
+}

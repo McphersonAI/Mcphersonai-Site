@@ -28,8 +28,8 @@ const viewports = [
   { label: "desktop", width: 1440, height: 1200 }
 ];
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.5.1";
-const releaseRoutes = new Set(["/", "/governance", "/observa", "/proof"]);
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.6.2";
+const releaseRoutes = new Set(["/", "/governance", "/proof"]);
 const installRoutes = new Set(["/", "/governance", "/proof"]);
 const redirectExpectations = new Map([
   ["/governance/?utm_source=browser-audit&ref=slash", ["/governance", "?utm_source=browser-audit&ref=slash"]],
@@ -257,8 +257,9 @@ async function inspectPage(route, viewport) {
   if (!state.skipLinkPresent) errors.push(`${route} ${viewport.label}: skip link is missing`);
   if (!state.primaryCtaPresent) errors.push(`${route} ${viewport.label}: primary CTA hierarchy is missing`);
   if (state.bodyText.includes("v0.5.0")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.0 label remains`);
-  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.5.1")) {
-    errors.push(`${route} ${viewport.label}: current v0.5.1 release label is not visible`);
+  if (state.bodyText.includes("v0.5.1")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.1 label remains`);
+  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.6.2")) {
+    errors.push(`${route} ${viewport.label}: current v0.6.2 release label is not visible`);
   }
   if (installRoutes.has(route)) {
     if (!state.installCtas.length) {
@@ -267,7 +268,7 @@ async function inspectPage(route, viewport) {
       errors.push(`${route} ${viewport.label}: install CTA is not visible with the correct ClawHub destination`);
     }
     if (!state.githubReleaseLinks.includes(expectedGithubReleaseUrl)) {
-      errors.push(`${route} ${viewport.label}: v0.5.1 GitHub release link is missing`);
+      errors.push(`${route} ${viewport.label}: v0.6.2 GitHub release link is missing`);
     }
   }
   if (["/governance", "/proof"].includes(route) && !state.bodyText.includes("2026.6.5")) {
@@ -369,6 +370,7 @@ async function inspectPage(route, viewport) {
         form.elements.name.value = "Synthetic Tester";
         form.elements.email.value = "not-an-email";
         form.elements.role.value = "Operator";
+        form.elements.runtime.value = "n8n";
         form.elements.agents.value = "1";
         form.elements.goal.value = "Synthetic non-sensitive validation only";
         form.elements.boundary_acknowledged.checked = true;
@@ -384,7 +386,7 @@ async function inspectPage(route, viewport) {
             placeholderColor: getComputedStyle(control, "::placeholder").color
           };
         });
-        const focusControl = form.elements.openclaw;
+        const focusControl = form.elements.runtime_version;
         focusControl.focus();
         const focusStyle = getComputedStyle(focusControl);
         const focusState = {
@@ -538,11 +540,12 @@ async function inspectPage(route, viewport) {
     const preparedState = JSON.parse(preparedResult.result.value);
     for (const requiredText of [
       "To: admin@mcphersonai.com",
-      "Subject: Observa v0.6 Private Beta Application",
+      "Subject: Observa Private Beta Application",
       "Name: Synthetic Tester",
       "Email: synthetic@example.invalid",
       "Role: Operator",
-      "OpenClaw agents: 1",
+      "Runtime: n8n",
+      "Agents or workflows in scope: 1",
       "Workflow and review goal:",
       "Boundary acknowledged: Yes"
     ]) {
@@ -808,7 +811,7 @@ async function inspectPage(route, viewport) {
     }
 
     for (const selector of [
-      'input[name="openclaw"]',
+      'input[name="runtime_version"]',
       'textarea[name="goal"]',
       'select[name="role"]',
       "[data-beta-copy]"

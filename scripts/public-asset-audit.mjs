@@ -16,6 +16,8 @@ const assets = [
   ["/sample-assessment.pdf", "application/pdf"],
   ["/assets/papers/McPherson_AI_Agent_Infrastructure_White_Paper_v1.0.pdf", "application/pdf"],
   ["/assets/papers/McPherson_AI_When_the_Agent_Acts_Final_Navy_Orange.pdf", "application/pdf"],
+  ["/assets/video/observa-private-beta-demo.mp4", "video/mp4"],
+  ["/assets/video/observa-private-beta-demo-poster.jpg", "image/jpeg"],
   ["/robots.txt", "text/plain"],
   ["/sitemap.xml", "application/xml"]
 ];

@@ -123,17 +123,17 @@ for (const path of ["/this-route-does-not-exist"]) {
   if (!/name=["']robots["']\s+content=["']noindex,\s*follow["']/i.test(result.body)) {
     errors.push(`${path}: 404 response is missing noindex, follow`);
   }
-  if (result.body.includes("Know what your AI agents did, what policy says")) {
+  if (result.body.includes("Agent says it worked. Observa checks reality.")) {
     errors.push(`${path}: unknown route silently returned the homepage`);
   }
 }
 
 for (const [path, expectedPageText] of [
   ["/Governance", "See what your OpenClaw agents did before you give governance the power to stop them."],
-  ["/OBSERVA", "Turn agent evidence into something an operator can actually review."]
+  ["/OBSERVA", "Your agent says the job finished. Observa checks what actually happened."]
 ]) {
   const result = await request(path);
-  const returnedHomepage = result.body.includes("Know what your AI agents did, what policy says");
+  const returnedHomepage = result.body.includes("Agent says it worked. Observa checks reality.");
   if (returnedHomepage) errors.push(`${path}: case-mismatched route silently returned the homepage`);
   if (result.status === 404) {
     if (!result.body.includes("<h1>Page not found.</h1>")) errors.push(`${path}: 404 did not use the custom page`);
