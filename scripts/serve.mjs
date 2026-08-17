@@ -15,6 +15,7 @@ const contentTypes = {
   ".js": "text/javascript; charset=utf-8",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
+  ".mp4": "video/mp4",
   ".png": "image/png",
   ".pdf": "application/pdf",
   ".svg": "image/svg+xml",

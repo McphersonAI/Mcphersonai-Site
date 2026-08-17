@@ -135,14 +135,15 @@
         return String(data.get(key) || "").trim();
       };
       const lines = [
-        "Observa / McPherson Governance v0.6 Private Beta Application",
+        "Observa Private Beta Application",
         "",
         "Name: " + value("name"),
         "Email: " + value("email"),
         "Company or project: " + (value("company") || "Not provided"),
         "Role: " + value("role"),
-        "OpenClaw agents: " + value("agents"),
-        "OpenClaw version or channel: " + (value("openclaw") || "Not provided"),
+        "Runtime: " + value("runtime"),
+        "Agents or workflows in scope: " + value("agents"),
+        "Runtime version or hosting: " + (value("runtime_version") || "Not provided"),
         "Open to design-partner conversation: " + (value("design_partner") || "No"),
         "Application source: " + source,
         "",
@@ -151,7 +152,7 @@
         "",
         "Boundary acknowledged: " + value("boundary_acknowledged")
       ];
-      const subject = "Observa v0.6 Private Beta Application — " + value("name");
+      const subject = "Observa Private Beta Application - " + value("name");
       const mailto = "mailto:admin@mcphersonai.com?subject="
         + encodeURIComponent(subject)
         + "&body="

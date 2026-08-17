@@ -25,6 +25,11 @@ const prohibitedPhrases = [
   "fully enforced",
   "production enforcement",
   "plugin coming soon",
+  "coming soon",
+  "invite-only",
+  "preparing the invite-only",
+  "v0.6 private beta",
+  "v0.6 shadow beta",
   "Join the design partners",
   "Observa is the McPherson AI accountability layer",
   "zero risk",
@@ -279,10 +284,10 @@ for (const rule of redirectRules) {
 
 const statusSource = await readFile(join(outputRoot, "release-status.js"), "utf8");
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.5.1";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.6.2";
 for (const [label, value] of [
-  ["release version", 'publicVersion: "v0.5.1"'],
-  ["numeric release version", 'publicVersionNumber: "0.5.1"'],
+  ["release version", 'publicVersion: "v0.6.2"'],
+  ["numeric release version", 'publicVersionNumber: "0.6.2"'],
   ["public status", 'releaseStatus: "Public and verified"'],
   ["release label", 'releaseLabel: "Public release"'],
   ["primary CTA", 'primaryCtaLabel: "Install the Free Plugin"'],
@@ -306,6 +311,15 @@ if (/\bv?0\.5\.0\b/.test(renderedText)) {
 }
 if (renderedText.includes("/releases/tag/v0.5.0") || renderedText.includes("/blob/v0.5.0/")) {
   errors.push("a stale v0.5.0 public release link remains");
+}
+if (/\bv?0\.5\.1\b/.test(renderedText)) {
+  errors.push("a stale v0.5.1 label remains in current public output");
+}
+if (renderedText.includes("/releases/tag/v0.5.1") || renderedText.includes("/blob/v0.5.1/")) {
+  errors.push("a stale v0.5.1 public release link remains");
+}
+if (/\bv?0\.6\.0\b/.test(renderedText) || /\bv?0\.6\.1\b/.test(renderedText)) {
+  errors.push("a stale v0.6.0 or v0.6.1 label remains in current public output");
 }
 for (const page of ["index.html", "governance.html", "proof.html"]) {
   const html = await readFile(join(outputRoot, page), "utf8");
@@ -379,6 +393,29 @@ for (const requiredBoundary of [
   "admin@mcphersonai.com"
 ]) {
   if (!privateBeta.includes(requiredBoundary)) errors.push(`private beta boundary missing: ${requiredBoundary}`);
+}
+
+for (const page of ["index.html", "private-beta.html"]) {
+  const html = await readFile(join(outputRoot, page), "utf8");
+  for (const videoRequirement of [
+    '<source src="/assets/video/observa-private-beta-demo.mp4" type="video/mp4">',
+    'poster="/assets/video/observa-private-beta-demo-poster.jpg"',
+    "controls playsinline preload=\"metadata\""
+  ]) {
+    if (!html.includes(videoRequirement)) errors.push(`${page}: demo video integration missing: ${videoRequirement}`);
+  }
+}
+const demoVideoPath = join(outputRoot, "assets", "video", "observa-private-beta-demo.mp4");
+const demoPosterPath = join(outputRoot, "assets", "video", "observa-private-beta-demo-poster.jpg");
+if (!await exists(demoVideoPath)) {
+  errors.push("demo video asset is missing from dist");
+} else if ((await readFile(demoVideoPath)).length < 1_000_000) {
+  errors.push("demo video asset in dist is unexpectedly small");
+}
+if (!await exists(demoPosterPath)) {
+  errors.push("demo video poster is missing from dist");
+} else if ((await readFile(demoPosterPath)).subarray(0, 2).toString("hex") !== "ffd8") {
+  errors.push("demo video poster is not a valid JPEG");
 }
 
 const privateBetaCard = await readFile(join(outputRoot, "og-private-beta.png"));
@@ -537,6 +574,6 @@ if (errors.length) {
 
 console.log(
   `Audit passed: ${htmlFiles.length} HTML pages and ${files.length} public files; internal links/fragments, `
-  + "v0.5.1 release state and CTAs, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
+  + "v0.6.2 release state and CTAs, demo video integration, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
   + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean."
 );
