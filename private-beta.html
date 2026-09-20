@@ -57,6 +57,7 @@
             <a class="btn primary" href="#apply">Request Private Beta Access</a>
             <a class="btn" href="#demo">Watch the Demo</a>
             <a class="text-link" href="/observa">Explore Observa →</a>
+            <a class="text-link" href="/observa/getting-started">Docs and help →</a>
           </div>
           <div class="status-bar" aria-label="Private beta boundaries">
             <span class="badge beta">Private beta open</span>
@@ -106,16 +107,29 @@
         <div class="section-head">
           <div>
             <div class="eyebrow">What happens</div>
-            <h2 id="access-title">Founder-assisted onboarding, starting with one bounded workflow.</h2>
+            <h2 id="access-title">Self-service request. Human-reviewed access.</h2>
           </div>
-          <p class="lead">There is no public self-service signup. Blake works with each participant directly, so the beta stays small and the feedback stays real.</p>
+          <p class="lead">You start the request yourself from the command line. A person still reviews every one, so the beta stays small and the feedback stays real &mdash; and founder-assisted onboarding remains available throughout.</p>
         </div>
-        <ol class="flow beta-flow" aria-label="Private beta onboarding process">
-          <li><strong>Request access</strong><span>Share non-sensitive context about your workflow and goals.</span></li>
-          <li><strong>Scope</strong><span>Pick one bounded workflow with Blake and confirm runtime fit.</span></li>
-          <li><strong>Map</strong><span>Observa discovers and maps it; you review and classify the mappings.</span></li>
-          <li><strong>Observe and verify</strong><span>Governance evidence accumulates and supported outcomes are independently verified.</span></li>
-        </ol>
+        <div class="onboarding-steps">
+          <div class="onboarding-cmds">
+            <p class="cmd-label">Install the Local Node CLI</p>
+            <pre><code>npm install -g @mcpherson-ai/observa-local-node</code></pre>
+            <p class="cmd-label">Request access</p>
+            <pre><code>observa request-access --api-url https://governance-plane-observa.tailb473db.ts.net</code></pre>
+            <p class="cmd-label">Check where you stand, any time</p>
+            <pre><code>observa request-status</code></pre>
+            <p class="fine-print">Requires Node.js 22 or newer. Installing the package activates nothing: it has zero
+              dependencies, runs no install scripts, and contacts nothing until you explicitly request access.</p>
+          </div>
+          <ol class="flow beta-flow" aria-label="Private beta onboarding process">
+            <li><strong>Email verification</strong><span>A one-time code, valid for 10 minutes, proves the address is yours.</span></li>
+            <li><strong>Human approval</strong><span>A person reviews the request and decides. This step is never automatic.</span></li>
+            <li><strong>Pairing</strong><span>Approval sends a single-use invitation. Sign in, create a pairing code, and pair this installation.</span></li>
+            <li><strong>Runtime observation</strong><span>Install the signed composition, configure your runtime, and SHADOW evidence begins to accumulate.</span></li>
+          </ol>
+        </div>
+        <p class="lead">The step-by-step commands for each of these are documented in <a href="/observa/getting-started">getting started</a>, with the full <a href="/observa/cli">CLI reference</a>, the <a href="/observa/pairing">access and pairing lifecycle</a> and <a href="/observa/troubleshooting">troubleshooting</a> beside it.</p>
         <div class="architecture-line">
           <strong>Observa can discover and map the workflow, capture governance evidence, show review state, observe execution, and independently verify supported outcomes.</strong>
           <span>Verification applies where an appropriate verification contract or profile exists. Runtime completion is not treated as proof, and uncertainty is never silently turned into success.</span>
@@ -128,16 +142,18 @@
         <div class="section-head">
           <div>
             <div class="eyebrow">Watch the demo</div>
-            <h2 id="demo-title">44 seconds from unmapped agent to mapped capability.</h2>
+            <h2 id="demo-title">See Observa in action: 43 seconds from a real agent task to a reviewable governance record.</h2>
           </div>
-          <p class="lead">The private beta opening, an agent before mapping, discovery and AutoMap, human review and classification, and the mapped result.</p>
+          <p class="lead">An agent before mapping, discovery and AutoMap proposals, human review and classification, and the mapped result. Mapping is proposed and human-confirmed, never applied automatically.</p>
         </div>
         <div class="video-frame">
-          <video controls playsinline preload="metadata" width="1280" height="720" poster="/assets/video/observa-private-beta-demo-poster.jpg" aria-label="Observa private beta demo video, 44 seconds">
-            <source src="/assets/video/observa-private-beta-demo.mp4" type="video/mp4">
-            Your browser does not support embedded video. You can <a href="/assets/video/observa-private-beta-demo.mp4">download the Observa private beta demo video</a> instead.
+          <video controls playsinline preload="metadata" width="1080" height="1920" poster="/assets/video/observa-product-demo-poster.jpg" aria-describedby="beta-video-caption" aria-label="Observa product demo: an OpenClaw agent&rsquo;s action becoming a reviewable governance record. 43 seconds, with sound.">
+            <source src="/assets/video/observa-product-demo.mp4" type="video/mp4">
+            Your browser does not support embedded video. You can <a href="/assets/video/observa-product-demo.mp4">download the Observa product demo</a> instead.
           </video>
-          <p class="caption">Observa private beta demo: before mapping, AutoMap and discovery, human review, and the mapped result.</p>
+          <p class="caption" id="beta-video-caption">
+                  Observa product demo &middot; 43 seconds &middot; <strong>has sound; nothing plays until you press play</strong>. An agent gets a real task and reaches outside the model, Observa discovers the real capability surface, and a human approves and classifies it. Discovery is automatic; meaning stays human-controlled.
+                </p>
         </div>
       </div>
     </section>
@@ -207,7 +223,7 @@
             <ul class="list">
               <li>n8n and OpenClaw are the initial supported runtime paths for the beta.</li>
               <li>Exact versions, hosting, and rollback readiness are confirmed during onboarding.</li>
-              <li>The public OpenClaw plugin remains a separate, free product, currently <span data-release-text="publicVersion">v0.6.2</span> and shadow-only.</li>
+              <li>The public OpenClaw plugin remains a separate, free product, currently <span data-release-text="publicVersion">v0.7.2</span> and shadow-only. The Local Node CLI for n8n is <span data-release-text="localNodeVersion">0.1.6</span> on npm.</li>
               <li>Runtime support does not mean every connected tool or system has authoritative readback.</li>
               <li>McPherson Governance is independent and is not affiliated with or endorsed by OpenClaw or n8n.</li>
             </ul>
@@ -347,7 +363,7 @@
         <div class="faq">
           <details>
             <summary>Does applying give me dashboard access?</summary>
-            <p>No. Applying starts a direct conversation with Blake. Onboarding is founder-assisted and manual, and connected access is granted deliberately for each participant.</p>
+            <p>No. <code>observa request-access</code> submits a request; it does not create connected access. A verified email moves the request to review, and a person decides. Founder-assisted onboarding is still available once you are approved.</p>
           </details>
           <details>
             <summary>Will the beta stop or approve agent actions?</summary>

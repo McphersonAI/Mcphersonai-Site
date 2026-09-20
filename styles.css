@@ -1586,3 +1586,444 @@ p {
 .video-frame .caption {
   margin-top: 12px;
 }
+
+/* ---------------------------------------------------------------------------
+   Observa help pages (/observa/*)
+   Documentation layout: sub-navigation, prose column, code blocks, reference
+   tables, command entries and troubleshooting cases.
+--------------------------------------------------------------------------- */
+
+.doc-nav {
+  background: var(--navy-950);
+  border-bottom: 1px solid var(--line-dark);
+  padding: 12px 0;
+}
+
+.doc-nav .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+}
+
+.doc-nav-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ff9a4d;
+  margin-right: 6px;
+}
+
+.doc-nav a {
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.doc-nav a:hover {
+  border-bottom-color: #ff9a4d;
+}
+
+.doc-nav a[aria-current="page"] {
+  color: #ff9a4d;
+  border-bottom-color: #ff9a4d;
+}
+
+.read-col {
+  max-width: 860px;
+}
+
+.posture-strip {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-left: 5px solid var(--orange);
+  background: var(--orange-soft);
+  color: var(--ink);
+  font-size: 15px;
+  max-width: 860px;
+}
+
+.posture-strip-lg {
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+
+.observa-help-pages pre,
+.doc-nav ~ .section pre,
+.hero pre {
+  margin: 14px 0;
+}
+
+pre {
+  background: var(--navy-950);
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  /* Wrap rather than scroll: a horizontally scrolling command block hides the
+     end of the command on exactly the screens where it is hardest to notice. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: min(860px, 100%);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--mist);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  overflow-wrap: anywhere;
+}
+
+.site-footer code,
+.section.navy code,
+.doc-nav code {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--line-dark);
+  color: var(--white);
+}
+
+.table-wrap {
+  margin-top: 16px;
+  max-width: 100%;
+}
+
+.doc-table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 15px;
+}
+
+.doc-table th,
+.doc-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.doc-table thead th {
+  background: var(--navy-950);
+  color: var(--white);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.doc-table tbody tr:nth-child(odd) {
+  background: var(--mist);
+}
+
+.doc-table th,
+.doc-table td {
+  overflow-wrap: anywhere;
+}
+
+.list.numbered {
+  counter-reset: doc-step;
+}
+
+.list.numbered li {
+  counter-increment: doc-step;
+}
+
+.list.numbered li::before {
+  content: counter(doc-step) ". ";
+  font-weight: 800;
+  color: var(--orange-dark);
+}
+
+.cmd-list,
+.case-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.cmd,
+.case {
+  min-width: 0;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--orange);
+  border-radius: var(--radius-sm);
+  padding: 20px 22px;
+}
+
+.cmd h3,
+.case h3 {
+  margin-top: 0;
+}
+
+.cmd-purpose {
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
+.cmd-label {
+  margin: 16px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+}
+
+.cmd-facts,
+.case-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+  gap: 8px 18px;
+  margin: 16px 0 0;
+  font-size: 15px;
+}
+
+.cmd-facts dt,
+.case-facts dt {
+  font-weight: 800;
+  color: var(--navy-800);
+}
+
+.cmd-facts dd,
+.case-facts dd {
+  margin: 0;
+  min-width: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.case-facts dt.warn {
+  color: #8a2d27;
+}
+
+.case-facts dd pre {
+  margin: 0 0 8px;
+}
+
+.case-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.flag-yes {
+  font-weight: 800;
+  color: var(--warning);
+}
+
+.flag-no {
+  font-weight: 800;
+  color: var(--success);
+}
+
+.danger-list li {
+  border-left-color: #8a2d27;
+}
+
+@media (max-width: 900px) {
+  /* A sideways-scrolling reference table loses the columns that matter, so
+     each row becomes its own stacked block, keyed by its first cell. */
+  .doc-table,
+  .doc-table tbody,
+  .doc-table tr,
+  .doc-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .doc-table thead {
+    display: none;
+  }
+
+  .doc-table tr {
+    border-bottom: 3px solid var(--line);
+    padding: 10px 0;
+  }
+
+  .doc-table td {
+    border-bottom: none;
+    padding: 4px 0;
+  }
+
+  .doc-table td:first-child {
+    font-weight: 800;
+    color: var(--navy-800);
+  }
+
+  .doc-table tbody tr:nth-child(odd) {
+    background: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .cmd-facts,
+  .case-facts {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+
+  .cmd-facts dd,
+  .case-facts dd {
+    margin-bottom: 10px;
+  }
+
+  .doc-nav .wrap {
+    gap: 6px 14px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Product demo section (homepage, /observa, /private-beta)
+   Two slots: the current product walkthrough, and Governance Analysis. A
+   second demo video replaces a slot's .demo-card-body; nothing around it
+   needs to move.
+--------------------------------------------------------------------------- */
+
+.demo-grid {
+  display: grid;
+  /* The walkthrough is a 9:16 recording, so its column is sized to the video
+     rather than given the larger share a landscape clip would want. */
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+.demo-card {
+  min-width: 0;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+
+.section.navy .demo-card,
+.section.mist .demo-card {
+  background: var(--white);
+}
+
+.demo-card-head .meta {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+}
+
+.demo-card-head h3 {
+  margin: 8px 0 0;
+  font-size: 20px;
+}
+
+.demo-card-head p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.demo-card-body {
+  margin-top: 16px;
+  min-width: 0;
+}
+
+/* The video itself. Never autoplays; the asset carries no audio track. */
+.video-frame {
+  margin-top: 0;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.video-frame video {
+  display: block;
+  width: 100%;
+  /* Portrait source (1080x1920). Capped so it never dominates a wide screen,
+     and free to shrink to the gutter on a narrow one. */
+  max-width: 420px;
+  margin-inline: auto;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 33, 63, 0.16);
+  background: var(--navy-950);
+  box-shadow: 0 18px 50px rgba(10, 23, 45, 0.16);
+}
+
+.video-frame .caption {
+  margin-top: 12px;
+  max-width: 480px;
+  margin-inline: auto;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.decision-legend {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.decision-legend li {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-left: 4px solid var(--orange);
+  background: var(--mist);
+  border-radius: 0 8px 8px 0;
+}
+
+.decision-legend code {
+  justify-self: start;
+  background: var(--navy-950);
+  border-color: var(--navy-950);
+  color: var(--white);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.decision-legend span {
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+.demo-card .fine-print {
+  margin-top: 14px;
+}
+
+.demo-card .text-link {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+@media (max-width: 980px) {
+  .demo-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

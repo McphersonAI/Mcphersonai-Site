@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { readFile, readdir } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
 
@@ -23,10 +23,15 @@ const contentTypes = {
   ".xml": "application/xml; charset=utf-8"
 };
 
+// Resolve a request path to a FILE, case-sensitively, never escaping the root.
+// The final segment must be a file: a route like /observa may name both
+// `observa.html` and an `observa/` directory of sub-pages, and the page is the
+// file. Returning the directory here would make the server try to stream it.
 async function resolveExactPath(relativePath) {
   const segments = relativePath.split("/").filter(Boolean);
+  if (segments.length === 0) return null;
   let current = root;
-  for (const segment of segments) {
+  for (const [index, segment] of segments.entries()) {
     let entries;
     try {
       entries = await readdir(current, { withFileTypes: true });
@@ -35,6 +40,9 @@ async function resolveExactPath(relativePath) {
     }
     const match = entries.find((entry) => entry.name === segment);
     if (!match) return null;
+    const last = index === segments.length - 1;
+    if (last && !match.isFile()) return null;
+    if (!last && !match.isDirectory()) return null;
     current = join(current, match.name);
   }
   return current;
@@ -120,6 +128,7 @@ createServer(async (request, response) => {
 
     let filePath = await resolveExactPath(cleanPath);
     if (!filePath) filePath = await resolveExactPath(`${cleanPath}.html`);
+    if (!filePath) filePath = await resolveExactPath(`${cleanPath}/index.html`);
 
     if (!filePath) {
       const notFoundPath = await resolveExactPath("404.html");
@@ -132,11 +141,78 @@ createServer(async (request, response) => {
       return;
     }
 
+    // Byte-range support. A <video> element asks for ranges; answering every
+    // request with a chunked 200 makes the browser abort the media fetch and
+    // breaks seeking, so the preview mirrors what the host actually does.
+    const contentType = contentTypes[extname(filePath).toLowerCase()] || "application/octet-stream";
+    const { size } = await stat(filePath);
+    const rangeHeader = request.headers.range;
+    const rangeMatch = typeof rangeHeader === "string" && /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
+
+    if (rangeMatch) {
+      const [, rawStart, rawEnd] = rangeMatch;
+      let start;
+      let end;
+      if (rawStart === "") {
+        // Suffix range: the last N bytes.
+        const suffix = Number(rawEnd);
+        if (!Number.isFinite(suffix) || suffix <= 0) {
+          response.writeHead(416, responseHeaders(pathname, {
+            "Content-Range": `bytes */${size}`,
+            "Content-Type": contentType
+          }));
+          response.end();
+          return;
+        }
+        start = Math.max(0, size - suffix);
+        end = size - 1;
+      } else {
+        start = Number(rawStart);
+        end = rawEnd === "" ? size - 1 : Number(rawEnd);
+      }
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start > end || start >= size) {
+        response.writeHead(416, responseHeaders(pathname, {
+          "Content-Range": `bytes */${size}`,
+          "Content-Type": contentType
+        }));
+        response.end();
+        return;
+      }
+      end = Math.min(end, size - 1);
+      response.writeHead(206, responseHeaders(pathname, {
+        "Content-Type": contentType,
+        "Content-Length": String(end - start + 1),
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "no-store"
+      }));
+      if (request.method === "HEAD") {
+        response.end();
+        return;
+      }
+      const partial = createReadStream(filePath, { start, end });
+      partial.on("error", () => response.destroy());
+      response.on("close", () => partial.destroy());
+      partial.pipe(response);
+      return;
+    }
+
     response.writeHead(200, responseHeaders(pathname, {
-      "Content-Type": contentTypes[extname(filePath).toLowerCase()] || "application/octet-stream",
+      "Content-Type": contentType,
+      "Content-Length": String(size),
+      "Accept-Ranges": "bytes",
       "Cache-Control": "no-store"
     }));
-    createReadStream(filePath).pipe(response);
+    if (request.method === "HEAD") {
+      response.end();
+      return;
+    }
+    const stream = createReadStream(filePath);
+    // A browser that has read enough of a media file simply closes the
+    // connection; that is normal, not a server error.
+    stream.on("error", () => response.destroy());
+    response.on("close", () => stream.destroy());
+    stream.pipe(response);
   } catch (error) {
     response.writeHead(500, responseHeaders("/", { "Content-Type": "text/plain; charset=utf-8" }));
     response.end("Preview server error");

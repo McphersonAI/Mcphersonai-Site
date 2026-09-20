@@ -52,8 +52,9 @@
           <p class="boundary-note">The private beta runs in SHADOW mode. Observa observes, evaluates, maps, and verifies without taking control of production actions.</p>
           <div class="cta-row">
             <a class="btn primary" href="/private-beta">Request Private Beta Access</a>
-            <a class="btn" href="/#demo">Watch the Demo</a>
+            <a class="btn" href="#demo">Watch the Demo</a>
             <a class="text-link" href="/proof#observa-proof">See public-safe proof →</a>
+            <a class="text-link" href="/observa/getting-started">Docs and help →</a>
           </div>
           <div class="status-bar" aria-label="Current Observa access">
             <span class="badge beta">Private beta open</span>
@@ -71,6 +72,69 @@
             <div class="evidence-row"><div class="evidence-index">04</div><div><strong>Uncertain</strong><span>Missing or unclear evidence stays nonverified, never assumed.</span></div></div>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="section mist" id="demo" aria-labelledby="observa-demo-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">See Observa in action</div>
+          <h2 id="observa-demo-title">Watch an AI agent move from runtime activity to reviewable governance evidence.</h2>
+          <p class="lead">Observa captures what happened, keeps runtime claims separate from verified outcomes, and shows what governance <em>would</em> have done while remaining in SHADOW. No production control at any point in this recording.</p>
+        </div>
+        <p class="posture-strip">SHADOW ONLY &middot; AUTHORITY NONE &middot; ENFORCEMENT OFF</p>
+        <div class="demo-grid">
+          <article class="demo-card" data-demo-slot="product-walkthrough">
+            <div class="demo-card-head">
+              <span class="meta">Product walkthrough</span>
+              <h3>From a real agent task to a reviewable governance record.</h3>
+              <p>An OpenClaw agent gets a real task and reaches outside the model. Observa discovers the real capability surface, a human approves the mapping and classifies it, and the boundary becomes a lifecycle record. Mapping is proposed and human-confirmed, never applied automatically.</p>
+            </div>
+            <div class="demo-card-body">
+              <div class="video-frame">
+                <video
+                  controls
+                  playsinline
+                  preload="metadata"
+                  width="1080"
+                  height="1920"
+                  poster="/assets/video/observa-product-demo-poster.jpg"
+                  aria-describedby="demo-video-caption"
+                  aria-label="Observa product demo: an OpenClaw agent&rsquo;s action becoming a reviewable governance record. 43 seconds, with sound.">
+                  <source src="/assets/video/observa-product-demo.mp4" type="video/mp4">
+                  Your browser does not support embedded video. You can
+                  <a href="/assets/video/observa-product-demo.mp4">download the Observa product demo</a> instead.
+                </video>
+                <p class="caption" id="demo-video-caption">
+                  Observa product demo &middot; 43 seconds &middot; <strong>has sound; nothing plays until you press play</strong>. An agent gets a real task and reaches outside the model, Observa discovers the real capability surface, and a human approves and classifies it. Discovery is automatic; meaning stays human-controlled.
+                </p>
+              </div>
+            </div>
+          </article>
+          <article class="demo-card" data-demo-slot="governance-analysis">
+            <div class="demo-card-head">
+              <span class="meta">Governance Analysis</span>
+              <h3>What policy <em>would</em> have decided, while staying in SHADOW.</h3>
+              <p>Available now in Hosted Observa for evaluated activity. A dedicated walkthrough of these
+                states is in production; until then, here is exactly what the words mean.</p>
+            </div>
+            <div class="demo-card-body">
+              <ul class="decision-legend">
+                <li><code>WOULD_ALLOW</code><span>An enforcing policy would have permitted this action.</span></li>
+                <li><code>WOULD_DENY</code><span>It would have refused &mdash; and the action still ran, because nothing is enforced.</span></li>
+                <li><code>WOULD_REQUIRE_APPROVAL</code><span>It would have held this for a human. Nothing was held.</span></li>
+              </ul>
+              <p class="fine-print">Counterfactual by construction. Not every runtime action receives a decision;
+                activity never becomes a decision on its own, and unevaluated activity stays visible as
+                <code>UNEVALUATED</code>.</p>
+              <a class="text-link" href="/observa/safety">How to read these states &rarr;</a>
+            </div>
+          </article>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="/private-beta">Explore the beta</a>
+          <a class="btn" href="/observa/getting-started">Read the docs</a>
+        </div>
       </div>
     </section>
 
@@ -162,6 +226,24 @@
             <p>The case structure for status, confidence, evidence, flags, and the measured-versus-guidance rule.</p>
             <a class="btn" href="/observa-audit-mode-schema-v0.1">View the schema</a>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy" id="docs" aria-labelledby="docs-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Docs and help</div>
+          <h2 id="docs-title">The product documentation, written against the shipped CLI.</h2>
+          <p class="lead">Install, inspect a workflow offline, request access, pair, and read the evidence — plus the exact boundaries of what Observa claims.</p>
+        </div>
+        <div class="resource-links">
+          <a href="/observa/getting-started">Getting started — install to first observation →</a>
+          <a href="/observa/cli">CLI reference — every command and its side effects →</a>
+          <a href="/observa/pairing">Pairing and access — lifecycle, lifetimes and limits →</a>
+          <a href="/observa/troubleshooting">Troubleshooting and recovery →</a>
+          <a href="/observa/safety">Safety model — SHADOW_ONLY, authority none, enforcement off →</a>
+          <a href="/observa/support">Support — how to report a problem safely →</a>
         </div>
       </div>
     </section>

@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Observa CLI reference | McPherson AI</title>
+  <meta name="description" content="Every supported Observa Local Node command: purpose, syntax, example, what it changes locally, whether it contacts Hosted, and its safety behaviour.">
+  <link rel="canonical" href="https://mcphersonai.com/observa/cli">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="McPherson AI">
+  <meta property="og:title" content="Observa CLI reference | McPherson AI">
+  <meta property="og:description" content="Every supported Observa Local Node command: purpose, syntax, example, what it changes locally, whether it contacts Hosted, and its safety behaviour.">
+  <meta property="og:url" content="https://mcphersonai.com/observa/cli">
+  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
+  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Observa CLI reference | McPherson AI">
+  <meta name="twitter:description" content="Every supported Observa Local Node command: purpose, syntax, example, what it changes locally, whether it contacts Hosted, and its safety behaviour.">
+  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/release-status.js"></script>
+  <script defer src="/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="McPherson AI home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        McPherson <strong>AI</strong>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
+        <a href="/">Home</a>
+        <a href="/governance">Governance</a>
+        <a href="/private-beta">Private Beta</a>
+        <a href="/observa">Observa</a>
+        <a href="/qsr-systems">QSR Systems</a>
+        <a href="/services">Services</a>
+        <a href="/proof">Proof</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Observa help · CLI reference</div>
+        <h1>Every supported Observa Local Node command.</h1>
+        <p class="lead">This documents <code>@mcpherson-ai/observa-local-node</code> 0.1.6. Run
+          <code>observa --help</code> for the same command list from the binary you actually have installed.</p>
+        <p class="posture-strip"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> · <strong>ENFORCEMENT OFF</strong> — Observa observes and reports. It has no authority to allow, deny, approve, block, retry, or change anything in your systems.</p>
+      </div>
+    </section>
+
+    <nav class="doc-nav" aria-label="Observa help">
+      <div class="wrap">
+        <span class="doc-nav-label">Observa help</span>
+        <a href="/observa/getting-started">Getting started</a><a href="/observa/cli" aria-current="page">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a>
+      </div>
+    </nav>
+
+    <section class="section" aria-labelledby="conventions-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">How to read this page</div>
+        <h2 id="conventions-title">Syntax lines versus commands you can paste</h2>
+        <ul class="list">
+          <li><strong>Syntax</strong> lines use angle-bracket placeholders such as
+            <code>&lt;https://host&gt;</code> and square brackets for optional flags. They are grammar, not commands —
+            do not paste them.</li>
+          <li><strong>Example</strong> lines are literal and copy/pasteable as written, against the current Hosted beta
+            service <code>https://governance-plane-observa.tailb473db.ts.net</code>.</li>
+          <li>Exit status is <code>0</code> on success, <code>1</code> on a refusal, and <code>2</code> for an
+            unrecognized command. Asking for help is a success.</li>
+          <li>Every refusal prints <code>REFUSED &lt;CODE&gt;</code>. Refusals with a documented recovery also print a link
+            to <a href="/observa/troubleshooting">the troubleshooting page</a>.</li>
+          <li><code>OBSERVA_HOME</code> overrides the installation home (default
+            <code>~/.observa/installation</code>). <code>OBSERVA_TRUST_DIR</code> overrides the verification key
+            directory.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="inspect-title">
+      <div class="wrap">
+        <div class="eyebrow">Read-only</div>
+        <h2 id="inspect-title">Inspection commands</h2>
+        <p class="lead">None of these write anything, and none of them contact Hosted.</p>
+        <div class="cmd-list">
+        <article class="cmd" id="status">
+          <h3><code>observa status</code></h3>
+          <p class="cmd-purpose">Non-secret facts about this installation.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa status [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa status</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span> — a configured pairing is reported as configured, never probed.</dd>
+            <dt>Safety</dt><dd>Reports config key <em>presence</em> only. No config value, credential or pairing code can reach this output.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="inspect-workflow">
+          <h3><code>observa inspect-workflow</code></h3>
+          <p class="cmd-purpose">Static, offline structure inspection of one n8n workflow export. Available before you have any access.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa inspect-workflow --file &lt;n8n-workflow.json&gt; [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa inspect-workflow --file ./workflow.json</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Reads the one file you named and writes nothing.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>Prints no node names, IDs, parameters, credentials or payloads. Unrecognized node types are counted, never echoed. It does not observe execution, classify capabilities, evaluate policy, establish trust, or grant access.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="activity">
+          <h3><code>observa activity</code></h3>
+          <p class="cmd-purpose">Recent local SHADOW observations from the owner-only evidence journal.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa activity [--limit &lt;1-100&gt;]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa activity --limit 50</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>Reads a hash-chained, owner-only local journal; a broken chain refuses rather than printing partial history. Default limit 20.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="decisions">
+          <h3><code>observa decisions</code></h3>
+          <p class="cmd-purpose">Local counterfactual records only — entries that were actually evaluated and carry a sealed decision record.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa decisions [--limit &lt;1-100&gt;]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa decisions</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>Activity never becomes a decision. Values are <code>WOULD_ALLOW</code>, <code>WOULD_DENY</code>, <code>WOULD_REQUIRE_APPROVAL</code>, <code>ABSTAIN</code>, <code>INDETERMINATE</code>, <code>ERROR</code> — all counterfactual.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="agents">
+          <h3><code>observa agents</code></h3>
+          <p class="cmd-purpose">Agent view.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa agents [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa agents</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>On this runtime it always returns an empty list plus an explicit limitation: <em>n8n provides no real agent identity through this integration.</em> The emptiness is a stated limitation, not a finding of &ldquo;no agents&rdquo;.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="agent">
+          <h3><code>observa agent &lt;id&gt;</code></h3>
+          <p class="cmd-purpose">Single-agent view.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa agent &lt;id&gt; [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa agent my-agent</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>Same limitation as <code>agents</code>: on the n8n path there is no agent identity to resolve, so the id is accepted and the limitation is printed.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="diagnose">
+          <h3><code>observa diagnose</code></h3>
+          <p class="cmd-purpose">Integrity, signature, configuration-presence and permission checks. The first command to run when something is wrong.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa diagnose</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa diagnose</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing. Read-only.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span> — connectivity is reported as <code>INFO</code>, not probed.</dd>
+            <dt>Safety</dt><dd>Exits 1 if any check FAILs. Output is paste-safe: every check reports presence or shape, never a value. Include it in a support request.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="version">
+          <h3><code>observa version</code></h3>
+          <p class="cmd-purpose">Print the version and authority banner.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa version | observa --version</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa --version</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>&mdash;</dd>
+          </dl>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="lifecycle-title">
+      <div class="wrap">
+        <div class="eyebrow">Local state</div>
+        <h2 id="lifecycle-title">Installation and runtime commands</h2>
+        <div class="cmd-list">
+        <article class="cmd" id="install">
+          <h3><code>observa install</code></h3>
+          <p class="cmd-purpose">Verify a signed installation manifest and compose exactly the approved component artifacts it names.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa install [--manifest &lt;signed.json&gt;] [--artifacts &lt;dir&gt;] [--expect-installation &lt;id&gt;]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa install</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Creates the release tree, artifact cache, manifest store, <code>state.json</code> and the <code>current</code> symlink under <code>~/.observa/installation</code> (override with <code>OBSERVA_HOME</code>). Touches nothing else.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span> when <code>--manifest</code> is omitted — it retrieves the manifest Hosted issued for this paired installation. <span class="flag-no">No</span> with <code>--manifest</code>.</dd>
+            <dt>Safety</dt><dd>Both paths use one verifier: strict parse, closed schema, Ed25519 signature against the public key shipped in the package, tenant and installation binding, then every artifact by manifest-pinned SHA-256. Transport is not trust. The only accepted mode is <code>SHADOW_ONLY</code>; a manifest asking for anything else fails closed at schema validation.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="update">
+          <h3><code>observa update</code></h3>
+          <p class="cmd-purpose">Install a strictly newer signed manifest, retaining the current release for rollback.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa update [--manifest &lt;signed.json&gt;] [--artifacts &lt;dir&gt;]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa update --manifest ./observa-manifest.signed.json</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Stages the new release beside the old one and moves <code>current</code>. The previous manifest id is retained.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span> when <code>--manifest</code> is omitted.</dd>
+            <dt>Safety</dt><dd>Refuses <code>NOT_INSTALLED</code> without an existing installation and <code>MANIFEST_NOT_NEWER_THAN_CURRENT</code> for anything not strictly newer. A failed update leaves the existing installation intact.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="rollback">
+          <h3><code>observa rollback</code></h3>
+          <p class="cmd-purpose">Return to the retained previous signed manifest.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa rollback</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa rollback</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Moves <code>current</code> back to the previous release, rewrites <code>state.json</code>, and clears the previous-manifest pointer. If the retained tree fails integrity it is rebuilt offline from the verified artifact cache.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span> — fully offline.</dd>
+            <dt>Safety</dt><dd>Refuses <code>ROLLBACK_TARGET_ABSENT</code> when there is nothing to roll back to. Rollback is single-depth: after rolling back there is no further previous release.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="start">
+          <h3><code>observa start</code></h3>
+          <p class="cmd-purpose">Start Observa&rsquo;s own local observer service.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa start [--port &lt;port&gt;]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa start</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Writes a pidfile under the installation&rsquo;s service directory and spawns the verified adapter from the active release.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span> when paired — this is what delivers SHADOW_ONLY evidence to your workspace.</dd>
+            <dt>Safety</dt><dd>Starts only Observa&rsquo;s own process, from the active verified release.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="stop">
+          <h3><code>observa stop</code></h3>
+          <p class="cmd-purpose">Stop Observa&rsquo;s own local observer service.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa stop</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa stop</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Signals the pid from Observa&rsquo;s own pidfile and removes it.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>Structurally cannot stop anything else. The only process it will signal is one whose pid came from Observa&rsquo;s pidfile <em>and</em> whose command line still names the Observa release path. There is no search-by-name, no <code>pkill</code>, and no port scan. It never stops your n8n.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="uninstall">
+          <h3><code>observa uninstall</code></h3>
+          <p class="cmd-purpose">Remove Observa-managed state from this machine.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa uninstall --yes [--purge-config]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa uninstall --yes</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Stops the service, then removes the releases, artifact cache, manifest store, service directory, <code>current</code> symlink and <code>state.json</code>. <strong>Your local config survives by default</strong>; <code>--purge-config</code> removes it too.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span> — it does not revoke a Hosted credential. Run <code>unpair</code> first if you want delivery revoked.</dd>
+            <dt>Safety</dt><dd>Refuses without <code>--yes</code>. Removing state locally does not revoke anything server-side.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="config">
+          <h3><code>observa config set</code></h3>
+          <p class="cmd-purpose">Set one local configuration value. These are yours and stay on this machine.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa config set &lt;key&gt; &lt;value&gt;</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa config set n8n_loopback_credential '&lt;choose any local secret, 24+ characters&gt;'</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Writes the owner-only config file at <code>~/.observa/installation/config/local.json</code>.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>The value is never echoed back, never logged, never diagnosed and never placed in a manifest or artifact. Keys the pairing flow owns are refused here with <code>HOSTED_CONFIG_PAIRING_OWNED</code> — use <code>observa pair</code>.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="n8n-setup">
+          <h3><code>observa n8n-setup</code></h3>
+          <p class="cmd-purpose">Write the owner-only environment file for n8n&rsquo;s supported global backend hook.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa n8n-setup</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa n8n-setup</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Copies the packaged hook into the installation and writes an owner-only <code>.env</code>-style file, then prints its path.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-no">No</span></dd>
+            <dt>Safety</dt><dd>It does <strong>not</strong> start, restart or reconfigure n8n, and it edits no workflow. Loading that environment file into your n8n service is your step. Requires an installation and a configured <code>n8n_loopback_credential</code> of at least 24 characters.</dd>
+          </dl>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="access-cmd-title">
+      <div class="wrap">
+        <div class="eyebrow">Hosted</div>
+        <h2 id="access-cmd-title">Access and pairing commands</h2>
+        <p class="lead">These are the only commands that talk to a Hosted service, and only to the one you named.
+          Full lifecycle detail is on the <a href="/observa/pairing">pairing and access</a> page.</p>
+        <div class="cmd-list">
+        <article class="cmd" id="request-access">
+          <h3><code>observa request-access</code></h3>
+          <p class="cmd-purpose">Submit, verify or resend a Hosted beta access request. Submitting is not being granted access.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa request-access --api-url &lt;https://host&gt; [--name &lt;name&gt;] [--email &lt;email&gt;]
+                       [--organization &lt;org&gt;] [--use-case &lt;text&gt;]
+                       [--code-file &lt;0600-file&gt;] [--resend] [--new] [--yes] [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa request-access --api-url https://governance-plane-observa.tailb473db.ts.net</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Writes an owner-only private receipt at <code>~/.observa/installation/observa-access/request.json</code>. That receipt, not the request id, is what authenticates you later.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span></dd>
+            <dt>Safety</dt><dd>Shows you the exact record before sending and requires you to type <code>yes</code> (or pass <code>--yes</code>). Verification codes and request credentials never appear in <code>--json</code> output. Requires verified TLS; a <code>NODE_TLS_REJECT_UNAUTHORIZED</code> override refuses the command. Identity is immutable after submission — a different email needs a new verified request.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="request-status">
+          <h3><code>observa request-status</code></h3>
+          <p class="cmd-purpose">Check the state of the request saved for this profile.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa request-status [--api-url &lt;https://host&gt;] [--json]</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa request-status</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Nothing.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span></dd>
+            <dt>Safety</dt><dd>Only the request&rsquo;s owner can check it; a request id alone is insufficient. Prints the state and the single next action for it. <strong>Before any request exists</strong>, there is no saved endpoint to reuse, so it refuses <code>ACCESS_URL_REQUIRED</code> rather than <code>ACCESS_NO_REQUEST</code> &mdash; pass <code>--api-url</code>, or run <code>request-access</code> first.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="pair">
+          <h3><code>observa pair</code></h3>
+          <p class="cmd-purpose">Redeem one pairing code and store the Hosted delivery configuration — or, after <code>unpair</code>, re-pair the identity you already have.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa pair --base-url &lt;https://host&gt; (--code-stdin | --code-file &lt;0600-file&gt;)
+             [--deployment &lt;id&gt;] [--name &lt;label&gt;]
+observa pair          # after unpair: no flags</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa pair --base-url https://governance-plane-observa.tailb473db.ts.net --code-stdin</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Atomically writes four owner-only config values: the Hosted base URL, the connector credential, the bound installation id, and the deployment reference.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span></dd>
+            <dt>Safety</dt><dd><strong>A pairing code is never accepted as a command-line argument</strong> — <code>--code</code> is refused outright so it cannot land in shell history or a process list. A <code>--code-file</code> must be owner-only. The credential is stored and never displayed; only the installation id, credential id and fingerprint are printed.</dd>
+          </dl>
+        </article>
+        <article class="cmd" id="unpair">
+          <h3><code>observa unpair</code></h3>
+          <p class="cmd-purpose">Revoke Hosted delivery for this installation while keeping the installed identity.</p>
+          <p class="cmd-label">Syntax</p>
+          <pre><code>observa unpair</code></pre>
+          <p class="cmd-label">Example</p>
+          <pre><code>observa unpair</code></pre>
+          <dl class="cmd-facts">
+            <dt>Changes locally</dt><dd>Stops the service if it is running, then removes the Hosted base URL, connector credential and installation binding from local config, and retains a recovery base URL plus the installation secret so <code>observa pair</code> with no flags can re-pair later.</dd>
+            <dt>Contacts Hosted</dt><dd><span class="flag-yes">Yes</span> — it asks Hosted to revoke, and reports how many credentials were revoked.</dd>
+            <dt>Safety</dt><dd>The signed installation and its control-plane identity stay intact. Re-pairing needs no new pairing code and creates no new installation.</dd>
+          </dl>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="openclaw" aria-labelledby="openclaw-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">Different package</div>
+        <h2 id="openclaw-title">The OpenClaw connector&rsquo;s <code>observa</code> is a different CLI</h2>
+        <p><code>@mcphersonai/mcpherson-governance-openclaw</code> (0.7.2) ships its own <code>observa</code> executable for the OpenClaw runtime.
+          It is not the package documented above, and its flags are deliberately not the same. Do not mix the two
+          command sets.</p>
+        <p class="cmd-label">Its command set</p>
+        <pre><code>observa status | agents | agent &lt;id&gt; | activity | decisions
+observa pair --api-url &lt;https://host&gt; [--code-file &lt;owner-only-file&gt;]
+observa enable | disable
+observa killswitch on|off
+observa lock on|off
+observa credential rotate --new-credential-file &lt;file&gt; --rotation &lt;id&gt;
+observa credential recover --new-credential-file &lt;file&gt;
+observa unpair | uninstall
+observa request-access | request-status</code></pre>
+        <p class="cmd-label">The differences that actually catch people</p>
+        <ul class="list">
+          <li>Pairing uses <code>--api-url</code>, not <code>--base-url</code>, and there is no
+            <code>--code-stdin</code>: input is hidden at the terminal, or you pass <code>--code-file</code>.</li>
+          <li>It adds pairing flags the Local Node CLI does not have at all:
+            <code>--deployment-id</code>, <code>--installation-name</code>, <code>--ca-file</code>,
+            <code>--agent-id</code>, <code>--policy-version</code>,
+            <strong><code>--replace-existing</code></strong>, <code>--preflight-only</code> and
+            <code>--rollback &lt;id&gt;</code>. See
+            <a href="/observa/pairing#replace-existing">replacing an existing credential</a>.</li>
+          <li>It has no <code>install</code>, <code>update</code>, <code>rollback</code>, <code>config</code>,
+            <code>diagnose</code>, <code>start</code>, <code>stop</code>, <code>n8n-setup</code> or
+            <code>inspect-workflow</code>. It has <code>enable</code>, <code>disable</code>,
+            <code>killswitch</code>, <code>lock</code> and <code>credential</code>, which the Local Node CLI does
+            not.</li>
+          <li><code>--profile &lt;name&gt;</code> and <code>--profile-home &lt;dir&gt;</code> select an OpenClaw profile.
+            No command searches other profiles.</li>
+          <li><code>uninstall</code> does <em>not</em> revoke Hosted credentials. Run <code>unpair</code> first.</li>
+        </ul>
+        <p class="note"><strong>Its <code>agents</code> view is real.</strong> Unlike the n8n path, the OpenClaw
+          connector resolves a configured agent roster. An agent shown as <code>ACTIVE</code> means a completion receipt
+          in the last five minutes — it does not mean active governance.</p>
+      </div>
+    </section>
+
+    <section class="section navy" aria-labelledby="cli-next-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Related</div>
+          <h2 id="cli-next-title">Keep going.</h2>
+        </div>
+        <div class="resource-links">
+          <a href="/observa/getting-started">Start from the beginning →</a>
+          <a href="/observa/pairing">Access and pairing lifecycle →</a>
+          <a href="/observa/troubleshooting">When a command refuses →</a>
+          <a href="/observa/safety">What the output does and does not mean →</a>
+        </div>
+        <div class="cta-row"><a class="btn primary" href="/observa/getting-started">Start from the beginning</a><a class="btn" href="/observa/troubleshooting">Troubleshooting</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
+        </div>
+        <div>
+          <h2>Observa help</h2>
+          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
+        </div>
+        <div>
+          <h2>Proof and contact</h2>
+          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
+    </div>
+  </footer>
+</body>
+</html>

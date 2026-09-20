@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Observa pairing and access lifecycle | McPherson AI</title>
+  <meta name="description" content="The exact Observa Hosted access and pairing lifecycle: states, code lifetimes, retry limits, failure states, re-pairing, and replacing an existing credential safely.">
+  <link rel="canonical" href="https://mcphersonai.com/observa/pairing">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="McPherson AI">
+  <meta property="og:title" content="Observa pairing and access lifecycle | McPherson AI">
+  <meta property="og:description" content="The exact Observa Hosted access and pairing lifecycle: states, code lifetimes, retry limits, failure states, re-pairing, and replacing an existing credential safely.">
+  <meta property="og:url" content="https://mcphersonai.com/observa/pairing">
+  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
+  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Observa pairing and access lifecycle | McPherson AI">
+  <meta name="twitter:description" content="The exact Observa Hosted access and pairing lifecycle: states, code lifetimes, retry limits, failure states, re-pairing, and replacing an existing credential safely.">
+  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/release-status.js"></script>
+  <script defer src="/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="McPherson AI home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        McPherson <strong>AI</strong>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
+        <a href="/">Home</a>
+        <a href="/governance">Governance</a>
+        <a href="/private-beta">Private Beta</a>
+        <a href="/observa">Observa</a>
+        <a href="/qsr-systems">QSR Systems</a>
+        <a href="/services">Services</a>
+        <a href="/proof">Proof</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Observa help · Pairing and access</div>
+        <h1>What has to be true before pairing works.</h1>
+        <p class="lead">Access and pairing are two separate gates with two separate lifetimes. This page states both
+          exactly, so you can tell a misconfiguration from a normal wait.</p>
+        <p class="posture-strip"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> · <strong>ENFORCEMENT OFF</strong> — Observa observes and reports. It has no authority to allow, deny, approve, block, retry, or change anything in your systems.</p>
+      </div>
+    </section>
+
+    <nav class="doc-nav" aria-label="Observa help">
+      <div class="wrap">
+        <span class="doc-nav-label">Observa help</span>
+        <a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing" aria-current="page">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a>
+      </div>
+    </nav>
+
+    <section class="section" aria-labelledby="order-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">The order</div>
+        <h2 id="order-title">Pairing happens last, and only after a person approves you</h2>
+        <ol class="list numbered">
+          <li><strong>Access request</strong> — you submit non-sensitive metadata. Nothing is granted.</li>
+          <li><strong>Email verification</strong> — a one-time code proves the address is yours. Still nothing granted.</li>
+          <li><strong>Human review</strong> — a person approves or denies. <em>This step is not automatic and cannot be skipped.</em></li>
+          <li><strong>Invitation</strong> — approval sends a single-use invitation to your verified address.</li>
+          <li><strong>Pairing code</strong> — you create one yourself in Hosted Observa after signing in.</li>
+          <li><strong>Pair</strong> — the CLI redeems that code and stores a delivery credential.</li>
+        </ol>
+        <p class="note">There is no path from <code>observa request-access</code> straight to a paired installation,
+          and no amount of retrying creates one. Approval also authorizes beta onboarding only: composition approval
+          and signed-manifest issuance are separate server-side authorities.</p>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="states-title">
+      <div class="wrap">
+        <div class="eyebrow">Access request</div>
+        <h2 id="states-title">The six states, and what each one means</h2>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>State</th><th>Meaning</th><th>Your next action</th></tr></thead>
+            <tbody>
+              <tr><td><code>EMAIL_PENDING</code></td><td>Submitted; the address is not yet verified.</td>
+                <td>Enter the emailed code: <code>observa request-access --code-file &lt;0600-file&gt;</code>, or run
+                  <code>request-access</code> again for the hidden prompt.</td></tr>
+              <tr><td><code>PENDING_REVIEW</code></td><td>Email verified. Waiting on a human decision.</td>
+                <td>Wait. <code>observa request-status</code> to check.</td></tr>
+              <tr><td><code>APPROVED</code></td><td>A reviewer approved you; an invitation was sent to the verified address.</td>
+                <td>Redeem the invitation, sign in, accept the beta documents, create a pairing code, then
+                  <code>observa pair</code>.</td></tr>
+              <tr><td><code>DENIED</code></td><td>A reviewer declined.</td>
+                <td>You may start over with <code>--new</code>.</td></tr>
+              <tr><td><code>EXPIRED</code></td><td>A lifetime ran out, or verification attempts were exhausted.</td>
+                <td><code>observa request-access --new --api-url &lt;https://host&gt;</code>.</td></tr>
+              <tr><td><code>CANCELLED</code></td><td>The request was withdrawn.</td>
+                <td>You may start over with <code>--new</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine-print"><code>--new</code> is accepted only from <code>DENIED</code>, <code>EXPIRED</code> or
+          <code>CANCELLED</code>. From any other state it refuses <code>ACCESS_ALREADY_PENDING</code>.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="timings-title">
+      <div class="wrap">
+        <div class="eyebrow">Exact numbers</div>
+        <h2 id="timings-title">Lifetimes and limits</h2>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Thing</th><th>Limit</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td>Access request in <code>EMAIL_PENDING</code></td><td><strong>24 hours</strong></td>
+                <td>From submission. Not extended by anything.</td></tr>
+              <tr><td>Email verification code</td><td><strong>10 minutes</strong></td>
+                <td>Each code is one-time.</td></tr>
+              <tr><td>Resending a verification code</td><td><strong>Does not extend the request</strong></td>
+                <td>A new code resets the 10-minute code window only. The 24-hour request lifetime is unchanged.</td></tr>
+              <tr><td>Minimum gap between sends</td><td><strong>60 seconds</strong></td>
+                <td>An earlier resend refuses <code>ACCESS_RATE_LIMITED</code>.</td></tr>
+              <tr><td>Maximum sends per request</td><td><strong>3</strong></td>
+                <td>Including the first. After that, no further code can be sent for this request.</td></tr>
+              <tr><td>Failed verification attempts</td><td><strong>Retained</strong></td>
+                <td>A wrong or expired code still counts. The counter is never reset by a resend.</td></tr>
+              <tr><td>Attempt that ends the request</td><td><strong>The 5th failed attempt</strong></td>
+                <td>It moves the request to <code>EXPIRED</code>. Start over with <code>--new</code>.</td></tr>
+              <tr><td>Request in <code>PENDING_REVIEW</code></td><td><strong>30 days</strong></td>
+                <td>From the moment the email was verified.</td></tr>
+              <tr><td>Beta invitation</td><td><strong>7 days</strong>, single-use</td>
+                <td>Only the invited address can redeem it. When the invitation expires or is revoked, the access
+                  request becomes <code>EXPIRED</code> too.</td></tr>
+              <tr><td>Reissuing an invitation (<code>--resend</code> while <code>APPROVED</code>)</td>
+                <td><strong>Keeps the original expiry</strong></td>
+                <td>The previous invitation stops working immediately. Rate limited to 3 per hour.</td></tr>
+              <tr><td>New requests per email address</td><td><strong>3 per hour</strong></td><td>&mdash;</td></tr>
+              <tr><td>Pairing code</td><td><strong>10 minutes</strong>, single-use</td>
+                <td>Bound to one organization <em>and</em> one workspace. A code for another tenant or workspace is
+                  refused as a boundary violation, not a typo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine-print">These are the values the current implementation enforces. If a command behaves
+          differently from this table, that is worth reporting — see <a href="/observa/support">support</a>.</p>
+      </div>
+    </section>
+
+    <section class="section mist" aria-labelledby="verify-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">Detail</div>
+        <h2 id="verify-title">Two things about verification that surprise people</h2>
+        <ul class="list">
+          <li><strong>Your identity is frozen at submission.</strong> Name, email, organization and use case cannot be
+            edited afterwards; attempting it refuses <code>ACCESS_IDENTITY_IMMUTABLE</code>. A different email address
+            requires a new verified request.</li>
+          <li><strong>One live request per address.</strong> If the same email already has a request in
+            <code>PENDING_REVIEW</code> or <code>APPROVED</code>, verifying a second request for that address is
+            refused.</li>
+        </ul>
+        <p class="note"><strong>First run.</strong> <code>observa request-status</code> reuses the endpoint saved in
+          your receipt. Run before any request exists, there is nothing to reuse, so it refuses
+          <code>ACCESS_URL_REQUIRED</code> rather than <code>ACCESS_NO_REQUEST</code>. Pass <code>--api-url</code>,
+          or run <code>observa request-access</code> first.</p>
+        <p>The private receipt at <code>~/.observa/installation/observa-access/request.json</code> is what proves the
+          request is yours. A request id on its own authenticates nothing. Keep the receipt; if you lose it, you
+          cannot check or continue that request.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="pairstep-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">Pairing</div>
+        <h2 id="pairstep-title">Initial pairing, unpair, and re-pair</h2>
+        <p class="cmd-label">Initial pairing</p>
+        <pre><code>observa pair --base-url https://governance-plane-observa.tailb473db.ts.net --code-stdin</code></pre>
+        <p>Paste the code, then Ctrl-D. A pairing code is <strong>never</strong> accepted as a command-line argument:
+          <code>--code</code> refuses outright, so a code cannot end up in shell history or a process list. The
+          alternative is <code>--code-file &lt;0600-file&gt;</code>, which must be owner-only.</p>
+        <p>Pairing is runtime-neutral. The code proves your invite and binds this machine to your workspace; it
+          chooses nothing about what gets installed. The approved composition was recorded for your workspace when
+          you were invited.</p>
+
+        <p class="cmd-label">Unpair</p>
+        <pre><code>observa unpair</code></pre>
+        <p>This stops the service if it is running, asks Hosted to revoke the delivery credential, and reports how
+          many credentials were revoked. It then removes the Hosted base URL, connector credential and installation
+          binding from local config.</p>
+        <p class="note"><strong>Hosted delivery is revoked; the installed identity is retained.</strong> The signed
+          installation and its control-plane identity stay intact, and a recovery base URL plus the installation
+          secret are kept locally so you can re-pair without a new code.</p>
+
+        <p class="cmd-label">Re-pair</p>
+        <pre><code>observa pair</code></pre>
+        <p>After an unpair, <code>pair</code> takes <strong>no flags</strong> — passing any refuses
+          <code>PAIR_RECOVERY_FLAGS_REFUSED</code>. It self-authenticates the identity you already have and asks
+          Hosted to mint a replacement credential for the same deployment. No pairing code is redeemed and no new
+          installation is created.</p>
+      </div>
+    </section>
+
+    <section class="section mist" id="replace-existing" aria-labelledby="replace-title">
+      <div class="wrap read-col">
+        <div class="eyebrow">OpenClaw connector only</div>
+        <h2 id="replace-title"><code>EXISTING_CREDENTIAL_REQUIRES_REPLACE_FLAG</code></h2>
+        <p class="note"><strong>This refusal belongs to the OpenClaw connector</strong>
+          (<code>@mcphersonai/mcpherson-governance-openclaw</code>), not to Observa Local Node. The Local Node
+          <code>observa pair</code> has no <code>--replace-existing</code> flag, because its unpair/re-pair path
+          covers the same ground.</p>
+        <p><strong>Symptom.</strong> Pairing preflight refuses before a single-use code is read or redeemed, with
+          <code>Pairing preflight refused: EXISTING_CREDENTIAL_REQUIRES_REPLACE_FLAG</code>.</p>
+        <p><strong>Cause.</strong> The selected OpenClaw profile already holds a connector credential. Re-pairing
+          would replace it, and a silent replacement of a working credential is not something the tool will do on
+          its own.</p>
+        <p class="cmd-label">Inspect first, without consuming a code</p>
+        <pre><code>observa pair --api-url &lt;https://host&gt; --profile default --replace-existing --preflight-only</code></pre>
+        <p>Preflight reports the profile mode, install layout, connector version, whether the plugin is enabled, and
+          whether a credential is present — and reads no pairing code.</p>
+        <p class="cmd-label">Then migrate, once you have confirmed the endpoint is the one you intend</p>
+        <pre><code>observa pair --api-url &lt;https://host&gt; --profile default --replace-existing</code></pre>
+        <p><strong>The old credential is preserved, not overwritten.</strong> Before anything is committed, the prior
+          <code>openclaw.json</code> and the prior credential are written into an owner-only rollback snapshot in the
+          connector&rsquo;s own state directory:</p>
+        <pre><code>&lt;openclaw-profile-state&gt;/mcpherson-governance-connector/pairing-rollbacks/pair_&lt;uuid&gt;/
+    TRANSACTION.json
+    openclaw.json.before
+    deployment-credential.before</code></pre>
+        <p>The directory is mode <code>0700</code>. On success the command prints the non-secret transaction id.
+          Restore that exact prior state with:</p>
+        <pre><code>observa pair --profile default --rollback pair_&lt;uuid&gt;</code></pre>
+        <p>Rollback refuses if the profile changed since pairing, rather than restoring over an unknown state. If
+          activation verification fails during pairing, the previous config and credential are restored
+          automatically.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="pairfail-title">
+      <div class="wrap">
+        <div class="eyebrow">Failure states</div>
+        <h2 id="pairfail-title">Why a pairing attempt gets refused</h2>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Refusal</th><th>What it means</th><th>Safe action</th></tr></thead>
+            <tbody>
+              <tr><td><code>PAIR_REFUSED</code></td>
+                <td>Hosted declined the code: unknown, already used, expired, or minted for a different tenant or
+                  workspace. These are deliberately one answer, so the refusal is not an oracle.</td>
+                <td>Create a fresh code and retry <em>once</em>. If a fresh code also fails, stop and
+                  <a href="/observa/support">contact support</a> — do not loop.</td></tr>
+              <tr><td><code>PAIR_HOSTED_UNREACHABLE</code></td>
+                <td>The connection failed or timed out (10s). Nothing was redeemed.</td>
+                <td>Check the URL and your network, then retry. The code is not consumed by a failed connection.</td></tr>
+              <tr><td><code>PAIR_BASE_URL_FLAG_REQUIRED</code> / <code>PAIR_BASE_URL_REFUSED</code></td>
+                <td><code>--base-url</code> is missing or is not <code>https://host[:port]</code> (plain
+                  <code>http</code> is accepted only on loopback).</td>
+                <td>Supply the origin only — no path, query or fragment.</td></tr>
+              <tr><td><code>PAIR_CODE_INPUT_REQUIRED</code></td>
+                <td>Neither or both of <code>--code-stdin</code> and <code>--code-file</code> were given.</td>
+                <td>Choose exactly one.</td></tr>
+              <tr><td><code>PAIR_CODE_ARGV_REFUSED</code></td>
+                <td>You passed the code as an argument.</td>
+                <td>Use <code>--code-stdin</code> or an owner-only <code>--code-file</code>. Treat that code as
+                  exposed and mint a new one.</td></tr>
+              <tr><td><code>PAIR_CODE_FILE_PERMISSIONS_REFUSED</code></td>
+                <td>The code file is group- or world-readable.</td>
+                <td><code>chmod 600</code> the file.</td></tr>
+              <tr><td><code>PAIR_RECOVERY_FLAGS_REFUSED</code></td>
+                <td>You passed flags to <code>pair</code> while a re-pair is pending.</td>
+                <td>Run <code>observa pair</code> with no flags.</td></tr>
+              <tr><td><code>UNPAIR_ACTIVE_BINDING_REQUIRED</code></td>
+                <td>There is no complete, self-consistent active pairing to unpair.</td>
+                <td>Run <code>observa diagnose</code>. Do not hand-edit the config file.</td></tr>
+              <tr><td><code>PAIR_CREDENTIAL_SHAPE_REFUSED</code> / <code>PAIR_CREDENTIAL_METADATA_DIVERGED</code> /
+                  <code>PAIR_RESPONSE_MALFORMED</code></td>
+                <td>The response did not match what the CLI independently derived. Nothing was stored.</td>
+                <td>Do not retry blindly. <a href="/observa/support">Contact support</a> with the refusal code.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy" aria-labelledby="pair-next-title">
+      <div class="wrap">
+        <div class="section-head stacked">
+          <div class="eyebrow">Related</div>
+          <h2 id="pair-next-title">Related pages.</h2>
+        </div>
+        <div class="resource-links">
+          <a href="/observa/getting-started">The full onboarding path →</a>
+          <a href="/observa/cli#pair">The pair command in the CLI reference →</a>
+          <a href="/observa/troubleshooting">Other failures and recovery →</a>
+          <a href="/observa/support">Get help →</a>
+        </div>
+        <div class="cta-row"><a class="btn primary" href="/observa/getting-started">Start from the beginning</a><a class="btn" href="/observa/support">Contact support</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
+        </div>
+        <div>
+          <h2>Observa help</h2>
+          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
+        </div>
+        <div>
+          <h2>Proof and contact</h2>
+          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
+    </div>
+  </footer>
+</body>
+</html>

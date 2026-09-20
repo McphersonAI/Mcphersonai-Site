@@ -10,6 +10,13 @@ const routes = [
   "/governance",
   "/private-beta",
   "/observa",
+  "/private-beta",
+  "/observa/getting-started",
+  "/observa/cli",
+  "/observa/pairing",
+  "/observa/troubleshooting",
+  "/observa/safety",
+  "/observa/support",
   "/observa-audit-mode-schema-v0.1",
   "/qsr-systems",
   "/services",
@@ -28,9 +35,11 @@ const viewports = [
   { label: "desktop", width: 1440, height: 1200 }
 ];
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.6.2";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.2";
 const releaseRoutes = new Set(["/", "/governance", "/proof"]);
 const installRoutes = new Set(["/", "/governance", "/proof"]);
+const demoVideoRoutes = new Set(["/", "/observa", "/private-beta"]);
+const demoSlotRoutes = new Set(["/", "/observa"]);
 const redirectExpectations = new Map([
   ["/governance/?utm_source=browser-audit&ref=slash", ["/governance", "?utm_source=browser-audit&ref=slash"]],
   ["/governance.html?utm_source=browser-audit&ref=html", ["/governance", "?utm_source=browser-audit&ref=html"]]
@@ -80,6 +89,8 @@ async function inspectPage(route, viewport) {
   const consoleErrors = [];
   const exceptions = [];
   const browserLogErrors = [];
+  const respondedRequests = new Set();
+  const demoMediaResponses = [];
   const failedRequiredAssets = [];
   const requests = new Map();
   let nextId = 1;
@@ -113,7 +124,27 @@ async function inspectPage(route, viewport) {
       }
       if (message.method === "Network.loadingFailed") {
         const request = requests.get(message.params.requestId) || {};
-        failedRequiredAssets.push(`${request.type || "resource"} ${request.url || message.params.requestId}: ${message.params.errorText}`);
+        // net::ERR_ABORTED means the CLIENT stopped the transfer, not that the
+        // asset is broken. It is the normal outcome for <video
+        // preload="metadata">, which abandons the body once it has the moov
+        // atom, and for the in-page redirect on the tracked /contact route,
+        // which tears down in-flight requests. A genuinely missing or broken
+        // asset shows up either as a non-abort error here or as an HTTP >= 400
+        // in the responseReceived branch below, and the demo routes
+        // additionally assert a POSITIVE successful media response.
+        if (message.params.errorText !== "net::ERR_ABORTED") {
+          failedRequiredAssets.push(`${request.type || "resource"} ${request.url || message.params.requestId}: ${message.params.errorText}`);
+        }
+      }
+      if (message.method === "Network.responseReceived") {
+        respondedRequests.add(message.params.requestId);
+        const responded = requests.get(message.params.requestId);
+        if (responded) responded.status = message.params.response.status;
+        const status = message.params.response.status;
+        if (/\/assets\/video\/observa-product-demo\.mp4$/.test(message.params.response.url)
+          && (status === 200 || status === 206)) {
+          demoMediaResponses.push(status);
+        }
       }
       if (message.method === "Network.responseReceived" && message.params.response.status >= 400) {
         const responseUrl = new URL(message.params.response.url);
@@ -241,6 +272,36 @@ async function inspectPage(route, viewport) {
         href: element.getAttribute("href"),
         type: element.getAttribute("type")
       })),
+      demoVideos: [...document.querySelectorAll("video")].map((element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          src: (element.querySelector("source") || {}).src || "",
+          poster: element.getAttribute("poster") || "",
+          controls: element.controls === true,
+          autoplay: element.autoplay === true,
+          loop: element.loop === true,
+          playsInline: element.hasAttribute("playsinline"),
+          preload: element.getAttribute("preload") || "",
+          paused: element.paused === true,
+          ariaLabel: element.getAttribute("aria-label") || "",
+          describedBy: element.getAttribute("aria-describedby") || "",
+          captionVisible: (() => {
+            const id = element.getAttribute("aria-describedby");
+            if (!id) return false;
+            const caption = document.getElementById(id);
+            if (!caption) return false;
+            const box = caption.getBoundingClientRect();
+            return box.width > 0 && box.height > 0;
+          })(),
+          visible: rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden",
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          right: Math.round(rect.right),
+          overflows: rect.left < -1 || rect.right > window.innerWidth + 1
+        };
+      }),
+      demoSlots: [...document.querySelectorAll("[data-demo-slot]")].map((element) => element.getAttribute("data-demo-slot")),
       darkCalloutEyebrows: [...document.querySelectorAll(".split-callout .eyebrow")].map((element) => ({
         text: element.textContent.trim(),
         color: getComputedStyle(element).color,
@@ -256,10 +317,51 @@ async function inspectPage(route, viewport) {
   if (!state.brandVisible) errors.push(`${route} ${viewport.label}: brand is not visible`);
   if (!state.skipLinkPresent) errors.push(`${route} ${viewport.label}: skip link is missing`);
   if (!state.primaryCtaPresent) errors.push(`${route} ${viewport.label}: primary CTA hierarchy is missing`);
+
+  // The product demo must render, be playable on the user's terms, and fit.
+  if (demoVideoRoutes.has(route)) {
+    if (state.demoVideos.length !== 1) {
+      errors.push(`${route} ${viewport.label}: expected exactly one demo video, found ${state.demoVideos.length}`);
+    }
+    for (const video of state.demoVideos) {
+      if (!video.visible) errors.push(`${route} ${viewport.label}: demo video is not visible`);
+      if (!video.src.endsWith("/assets/video/observa-product-demo.mp4")) {
+        errors.push(`${route} ${viewport.label}: demo video source is not the local asset`);
+      }
+      if (!video.poster.endsWith("/assets/video/observa-product-demo-poster.jpg")) {
+        errors.push(`${route} ${viewport.label}: demo video has no poster frame`);
+      }
+      if (!video.controls) errors.push(`${route} ${viewport.label}: demo video has no controls`);
+      if (video.autoplay) errors.push(`${route} ${viewport.label}: demo video autoplays`);
+      if (video.loop) errors.push(`${route} ${viewport.label}: demo video loops`);
+      if (!video.paused) errors.push(`${route} ${viewport.label}: demo video is playing without user action`);
+      if (!video.playsInline) errors.push(`${route} ${viewport.label}: demo video is not inline-playable`);
+      if (video.preload !== "metadata") errors.push(`${route} ${viewport.label}: demo video preload is "${video.preload}", expected metadata`);
+      if (video.ariaLabel.length < 20) errors.push(`${route} ${viewport.label}: demo video has no descriptive accessible name`);
+      if (!video.captionVisible) errors.push(`${route} ${viewport.label}: demo video caption is not visible`);
+      if (video.overflows) errors.push(`${route} ${viewport.label}: demo video escapes the viewport (right ${video.right} > ${viewport.width})`);
+      if (video.width < 200) errors.push(`${route} ${viewport.label}: demo video renders only ${video.width}px wide`);
+      // Portrait source: it must render taller than it is wide, and must not
+      // grow so tall on a phone that the caption and CTAs are pushed away.
+      if (video.height > 0 && video.width > 0) {
+        const ratio = video.height / video.width;
+        if (ratio < 1.4 || ratio > 1.95) {
+          errors.push(`${route} ${viewport.label}: demo video renders at ${video.width}x${video.height} (ratio ${ratio.toFixed(2)}), expected roughly 9:16`);
+        }
+      }
+    }
+    if (demoSlotRoutes.has(route)
+      && state.demoSlots.join(",") !== "product-walkthrough,governance-analysis") {
+      errors.push(`${route} ${viewport.label}: demo slots are ${JSON.stringify(state.demoSlots)}`);
+    }
+  }
   if (state.bodyText.includes("v0.5.0")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.0 label remains`);
   if (state.bodyText.includes("v0.5.1")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.1 label remains`);
-  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.6.2")) {
-    errors.push(`${route} ${viewport.label}: current v0.6.2 release label is not visible`);
+  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.7.2")) {
+    errors.push(`${route} ${viewport.label}: current v0.7.2 release label is not visible`);
+  }
+  if (state.bodyText.includes("v0.6.2") && !/\(v0\.6\.2\)|historical|Historical/.test(state.bodyText)) {
+    errors.push(`${route} ${viewport.label}: an unqualified v0.6.2 label is rendered`);
   }
   if (installRoutes.has(route)) {
     if (!state.installCtas.length) {
@@ -268,11 +370,11 @@ async function inspectPage(route, viewport) {
       errors.push(`${route} ${viewport.label}: install CTA is not visible with the correct ClawHub destination`);
     }
     if (!state.githubReleaseLinks.includes(expectedGithubReleaseUrl)) {
-      errors.push(`${route} ${viewport.label}: v0.6.2 GitHub release link is missing`);
+      errors.push(`${route} ${viewport.label}: v0.7.2 GitHub release link is missing`);
     }
   }
-  if (["/governance", "/proof"].includes(route) && !state.bodyText.includes("2026.6.5")) {
-    errors.push(`${route} ${viewport.label}: OpenClaw 2026.6.5 minimum is not visible`);
+  if (["/governance", "/proof"].includes(route) && !state.bodyText.includes("2026.8.2")) {
+    errors.push(`${route} ${viewport.label}: OpenClaw 2026.8.2 minimum is not visible`);
   }
   if (["/", "/governance", "/proof"].includes(route) && !state.bodyText.toLowerCase().includes("shadow-only")) {
     errors.push(`${route} ${viewport.label}: shadow-only authority language is not visible`);
@@ -910,6 +1012,11 @@ async function inspectPage(route, viewport) {
   if (failedRequiredAssets.length) {
     errors.push(`${route} ${viewport.label}: failed required asset(s): ${failedRequiredAssets.join(" | ")}`);
   }
+  // The demo video must be fetched AND served successfully, so that ignoring
+  // client aborts above cannot hide a video that never loads at all.
+  if (demoVideoRoutes.has(routePath) && demoMediaResponses.length === 0) {
+    errors.push(`${route} ${viewport.label}: the demo video was never served a 200/206 response`);
+  }
 
   socket.close();
   await fetch(`http://127.0.0.1:${debugPort}/json/close/${target.id}`);
@@ -933,6 +1040,7 @@ if (errors.length) {
 
 console.log(
   `Browser audit passed: ${routes.length} routes across ${viewports.length} viewports `
+  + `(demo video verified on ${demoVideoRoutes.size} routes at every width) `
   + `(${viewports.map((viewport) => `${viewport.width}x${viewport.height}`).join(", ")}); `
   + `${darkCalloutLabels.size} dark-callout labels; favicon/icon and query-preserving redirect assertions; `
   + "tracked funnel attribution; form boundary, placeholder, focus, disabled, error, validation, and button checks; "

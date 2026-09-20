@@ -284,16 +284,22 @@ for (const rule of redirectRules) {
 
 const statusSource = await readFile(join(outputRoot, "release-status.js"), "utf8");
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.6.2";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.2";
 for (const [label, value] of [
-  ["release version", 'publicVersion: "v0.6.2"'],
-  ["numeric release version", 'publicVersionNumber: "0.6.2"'],
+  ["release version", 'publicVersion: "v0.7.2"'],
+  ["numeric release version", 'publicVersionNumber: "0.7.2"'],
   ["public status", 'releaseStatus: "Public and verified"'],
   ["release label", 'releaseLabel: "Public release"'],
   ["primary CTA", 'primaryCtaLabel: "Install the Free Plugin"'],
   ["ClawHub URL", `clawHubListing: "${expectedClawHubUrl}"`],
   ["GitHub release URL", `githubRelease: "${expectedGithubReleaseUrl}"`],
-  ["minimum OpenClaw version", 'openClawPluginApiMinimum: "2026.6.5"'],
+  // v0.7.2's own package.json declares openclaw compat ">=2026.8.2".
+  ["minimum OpenClaw version", 'openClawPluginApiMinimum: "2026.8.2"'],
+  ["tested OpenClaw version", 'openClawTestedVersion: "2026.8.2"'],
+  ["release commit", 'sourceCommit: "d0fe213c6b0c50896645a9a7ad7cc162bd758d81"'],
+  ["release tag", 'sourceTag: "v0.7.2"'],
+  ["Local Node package", 'localNodeNpmPackage: "@mcpherson-ai/observa-local-node"'],
+  ["Local Node version", 'localNodeVersion: "0.1.6"'],
   ["shadow-only authority", 'authority: "shadow-only"'],
   ["inactive enforcement", "activeEnforcement: false"],
   ["public install CTA mode", 'ctaMode: "public-install"']
@@ -308,6 +314,22 @@ if (!renderedText.includes("It has no authority to block, approve, deny, or rewr
 }
 if (/\bv?0\.5\.0\b/.test(renderedText)) {
   errors.push("a stale v0.5.0 label remains in current public output");
+}
+
+// Superseded release identities must not reappear as CURRENT-facing claims.
+// A clearly-labelled historical reference (a v0.6.2 deep link, or prose that
+// names the v0.6.x line as history) is allowed; an unqualified one is not.
+for (const file of htmlFiles) {
+  const rel = relative(outputRoot, file);
+  const html = htmlCache.get(file) ?? await readFile(file, "utf8");
+  for (const [, context] of html.matchAll(/(.{0,120}v0\.6\.\d+.{0,60})/gs)) {
+    const historical = /blob\/v0\.6\.\d+\/|\(v0\.6\.\d+\)|Historical|historical|v0\.6\.x line|earlier standalone|were supported by the historical/.test(context);
+    if (!historical) errors.push(`${rel}: unqualified current-facing v0.6.x claim: ${context.replace(/\s+/g, " ").trim().slice(0, 90)}`);
+  }
+}
+// Obsolete verifier / test counts from the v0.6.2 release line.
+for (const pattern of [/\b42\s*\/\s*42\b/, /\b10\s*\/\s*10\s*packaged/, /\b31\s*\/\s*31\b/, /42 of 42 release verifiers/]) {
+  if (pattern.test(renderedText)) errors.push(`an obsolete v0.6.2-era release count remains: ${pattern}`);
 }
 if (renderedText.includes("/releases/tag/v0.5.0") || renderedText.includes("/blob/v0.5.0/")) {
   errors.push("a stale v0.5.0 public release link remains");
@@ -395,27 +417,159 @@ for (const requiredBoundary of [
   if (!privateBeta.includes(requiredBoundary)) errors.push(`private beta boundary missing: ${requiredBoundary}`);
 }
 
-for (const page of ["index.html", "private-beta.html"]) {
+// ---------------------------------------------------------------------------
+// Product demo.
+//
+// The video is a first-class product asset, not decoration: it must be present
+// in the build, be real media, be embedded on every page that claims to show
+// it, and never autoplay. Each of these is a way it could silently disappear
+// from the deployed site, so each is checked.
+// ---------------------------------------------------------------------------
+
+const DEMO_VIDEO_SRC = "/assets/video/observa-product-demo.mp4";
+const DEMO_POSTER_SRC = "/assets/video/observa-product-demo-poster.jpg";
+const demoPages = ["index.html", "observa.html", "private-beta.html"];
+
+for (const page of demoPages) {
   const html = await readFile(join(outputRoot, page), "utf8");
   for (const videoRequirement of [
-    '<source src="/assets/video/observa-private-beta-demo.mp4" type="video/mp4">',
-    'poster="/assets/video/observa-private-beta-demo-poster.jpg"',
-    "controls playsinline preload=\"metadata\""
+    `<source src="${DEMO_VIDEO_SRC}" type="video/mp4">`,
+    `poster="${DEMO_POSTER_SRC}"`,
+    "controls",
+    "playsinline",
+    'preload="metadata"'
   ]) {
     if (!html.includes(videoRequirement)) errors.push(`${page}: demo video integration missing: ${videoRequirement}`);
   }
+  // Never autoplay, and never loop or hide the controls.
+  for (const [label, pattern] of [
+    ["autoplay", /<video\b[^>]*\bautoplay\b/i],
+    ["loop", /<video\b[^>]*\bloop\b/i],
+    ["controls removed", /<video\b(?:(?!\bcontrols\b)[^>])*>/i]
+  ]) {
+    if (pattern.test(html)) errors.push(`${page}: demo video must not be ${label}`);
+  }
+  // A no-JS / unsupported-codec reader must still be able to reach the file.
+  if (!html.includes(`<a href="${DEMO_VIDEO_SRC}">`)) {
+    errors.push(`${page}: demo video has no direct download fallback`);
+  }
+  // The intrinsic size hint must match the real asset, or the browser reserves
+  // a landscape box for a portrait video and the page jumps on load.
+  if (!/<video\b[^>]*width="1080"/s.test(html) || !/<video\b[^>]*height="1920"/s.test(html)) {
+    errors.push(`${page}: demo video intrinsic size hint is not the asset's 1080x1920`);
+  }
+
+  // Accessible name and a visible caption tied to the element.
+  if (!/<video\b[^>]*aria-label="[^"]{20,}"/.test(html)) {
+    errors.push(`${page}: demo video has no descriptive accessible name`);
+  }
+  if (!/<video\b[^>]*aria-describedby="([^"]+)"/.test(html)) {
+    errors.push(`${page}: demo video is not associated with a visible caption`);
+  } else {
+    const captionId = html.match(/<video\b[^>]*aria-describedby="([^"]+)"/)[1];
+    if (!new RegExp(`id="${captionId}"`).test(html)) {
+      errors.push(`${page}: demo video aria-describedby points at no element`);
+    }
+  }
+  // The asset carries an audio track, so the page must say so before a reader
+  // presses play — and must promise that nothing plays on its own.
+  if (!/has sound; nothing plays until you press play/i.test(html)) {
+    errors.push(`${page}: demo video does not disclose that it has sound and never self-starts`);
+  }
+  if (/silent, with on-screen captions/i.test(html)) {
+    errors.push(`${page}: demo video is described as silent, but the asset has an audio track`);
+  }
+  // No third-party social embed may stand in for the original asset.
+  for (const [label, pattern] of [
+    ["TikTok", /tiktok\.com/i],
+    ["YouTube", /youtube\.com|youtu\.be/i],
+    ["Vimeo", /vimeo\.com/i],
+    ["iframe embed", /<iframe\b/i]
+  ]) {
+    if (pattern.test(html)) errors.push(`${page}: demo must use the local asset, not a ${label} embed`);
+  }
 }
-const demoVideoPath = join(outputRoot, "assets", "video", "observa-private-beta-demo.mp4");
-const demoPosterPath = join(outputRoot, "assets", "video", "observa-private-beta-demo-poster.jpg");
+
+// The section is built from two slots so a second demo can be added later
+// without restructuring the page. Both slots must exist on the two product
+// surfaces, in order.
+for (const page of ["index.html", "observa.html"]) {
+  const html = await readFile(join(outputRoot, page), "utf8");
+  const slots = [...html.matchAll(/data-demo-slot="([a-z-]+)"/g)].map((match) => match[1]);
+  if (slots.join(",") !== "product-walkthrough,governance-analysis") {
+    errors.push(`${page}: demo slots are ${JSON.stringify(slots)}, expected the walkthrough then Governance Analysis`);
+  }
+  for (const value of ["WOULD_ALLOW", "WOULD_DENY", "WOULD_REQUIRE_APPROVAL"]) {
+    if (!html.includes(value)) errors.push(`${page}: Governance Analysis slot omits ${value}`);
+  }
+  // Governance Analysis exists today; only its dedicated video is future work.
+  if (/Governance Analysis[^<]{0,80}coming soon/i.test(html)) {
+    errors.push(`${page}: Governance Analysis must not be described as unavailable`);
+  }
+  for (const cta of ['href="/private-beta">Explore the beta', 'href="/observa/getting-started">Read the docs']) {
+    if (!html.includes(cta)) errors.push(`${page}: demo section is missing CTA: ${cta}`);
+  }
+  if (!html.includes("SHADOW ONLY &middot; AUTHORITY NONE &middot; ENFORCEMENT OFF")
+    && !html.includes("SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF")) {
+    errors.push(`${page}: demo section is missing the posture line`);
+  }
+}
+
+// The media itself must survive the build as real, non-trivial media.
+// Derived from the embed constants above, so the file checked on disk is
+// always the file the pages actually reference.
+const demoVideoPath = join(outputRoot, ...DEMO_VIDEO_SRC.split("/").filter(Boolean));
+const demoPosterPath = join(outputRoot, ...DEMO_POSTER_SRC.split("/").filter(Boolean));
 if (!await exists(demoVideoPath)) {
   errors.push("demo video asset is missing from dist");
-} else if ((await readFile(demoVideoPath)).length < 1_000_000) {
-  errors.push("demo video asset in dist is unexpectedly small");
+} else {
+  const video = await readFile(demoVideoPath);
+  if (video.length < 1_000_000) errors.push("demo video asset in dist is unexpectedly small");
+  // ISO base media file: an `ftyp` box must start the file.
+  if (video.subarray(4, 8).toString("latin1") !== "ftyp") {
+    errors.push("demo video asset in dist is not an ISO base media (MP4) file");
+  }
+  // A playable moov/mdat pair, so a truncated copy cannot pass as present.
+  for (const box of ["moov", "mdat"]) {
+    if (!video.includes(Buffer.from(box, "latin1"))) {
+      errors.push(`demo video asset in dist has no ${box} box`);
+    }
+  }
+  // Both tracks the page promises: an H.264 video track and an audio track.
+  if (!video.includes(Buffer.from("avc1", "latin1"))) {
+    errors.push("demo video asset in dist has no H.264 video track");
+  }
+  if (!video.includes(Buffer.from("mp4a", "latin1"))) {
+    errors.push("demo video asset in dist has no audio track, but the page says it has sound");
+  }
 }
 if (!await exists(demoPosterPath)) {
   errors.push("demo video poster is missing from dist");
-} else if ((await readFile(demoPosterPath)).subarray(0, 2).toString("hex") !== "ffd8") {
-  errors.push("demo video poster is not a valid JPEG");
+} else {
+  const poster = await readFile(demoPosterPath);
+  if (poster.subarray(0, 2).toString("hex") !== "ffd8") {
+    errors.push("demo video poster is not a valid JPEG");
+  }
+  if (poster.length < 20_000) errors.push("demo video poster in dist is unexpectedly small");
+  // Portrait poster, matching the 9:16 source. Read the JPEG SOF dimensions.
+  let offset = 2;
+  let posterWidth = 0;
+  let posterHeight = 0;
+  while (offset < poster.length - 9) {
+    if (poster[offset] !== 0xff) { offset += 1; continue; }
+    const marker = poster[offset + 1];
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+      posterHeight = poster.readUInt16BE(offset + 5);
+      posterWidth = poster.readUInt16BE(offset + 7);
+      break;
+    }
+    offset += 2 + poster.readUInt16BE(offset + 2);
+  }
+  if (!posterWidth || !posterHeight) {
+    errors.push("demo video poster dimensions could not be read");
+  } else if (posterWidth >= posterHeight) {
+    errors.push(`demo video poster is ${posterWidth}x${posterHeight}; the source is portrait 9:16`);
+  }
 }
 
 const privateBetaCard = await readFile(join(outputRoot, "og-private-beta.png"));
@@ -566,6 +720,234 @@ if (/latest dated proof states[^<]*3,000|<h3>3,000 cumulative downloads<\/h3>/i.
   errors.push("current-facing 3,000-download claim remains");
 }
 
+// ---------------------------------------------------------------------------
+// Observa public help resources (/observa/*).
+//
+// These pages document a shipped CLI, so they are audited against facts rather
+// than taste: the canonical Hosted origin has exactly one definition, the
+// primary onboarding commands are literally copy/pasteable, the shadow-only
+// posture is restated on every page, and no superseded version, package name
+// or command spelling is allowed back in.
+// ---------------------------------------------------------------------------
+
+const observaHelpSlugs = [
+  "getting-started", "cli", "pairing", "troubleshooting", "safety", "support"
+];
+
+// ONE definition of the Hosted origin, read out of the published status module.
+const hostedBaseUrl = statusSource
+  .match(/observaHostedBaseUrl:\s*"([^"]+)"/)?.[1] ?? "";
+if (!/^https:\/\/[A-Za-z0-9.-]+$/.test(hostedBaseUrl)) {
+  errors.push("release-status.js does not define a single https observaHostedBaseUrl");
+}
+
+const observaHelpPages = new Map();
+for (const slug of observaHelpSlugs) {
+  const file = join(outputRoot, "observa", `${slug}.html`);
+  if (!await exists(file)) {
+    errors.push(`Observa help page is missing from the build: observa/${slug}.html`);
+    continue;
+  }
+  observaHelpPages.set(slug, await readFile(file, "utf8"));
+}
+
+for (const [slug, html] of observaHelpPages) {
+  const canonical = matches(html, /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+  if (canonical !== `https://mcphersonai.com/observa/${slug}`) {
+    errors.push(`observa/${slug}.html: canonical is not the exact help-resource URL`);
+  }
+  // The posture must be restated on every page, not only on the safety page.
+  for (const token of ["SHADOW_ONLY", "AUTHORITY NONE", "ENFORCEMENT OFF"]) {
+    if (!html.includes(token)) errors.push(`observa/${slug}.html: missing posture token ${token}`);
+  }
+  // Every help page reaches every other one.
+  for (const other of observaHelpSlugs) {
+    if (other === slug) continue;
+    if (!html.includes(`href="/observa/${other}"`)) {
+      errors.push(`observa/${slug}.html: no link to /observa/${other}`);
+    }
+  }
+  // Only ONE Hosted origin may appear anywhere in a help page.
+  for (const [, host] of html.matchAll(/https:\/\/([A-Za-z0-9.-]*\.ts\.net)/g)) {
+    if (`https://${host}` !== hostedBaseUrl) {
+      errors.push(`observa/${slug}.html: Hosted origin ${host} disagrees with observaHostedBaseUrl`);
+    }
+  }
+  // Superseded identities must not reappear in current public help.
+  for (const [label, pattern] of [
+    ["superseded Local Node version", /observa-local-node@0\.1\.[0-5]\b|Local Node[^<]{0,24}0\.1\.[0-5]\b/],
+    ["never-published internal package name", /@mcphersonai\/observa-cli/],
+    ["superseded OpenClaw connector version", /\b0\.(?:6\.\d+|7\.[01])(?:-beta\.\d+)?\b/],
+    ["enforcement described as on", /enforcement\s+(?:is\s+)?(?:on|enabled|active)\b/i],
+    ["active enforcement claim", /\bactive enforcement\b|\bENFORCEMENT ON\b|\bAUTHORITY (?:FULL|SOME)\b/i],
+    // Only an AFFIRMATIVE claim at the start of a sentence or block counts.
+    // "It does not mean Observa blocked anything" must stay legal.
+    ["claim that Observa blocked something",
+      /(?:^|[.!?]\s+|<p[^>]*>|<li[^>]*>|<strong>)\s*Observa (?:blocks|blocked|prevents|prevented|denies|denied)\b/],
+    ["runtime success sold as business success", /completion (?:proves|means) (?:the )?(?:business )?(?:outcome|success)/i]
+  ]) {
+    if (pattern.test(html)) errors.push(`observa/${slug}.html: ${label}`);
+  }
+}
+
+for (const [slug, html] of observaHelpPages) {
+  if (!html.includes("WOULD_DENY")) continue;
+  if (!/does not mean|do not mean|does <em>not<\/em> mean|not <em>mean<\/em>|counterfactual/i.test(html)) {
+    errors.push(`observa/${slug}.html: uses WOULD_DENY without disclaiming that nothing was blocked`);
+  }
+}
+
+// The two commands a new user must be able to paste without editing anything.
+const gettingStarted = observaHelpPages.get("getting-started") ?? "";
+for (const command of [
+  `observa request-access --api-url ${hostedBaseUrl}`,
+  `observa pair --base-url ${hostedBaseUrl} --code-stdin`,
+  "npm install -g @mcpherson-ai/observa-local-node",
+  "observa inspect-workflow --file ./workflow.json",
+  "observa n8n-setup"
+]) {
+  if (!gettingStarted.includes(command)) {
+    errors.push(`observa/getting-started.html: missing copy/pasteable command: ${command}`);
+  }
+}
+if (/observa (?:request-access|pair)[^<\n]*&lt;HOSTED_BASE_URL&gt;/.test(gettingStarted)) {
+  errors.push("observa/getting-started.html: the onboarding path still asks users to substitute a placeholder");
+}
+
+// Flag spellings differ between the two shipped CLIs; the reference must not blur them.
+const cliPage = observaHelpPages.get("cli") ?? "";
+for (const [label, needle] of [
+  ["Local Node pair flag", "observa pair --base-url &lt;https://host&gt; (--code-stdin | --code-file &lt;0600-file&gt;)"],
+  ["request-access flag", "observa request-access --api-url &lt;https://host&gt;"],
+  ["OpenClaw pair flag", "observa pair --api-url &lt;https://host&gt; [--code-file &lt;owner-only-file&gt;]"],
+  ["OpenClaw replace-existing", "--replace-existing"]
+]) {
+  if (!cliPage.includes(needle)) errors.push(`observa/cli.html: missing ${label}`);
+}
+if (/observa pair --base-url[^<\n]*--replace-existing/.test(cliPage)
+  || /observa pair --base-url[^<\n]*--api-url/.test(cliPage)) {
+  errors.push("observa/cli.html: Local Node and OpenClaw pairing flags are mixed on one command line");
+}
+
+// The counterfactual vocabulary must be present AND explicitly disclaimed.
+const safetyPage = observaHelpPages.get("safety") ?? "";
+for (const value of ["WOULD_ALLOW", "WOULD_DENY", "WOULD_REQUIRE_APPROVAL", "ABSTAIN", "INDETERMINATE"]) {
+  if (!safetyPage.includes(value)) errors.push(`observa/safety.html: missing SHADOW value ${value}`);
+}
+for (const claim of ["UNMAPPED", "UNEVALUATED", "OBSERVED", "AUTHORIZED"]) {
+  if (!safetyPage.includes(claim)) errors.push(`observa/safety.html: missing boundary term ${claim}`);
+}
+if (!safetyPage.includes("inspect-workflow")
+  || !/does <strong>not<\/strong>/.test(safetyPage)) {
+  errors.push("observa/safety.html: the inspect-workflow non-claims are not stated");
+}
+
+// Support routes, and the never-post list, must both be explicit.
+const supportPage = observaHelpPages.get("support") ?? "";
+for (const route of [
+  "https://github.com/McphersonAI/mcpherson-governance-openclaw/issues",
+  "mailto:admin@mcphersonai.com",
+  "https://mcphersonai.com/"
+]) {
+  if (!supportPage.includes(route)) errors.push(`observa/support.html: missing support route ${route}`);
+}
+for (const forbidden of ["Pairing codes", "API keys", "Access tokens", "runtime payloads"]) {
+  if (!supportPage.includes(forbidden)) {
+    errors.push(`observa/support.html: the do-not-send list omits ${forbidden}`);
+  }
+}
+
+// The product page has to lead somewhere.
+const observaPage = await readFile(join(outputRoot, "observa.html"), "utf8");
+if (!observaPage.includes('href="/observa/getting-started"')) {
+  errors.push("observa.html: no Docs and help entry point");
+}
+
+// ---------------------------------------------------------------------------
+// Current product copy and onboarding.
+//
+// The site must surface what the product actually does today, and must not
+// imply authority it does not have. These are the overclaims that matter.
+// ---------------------------------------------------------------------------
+
+const productSurfaces = ["index.html", "observa.html", "private-beta.html", "governance.html", "proof.html"];
+for (const page of productSurfaces) {
+  const html = await readFile(join(outputRoot, page), "utf8");
+  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+  for (const [label, pattern] of [
+    ["active enforcement", /\b(active enforcement|enforcement is (on|enabled|active)|ENFORCEMENT ON)\b/gi],
+    ["automatic mapping of everything", /\b(automatically maps|maps every|all (tools|actions) are mapped|automatic mapping is (on|enabled))\b/gi],
+    ["a decision for every action", /\bevery (runtime )?action (receives|gets) a (governance )?decision\b/gi],
+    ["completion sold as verified", /\b(completed means verified|completion (proves|means) (the )?(business )?(outcome|success)|runtime success proves)\b/gi],
+    ["observed sold as authorized", /\bobserved (means|equals|implies) authoriz/gi],
+    ["blocking claim", /\bObserva (blocks|blocked|prevents|prevented|denies|denied|stops|stopped) (the|your|an|any|agent)/gi]
+  ]) {
+    for (const match of text.matchAll(pattern)) {
+      // Only an AFFIRMATIVE claim counts. The site is expected to state each
+      // of these as something it does NOT do, so a negated or disclaimed
+      // occurrence is the correct copy, not a defect.
+      const before = text.slice(Math.max(0, match.index - 90), match.index);
+      const after = text.slice(match.index + match[0].length, match.index + match[0].length + 40);
+      const negated = /\b(not|never|no|without|neither|nor|cannot|can't|does not|do not|remains? (false|off))\b[^.]*$/i.test(before)
+        || /^\s*(remains?|is|stays?)\s+(false|off|none|inactive)\b/i.test(after);
+      if (!negated) {
+        errors.push(`${page}: overclaim (${label}): …${text.slice(Math.max(0, match.index - 60), match.index + match[0].length + 40).trim()}…`);
+      }
+    }
+  }
+}
+
+// The current capability surface, named where a reader will look for it.
+const observaProduct = await readFile(join(outputRoot, "observa.html"), "utf8");
+for (const capability of ["WOULD_ALLOW", "WOULD_DENY", "WOULD_REQUIRE_APPROVAL", "Governance Analysis", "SHADOW"]) {
+  if (!observaProduct.includes(capability)) errors.push(`observa.html: current capability not surfaced: ${capability}`);
+}
+
+// Onboarding: the obsolete founder-only framing is gone, and the real
+// self-service-request / human-review path is shown with runnable commands.
+const betaPage = await readFile(join(outputRoot, "private-beta.html"), "utf8");
+for (const obsolete of [
+  "There is no public self-service signup",
+  "Applying starts a direct conversation with Blake"
+]) {
+  if (betaPage.includes(obsolete)) errors.push(`private-beta.html: obsolete onboarding framing remains: ${obsolete}`);
+}
+for (const required of [
+  "Self-service request. Human-reviewed access.",
+  "npm install -g @mcpherson-ai/observa-local-node",
+  `observa request-access --api-url ${hostedBaseUrl}`,
+  "observa request-status",
+  "Email verification",
+  "Human approval",
+  "Pairing",
+  "Runtime observation"
+]) {
+  if (!betaPage.includes(required)) errors.push(`private-beta.html: onboarding path is missing: ${required}`);
+}
+// Founder-assisted help must still be offered, not removed.
+if (!/founder-assisted/i.test(betaPage)) {
+  errors.push("private-beta.html: founder-assisted support is no longer offered anywhere");
+}
+// The homepage funnel shows the same real first command.
+const homePage = await readFile(join(outputRoot, "index.html"), "utf8");
+for (const required of [
+  "npm install -g @mcpherson-ai/observa-local-node",
+  `observa request-access --api-url ${hostedBaseUrl}`
+]) {
+  if (!homePage.includes(required)) errors.push(`index.html: onboarding command missing: ${required}`);
+}
+
+// No engagement or popularity claim may attach to the demo.
+for (const page of demoPages) {
+  const html = await readFile(join(outputRoot, page), "utf8");
+  for (const [label, pattern] of [
+    ["view/like counts", /\b\d[\d,.]*\s*(views|likes|plays|shares|followers)\b/i],
+    ["viral framing", /\b(went viral|viral|trending|most[- ]watched|popular on)\b/i]
+  ]) {
+    if (pattern.test(html)) errors.push(`${page}: demo carries an engagement claim (${label})`);
+  }
+}
+
 if (errors.length) {
   console.error(`Audit failed with ${errors.length} issue(s):`);
   for (const error of errors) console.error(`- ${error}`);
@@ -574,6 +956,8 @@ if (errors.length) {
 
 console.log(
   `Audit passed: ${htmlFiles.length} HTML pages and ${files.length} public files; internal links/fragments, `
-  + "v0.6.2 release state and CTAs, demo video integration, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
-  + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean."
+  + "v0.7.2 release state and CTAs, demo video integration, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
+  + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean; "
+  + `Observa help: ${observaHelpSlugs.length} pages, one Hosted origin (${hostedBaseUrl}), pasteable onboarding commands, posture tokens and CLI flag spellings verified; `
+  + `product demo: local asset on ${demoPages.length} pages, two demo slots, no autoplay/embed/engagement claim, real MP4 and poster in dist.`
 );
