@@ -35,7 +35,7 @@ const viewports = [
   { label: "desktop", width: 1440, height: 1200 }
 ];
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.2";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.3";
 const releaseRoutes = new Set(["/", "/governance", "/proof"]);
 const installRoutes = new Set(["/", "/governance", "/proof"]);
 const demoVideoRoutes = new Set(["/", "/observa", "/private-beta"]);
@@ -357,11 +357,14 @@ async function inspectPage(route, viewport) {
   }
   if (state.bodyText.includes("v0.5.0")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.0 label remains`);
   if (state.bodyText.includes("v0.5.1")) errors.push(`${route} ${viewport.label}: stale current-facing v0.5.1 label remains`);
-  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.7.2")) {
-    errors.push(`${route} ${viewport.label}: current v0.7.2 release label is not visible`);
+  if (releaseRoutes.has(route) && !state.bodyText.includes("v0.7.3")) {
+    errors.push(`${route} ${viewport.label}: current v0.7.3 release label is not visible`);
   }
   if (state.bodyText.includes("v0.6.2") && !/\(v0\.6\.2\)|historical|Historical/.test(state.bodyText)) {
     errors.push(`${route} ${viewport.label}: an unqualified v0.6.2 label is rendered`);
+  }
+  if (state.bodyText.includes("v0.7.2") && !/\(v0\.7\.2\)|historical|Historical|previous release|prior release|prior scanner|upgrade history/.test(state.bodyText)) {
+    errors.push(`${route} ${viewport.label}: an unqualified v0.7.2 label is rendered`);
   }
   if (installRoutes.has(route)) {
     if (!state.installCtas.length) {
@@ -370,7 +373,7 @@ async function inspectPage(route, viewport) {
       errors.push(`${route} ${viewport.label}: install CTA is not visible with the correct ClawHub destination`);
     }
     if (!state.githubReleaseLinks.includes(expectedGithubReleaseUrl)) {
-      errors.push(`${route} ${viewport.label}: v0.7.2 GitHub release link is missing`);
+      errors.push(`${route} ${viewport.label}: v0.7.3 GitHub release link is missing`);
     }
   }
   if (["/governance", "/proof"].includes(route) && !state.bodyText.includes("2026.8.2")) {

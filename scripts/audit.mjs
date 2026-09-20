@@ -284,22 +284,23 @@ for (const rule of redirectRules) {
 
 const statusSource = await readFile(join(outputRoot, "release-status.js"), "utf8");
 const expectedClawHubUrl = "https://clawhub.ai/plugins/%40mcphersonai%2Fmcpherson-governance-openclaw";
-const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.2";
+const expectedGithubReleaseUrl = "https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.3";
 for (const [label, value] of [
-  ["release version", 'publicVersion: "v0.7.2"'],
-  ["numeric release version", 'publicVersionNumber: "0.7.2"'],
+  ["release version", 'publicVersion: "v0.7.3"'],
+  ["numeric release version", 'publicVersionNumber: "0.7.3"'],
   ["public status", 'releaseStatus: "Public and verified"'],
   ["release label", 'releaseLabel: "Public release"'],
   ["primary CTA", 'primaryCtaLabel: "Install the Free Plugin"'],
   ["ClawHub URL", `clawHubListing: "${expectedClawHubUrl}"`],
   ["GitHub release URL", `githubRelease: "${expectedGithubReleaseUrl}"`],
-  // v0.7.2's own package.json declares openclaw compat ">=2026.8.2".
+  // v0.7.3's own package.json declares openclaw compat ">=2026.8.2".
   ["minimum OpenClaw version", 'openClawPluginApiMinimum: "2026.8.2"'],
   ["tested OpenClaw version", 'openClawTestedVersion: "2026.8.2"'],
-  ["release commit", 'sourceCommit: "d0fe213c6b0c50896645a9a7ad7cc162bd758d81"'],
-  ["release tag", 'sourceTag: "v0.7.2"'],
+  ["release commit", 'sourceCommit: "1237c59a70eb2c81318abc4b29d4724d0ad4d8ea"'],
+  ["release tag", 'sourceTag: "v0.7.3"'],
   ["Local Node package", 'localNodeNpmPackage: "@mcpherson-ai/observa-local-node"'],
   ["Local Node version", 'localNodeVersion: "0.1.6"'],
+  ["ClawHub security audit", 'clawHubSecurityAudit: "Safe"'],
   ["shadow-only authority", 'authority: "shadow-only"'],
   ["inactive enforcement", "activeEnforcement: false"],
   ["public install CTA mode", 'ctaMode: "public-install"']
@@ -325,6 +326,17 @@ for (const file of htmlFiles) {
   for (const [, context] of html.matchAll(/(.{0,120}v0\.6\.\d+.{0,60})/gs)) {
     const historical = /blob\/v0\.6\.\d+\/|\(v0\.6\.\d+\)|Historical|historical|v0\.6\.x line|earlier standalone|were supported by the historical/.test(context);
     if (!historical) errors.push(`${rel}: unqualified current-facing v0.6.x claim: ${context.replace(/\s+/g, " ").trim().slice(0, 90)}`);
+  }
+}
+// v0.7.2 is superseded by v0.7.3. It may remain only as an explicitly
+// historical reference (a v0.7.2 deep link, a parenthetical label, or prose
+// naming it as the previous release); an unqualified one is current-facing.
+for (const file of htmlFiles) {
+  const rel = relative(outputRoot, file);
+  const html = htmlCache.get(file) ?? await readFile(file, "utf8");
+  for (const [, context] of html.matchAll(/(.{0,120}v?0\.7\.2.{0,60})/gs)) {
+    const historical = /blob\/v0\.7\.2\/|releases\/tag\/v0\.7\.2|\(v0\.7\.2\)|Historical|historical|previous release|prior release|prior scanner|earlier release|upgrade history|superseded/.test(context);
+    if (!historical) errors.push(`${rel}: unqualified current-facing v0.7.2 claim: ${context.replace(/\s+/g, " ").trim().slice(0, 90)}`);
   }
 }
 // Obsolete verifier / test counts from the v0.6.2 release line.
@@ -956,7 +968,7 @@ if (errors.length) {
 
 console.log(
   `Audit passed: ${htmlFiles.length} HTML pages and ${files.length} public files; internal links/fragments, `
-  + "v0.7.2 release state and CTAs, demo video integration, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
+  + "v0.7.3 release state and CTAs, demo video integration, metadata, canonical/sitemap agreement, redirects, 404 inclusion, QSR evidence classification, "
   + "focus/reduced-motion rules, private paths, secret markers, and prohibited claims are clean; "
   + `Observa help: ${observaHelpSlugs.length} pages, one Hosted origin (${hostedBaseUrl}), pasteable onboarding commands, posture tokens and CLI flag spellings verified; `
   + `product demo: local asset on ${demoPages.length} pages, two demo slots, no autoplay/embed/engagement claim, real MP4 and poster in dist.`
