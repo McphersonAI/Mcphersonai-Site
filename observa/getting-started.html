@@ -1,272 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Observa Local Node: getting started | McPherson AI</title>
-  <meta name="description" content="Install the Observa Local Node CLI, inspect a workflow offline, request Hosted beta access, pair your installation, and start shadow-only observation. Real commands, current syntax.">
-  <link rel="canonical" href="https://mcphersonai.com/observa/getting-started">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="McPherson AI">
-  <meta property="og:title" content="Observa Local Node: getting started | McPherson AI">
-  <meta property="og:description" content="Install the Observa Local Node CLI, inspect a workflow offline, request Hosted beta access, pair your installation, and start shadow-only observation. Real commands, current syntax.">
-  <meta property="og:url" content="https://mcphersonai.com/observa/getting-started">
-  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
-  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Observa Local Node: getting started | McPherson AI">
-  <meta name="twitter:description" content="Install the Observa Local Node CLI, inspect a workflow offline, request Hosted beta access, pair your installation, and start shadow-only observation. Real commands, current syntax.">
-  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script defer src="/release-status.js"></script>
-  <script defer src="/site.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page moved | McPherson AI</title>
+<meta name="description" content="This address has moved. Follow the current page.">
+<link rel="canonical" href="https://mcphersonai.com/getting-started">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Page moved | McPherson AI">
+<meta property="og:description" content="This address has moved. Follow the current page.">
+<meta property="og:url" content="https://mcphersonai.com/getting-started">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Page moved | McPherson AI">
+<meta name="twitter:description" content="This address has moved. Follow the current page.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
+<meta http-equiv="refresh" content="0; url=/getting-started">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="McPherson AI home">
-        <span class="brand-mark" aria-hidden="true">M</span>
-        McPherson <strong>AI</strong>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
-        <a href="/">Home</a>
-        <a href="/governance">Governance</a>
-        <a href="/private-beta">Private Beta</a>
-        <a href="/observa">Observa</a>
-        <a href="/qsr-systems">QSR Systems</a>
-        <a href="/services">Services</a>
-        <a href="/proof">Proof</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="wrap">
-        <div class="eyebrow">Observa help · Getting started</div>
-        <h1>From npm install to your first shadow observation.</h1>
-        <p class="lead">This is the whole path for <strong>Observa Local Node</strong>, the CLI that observes an
-          n8n runtime. Every command below is the current shipped syntax for
-          <code>@mcpherson-ai/observa-local-node</code> 0.1.6.</p>
-        <p class="posture-strip"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> · <strong>ENFORCEMENT OFF</strong> — Observa observes and reports. It has no authority to allow, deny, approve, block, retry, or change anything in your systems.</p>
-      </div>
-    </section>
-
-    <nav class="doc-nav" aria-label="Observa help">
-      <div class="wrap">
-        <span class="doc-nav-label">Observa help</span>
-        <a href="/observa/getting-started" aria-current="page">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a>
-      </div>
-    </nav>
-
-    <section class="section" aria-labelledby="which-title">
-      <div class="wrap">
-        <div class="eyebrow">Before you start</div>
-        <h2 id="which-title">Two packages are called <code>observa</code>. Pick the one that matches your runtime.</h2>
-        <div class="grid two">
-          <article class="card">
-            <span class="meta">This guide</span>
-            <h3>Observa Local Node — n8n</h3>
-            <p>Published on npm as <code>@mcpherson-ai/observa-local-node</code>, currently 0.1.6. Installs a signed
-              composition, observes n8n through n8n&rsquo;s own global backend hook, and pairs with
-              <code>--base-url</code>.</p>
-          </article>
-          <article class="card">
-            <span class="meta">Separate package</span>
-            <h3>McPherson Governance connector — OpenClaw</h3>
-            <p>Published on ClawHub and GitHub as <code>@mcphersonai/mcpherson-governance-openclaw</code>, currently <span data-release-text="publicVersionNumber">0.7.3</span>. It ships its own
-              <code>observa</code> executable with a different command set and pairs with <code>--api-url</code>.
-              See the <a href="/observa/cli#openclaw">OpenClaw section of the CLI reference</a>.</p>
-          </article>
-        </div>
-        <p class="fine-print">Requirement for both: Node.js 22 or newer.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="journey-title">
-      <div class="wrap">
-        <div class="eyebrow">The path</div>
-        <h2 id="journey-title">Eleven steps, and nothing is skipped on your behalf.</h2>
-        <ol class="flow beta-flow" aria-label="Observa Local Node onboarding">
-          <li><strong>Install the CLI</strong><span>From npm. Nothing is activated.</span></li>
-          <li><strong>Inspect locally</strong><span>Optional, offline, no account needed.</span></li>
-          <li><strong>Request Hosted access</strong><span>You submit; nothing is granted yet.</span></li>
-          <li><strong>Verify your email</strong><span>One-time code, 10 minutes.</span></li>
-          <li><strong>Human review</strong><span>A person decides. This is not automatic.</span></li>
-          <li><strong>Redeem your invitation</strong><span>Sign in, accept the beta documents.</span></li>
-          <li><strong>Obtain a pairing code</strong><span>Created by you, in Hosted Observa.</span></li>
-          <li><strong>Pair this installation</strong><span>Binds this machine to your workspace.</span></li>
-          <li><strong>Install the signed composition</strong><span>Verified locally before anything is composed.</span></li>
-          <li><strong>Configure the runtime</strong><span>One local secret, then the n8n hook.</span></li>
-          <li><strong>Start, then observe</strong><span>Activity, evidence, and governance analysis.</span></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="install-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Step 1</div>
-        <h2 id="install-title">Install the CLI</h2>
-        <pre><code>npm install -g @mcpherson-ai/observa-local-node
-observa --version</code></pre>
-        <p><code>observa --version</code> prints <code>observa-cli 0.1.6</code> and the authority line.
-          Installing the package activates nothing: it has zero dependencies, runs no install scripts, and
-          contacts no network service until you explicitly pair.</p>
-        <p><code>observa --help</code> prints the full usage and links back to these pages.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="inspect-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Step 2 — optional</div>
-        <h2 id="inspect-title">Inspect a workflow offline, before you have any access</h2>
-        <pre><code>observa status
-observa inspect-workflow --file ./workflow.json</code></pre>
-        <p>Export a workflow as JSON from n8n and point at the file. The report counts recognized node types,
-          nodes, connections, disabled nodes, isolated nodes and unresolved connections. It prints no node names,
-          IDs, parameters, credentials or payloads, and unrecognized node types are counted without displaying
-          their labels.</p>
-        <p class="note"><strong>What this is not.</strong> <code>inspect-workflow</code> reads one file you chose. It
-          does not observe execution, collect runtime evidence, classify capabilities, evaluate policy, establish
-          trust, or grant Hosted access. Its own output says so: <code>runtime_observed: false</code>,
-          <code>evaluation_state: "UNEVALUATED"</code>, <code>linkage: "UNLINKED"</code>,
-          <code>business_outcome: "UNVERIFIED"</code>.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="access-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Steps 3–5</div>
-        <h2 id="access-title">Request access, verify your email, wait for a human</h2>
-        <pre><code>observa request-access --api-url https://governance-plane-observa.tailb473db.ts.net</code></pre>
-        <p>The command prompts for your name and email, and optionally an organization and use case. It then shows
-          you the <em>exact</em> record it is about to send and waits for you to type <code>yes</code>. Nothing
-          leaves your machine before that confirmation. No runtime credentials and no workflow content are ever
-          included.</p>
-        <p>A one-time verification code is emailed to you. Run the command again to enter it:</p>
-        <pre><code>observa request-access --api-url https://governance-plane-observa.tailb473db.ts.net</code></pre>
-        <p>Without <code>--code-file</code>, the code prompt hides your input. For unattended use, write the code to
-          an owner-only file and pass <code>--code-file &lt;0600-file&gt;</code>.</p>
-        <p>Check where you stand at any time:</p>
-        <pre><code>observa request-status</code></pre>
-        <p class="note"><strong>Verification is not approval.</strong> A verified email moves your request to
-          <code>PENDING_REVIEW</code>. A person then approves or denies it. There is no self-service path from
-          <code>request-access</code> to a working installation, and no amount of retrying creates one. The exact
-          lifetimes, retry limits and states are on the <a href="/observa/pairing">pairing and access</a> page.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="invite-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Steps 6–7</div>
-        <h2 id="invite-title">Redeem the invitation and create a pairing code</h2>
-        <p>Approval sends a single-use invitation to your verified email. Redeem it in a browser, sign in, and
-          accept the beta documents. Then open <strong>Installations → Create pairing code</strong> and copy the
-          code.</p>
-        <p>The pairing code is short-lived, single-use, and bound to your organization and workspace. It is not a
-          credential and it grants nothing on its own. If the invitation email never arrives, run
-          <code>observa request-access --resend</code>.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="pair-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Steps 8–9</div>
-        <h2 id="pair-title">Pair, then install the signed composition</h2>
-        <pre><code>observa pair --base-url https://governance-plane-observa.tailb473db.ts.net --code-stdin</code></pre>
-        <p>Paste the pairing code, then press Ctrl-D. The code is read from standard input so it never enters your
-          shell history, and it is never accepted as a command-line argument. The credential that comes back is
-          stored owner-only and is never displayed; the command prints only the installation id, credential id,
-          fingerprint, deployment id and Hosted URL.</p>
-        <pre><code>observa install</code></pre>
-        <p>With no <code>--manifest</code>, <code>install</code> retrieves the signed installation manifest Hosted
-          issued for <em>this</em> installation, verifies its Ed25519 signature locally against the public key
-          shipped inside the package, checks the tenant and installation binding, and verifies every component
-          artifact against its manifest-pinned SHA-256 — and only then composes. Transport is not trust: a
-          hand-delivered manifest passed with <code>--manifest &lt;signed.json&gt;</code> goes through exactly the
-          same verifier.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="runtime-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Step 10</div>
-        <h2 id="runtime-title">Configure the n8n runtime</h2>
-        <pre><code>observa config set n8n_loopback_credential '&lt;choose any local secret, 24+ characters&gt;'
-observa n8n-setup
-observa start</code></pre>
-        <p>That credential is yours. It authenticates n8n&rsquo;s calls to Observa&rsquo;s own loopback endpoint on
-          this machine. It is stored owner-only, is never transmitted by the installer, and never appears in any
-          Observa output.</p>
-        <p><code>n8n-setup</code> writes an owner-only environment file for n8n&rsquo;s supported global backend
-          hook and prints its path. <strong>You must configure your own n8n service or container to load that
-          environment file before n8n starts.</strong> Observa never restarts or reconfigures n8n for you.</p>
-        <p>The hook observes ordinary workflows automatically. Do not add an Observa node to a workflow. It reads
-          execution metadata only, and never item data, node parameters, credentials or workflow static data.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="observe-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Step 11</div>
-        <h2 id="observe-title">Observe, and read the results honestly</h2>
-        <pre><code>observa status
-observa activity
-observa decisions
-observa diagnose</code></pre>
-        <p><code>activity</code> shows recent local observations. <code>decisions</code> shows only records that were
-          actually evaluated, as counterfactuals: <code>WOULD_ALLOW</code>, <code>WOULD_DENY</code>,
-          <code>WOULD_REQUIRE_APPROVAL</code>, <code>ABSTAIN</code>, <code>INDETERMINATE</code>,
-          <code>ERROR</code>.</p>
-        <p class="note"><strong>A counterfactual is not an action.</strong> <code>WOULD_DENY</code> means a policy
-          would have said no. It does <em>not</em> mean Observa blocked or modified anything — nothing was blocked,
-          because enforcement is off. Read <a href="/observa/safety">the safety model</a> before you act on any of
-          these words.</p>
-        <p>An idle runtime produces nothing. That is normal, not a fault.</p>
-      </div>
-    </section>
-
-    <section class="section navy" aria-labelledby="next-title">
-      <div class="wrap">
-        <div class="section-head stacked">
-          <div class="eyebrow">Where to go next</div>
-          <h2 id="next-title">The rest of the help set.</h2>
-        </div>
-        <div class="resource-links">
-          <a href="/observa/cli">Every command, flag and side effect →</a>
-          <a href="/observa/pairing">Access and pairing lifecycle, with exact timings →</a>
-          <a href="/observa/troubleshooting">Ten common failures and their safe recovery →</a>
-          <a href="/observa/safety">What Observa does and does not claim →</a>
-          <a href="/observa/support">How to get help without leaking anything →</a>
-        </div>
-        <div class="cta-row"><a class="btn primary" href="/private-beta">Request Private Beta Access</a><a class="btn" href="/observa/cli">Open the CLI reference</a></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
-          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
-        </div>
-        <div>
-          <h2>Observa help</h2>
-          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
-        </div>
-        <div>
-          <h2>Proof and contact</h2>
-          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
-        </div>
-      </div>
-      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
-    </div>
-  </footer>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Updated address</div>
+<h1>This page has moved.</h1>
+<p class="lead">Follow the current page for release information, scope and next steps.</p>
+<div class="cta-row"><a href="/getting-started">Continue to /getting-started</a></div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
 </body>
 </html>

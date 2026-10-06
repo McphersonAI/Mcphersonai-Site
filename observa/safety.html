@@ -1,241 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Observa safety model and boundaries | McPherson AI</title>
-  <meta name="description" content="SHADOW_ONLY, AUTHORITY NONE, ENFORCEMENT OFF. What WOULD_ALLOW and WOULD_DENY mean, why runtime COMPLETED is not a verified outcome, and why UNMAPPED and UNEVALUATED stay visible.">
-  <link rel="canonical" href="https://mcphersonai.com/observa/safety">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="McPherson AI">
-  <meta property="og:title" content="Observa safety model and boundaries | McPherson AI">
-  <meta property="og:description" content="SHADOW_ONLY, AUTHORITY NONE, ENFORCEMENT OFF. What WOULD_ALLOW and WOULD_DENY mean, why runtime COMPLETED is not a verified outcome, and why UNMAPPED and UNEVALUATED stay visible.">
-  <meta property="og:url" content="https://mcphersonai.com/observa/safety">
-  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
-  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Observa safety model and boundaries | McPherson AI">
-  <meta name="twitter:description" content="SHADOW_ONLY, AUTHORITY NONE, ENFORCEMENT OFF. What WOULD_ALLOW and WOULD_DENY mean, why runtime COMPLETED is not a verified outcome, and why UNMAPPED and UNEVALUATED stay visible.">
-  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script defer src="/release-status.js"></script>
-  <script defer src="/site.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page moved | McPherson AI</title>
+<meta name="description" content="This address has moved. Follow the current page.">
+<link rel="canonical" href="https://mcphersonai.com/trust">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Page moved | McPherson AI">
+<meta property="og:description" content="This address has moved. Follow the current page.">
+<meta property="og:url" content="https://mcphersonai.com/trust">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Page moved | McPherson AI">
+<meta name="twitter:description" content="This address has moved. Follow the current page.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
+<meta http-equiv="refresh" content="0; url=/trust">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="McPherson AI home">
-        <span class="brand-mark" aria-hidden="true">M</span>
-        McPherson <strong>AI</strong>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
-        <a href="/">Home</a>
-        <a href="/governance">Governance</a>
-        <a href="/private-beta">Private Beta</a>
-        <a href="/observa">Observa</a>
-        <a href="/qsr-systems">QSR Systems</a>
-        <a href="/services">Services</a>
-        <a href="/proof">Proof</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="wrap">
-        <div class="eyebrow">Observa help · Safety model</div>
-        <h1>What Observa claims, and what it refuses to claim.</h1>
-        <p class="lead">This page is the short version of the boundary. If any Observa output ever appears to
-          contradict it, that is a bug worth reporting, not a setting.</p>
-        <p class="posture-strip posture-strip-lg"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> ·
-          <strong>ENFORCEMENT OFF</strong></p>
-      </div>
-    </section>
-
-    <nav class="doc-nav" aria-label="Observa help">
-      <div class="wrap">
-        <span class="doc-nav-label">Observa help</span>
-        <a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety" aria-current="page">Safety model</a><a href="/observa/support">Support</a>
-      </div>
-    </nav>
-
-    <section class="section" aria-labelledby="posture-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">The posture</div>
-        <h2 id="posture-title">Three words, and what each one rules out</h2>
-        <ul class="list">
-          <li><strong>SHADOW_ONLY</strong> — the only mode the CLI can install. It is not a default that can be
-            switched: any other mode is not in the accepted vocabulary, so a manifest requesting one fails closed at
-            schema validation rather than being honoured.</li>
-          <li><strong>AUTHORITY NONE</strong> — Observa has no authority to allow, deny, approve, block, retry,
-            delay or change anything in your systems. There is no verb in the CLI that approves, allows, denies or
-            decides.</li>
-          <li><strong>ENFORCEMENT OFF</strong> — nothing Observa records caused, prevented or altered the thing it
-            recorded.</li>
-        </ul>
-        <p>Observa also never asks for a system credential, and there is no field anywhere in which one could be
-          sent to McPherson AI. The local secrets you set stay on your machine: they are stored owner-only, never
-          printed, never logged, never diagnosed, and never placed in a manifest or an artifact.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="counterfactual-title">
-      <div class="wrap">
-        <div class="eyebrow">Governance Analysis</div>
-        <h2 id="counterfactual-title">Every decision word is a counterfactual</h2>
-        <p class="lead">Governance Analysis shows what a policy <em>would</em> have done. It does not report
-          something Observa did.</p>
-        <div class="table-wrap">
-          <table class="doc-table">
-            <thead><tr><th>Value</th><th>What it means</th><th>What it does <em>not</em> mean</th></tr></thead>
-            <tbody>
-              <tr><td><code>WOULD_ALLOW</code></td><td>An enforcing policy would have permitted this action.</td>
-                <td>That Observa permitted it. Nothing needed permission; the action ran on its own.</td></tr>
-              <tr><td><code>WOULD_DENY</code></td><td>An enforcing policy would have refused this action.</td>
-                <td><strong>That Observa blocked or modified anything.</strong> The action ran.</td></tr>
-              <tr><td><code>WOULD_REQUIRE_APPROVAL</code></td><td>An enforcing policy would have held this for a human.</td>
-                <td>That anything was held, queued or delayed. Nothing was.</td></tr>
-              <tr><td><code>ABSTAIN</code></td><td>Policy applied but deliberately reached no position.</td>
-                <td>Approval, or absence of risk.</td></tr>
-              <tr><td><code>INDETERMINATE</code></td><td>Policy could not reach a position on the available evidence.</td>
-                <td>That the action was fine.</td></tr>
-              <tr><td><code>ERROR</code></td><td>Evaluation itself failed.</td><td>Anything about the action.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note">Activity never becomes a decision. <code>observa decisions</code> projects only records that
-          were actually evaluated and carry a sealed decision record; it never derives one from the fact that
-          something ran.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="notequal-title">
-      <div class="wrap">
-        <div class="eyebrow">The distinctions that matter</div>
-        <h2 id="notequal-title">Four things Observa keeps separate</h2>
-        <div class="grid two">
-          <article class="card">
-            <h3>Runtime <code>COMPLETED</code> ≠ verified business outcome</h3>
-            <p>A runtime saying a step finished is a statement about the runtime, not about the system that holds the
-              real state. Observa reports <code>runtime_result</code> and <code>business_outcome</code> as separate
-              fields precisely so a completion cannot be read as a result. Independent verification applies only
-              where an appropriate verification contract or profile exists.</p>
-          </article>
-          <article class="card">
-            <h3>OBSERVED ≠ AUTHORIZED</h3>
-            <p>Evidence that a tool ran says a tool ran. It does not mean the capability was mapped, reviewed,
-              approved or permitted. Observed tool activity is metadata-only and stays labelled as observed until it
-              is deliberately mapped by a person.</p>
-          </article>
-          <article class="card">
-            <h3><code>UNMAPPED</code> and <code>UNEVALUATED</code> stay visible</h3>
-            <p>When context is insufficient, Observa shows the truthful state rather than guessing. An unmapped
-              observation is not quietly dropped and not quietly promoted. Uncertainty is never silently converted
-              into success.</p>
-          </article>
-          <article class="card">
-            <h3>Missing evidence ≠ nothing happened</h3>
-            <p>An empty view means nothing was observed in the inspected window. It is not proof that no action
-              occurred, and it does not mean every tool or connected application was observed.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="inspect-bound-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">One command, six explicit non-claims</div>
-        <h2 id="inspect-bound-title"><code>inspect-workflow</code> is structure, and only structure</h2>
-        <p><code>observa inspect-workflow --file &lt;n8n-workflow.json&gt;</code> performs a static read of one export
-          you selected. It does <strong>not</strong>:</p>
-        <ul class="list">
-          <li>collect runtime evidence;</li>
-          <li>classify capabilities;</li>
-          <li>evaluate policy;</li>
-          <li>establish trust;</li>
-          <li>grant Hosted access;</li>
-          <li>assess parameters or data.</li>
-        </ul>
-        <p>Its own report says so in machine-readable form — <code>runtime_observed: false</code>,
-          <code>evaluation_state: "UNEVALUATED"</code>, <code>linkage: "UNLINKED"</code>,
-          <code>business_outcome: "UNVERIFIED"</code> — and it prints no node names, IDs, parameters, credentials or
-          payloads.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="mapping-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Mapping</div>
-        <h2 id="mapping-title">No claim of automatic mapping</h2>
-        <p>The supported runtime hook can emit evidence <em>without</em> enough action context to map it. When that
-          context is unavailable, the truthful state — <code>UNMAPPED</code>, <code>UNEVALUATED</code> — remains
-          visible rather than being filled in by inference.</p>
-        <p>Capability mapping proposals are documentation-only. A proposal is not an approval, and confirming a
-          mapping does not authorize an action. On the OpenClaw path, no semantic action class, resource,
-          sensitivity or reversibility meaning is inferred from the mere presence of a tool at runtime.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="notdo-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Boundaries</div>
-        <h2 id="notdo-title">What the shipped package will not do</h2>
-        <ul class="list">
-          <li>It cannot allow, deny, approve or enforce anything.</li>
-          <li>It never modifies, restarts or reconfigures your n8n, or any other system. <code>observa stop</code>
-            can only signal Observa&rsquo;s own process, identified by Observa&rsquo;s own pidfile <em>and</em> a
-            command line that still names the Observa release path.</li>
-          <li>It reads execution metadata only — never item data, node parameters, credentials, workflow static
-            data, prompts, message bodies or tool arguments.</li>
-          <li>It runs no install scripts and has zero dependencies. Once paired it contacts only the Observa Hosted
-            service you named, and it has no package-registry or third-party telemetry surface.</li>
-          <li>It does not certify compliance, and it does not guarantee safety or completeness.</li>
-        </ul>
-        <p class="note">If Observa ever appears to block, delay or change something your agent or workflow did,
-          stop and <a href="/observa/support">tell us</a>. That would be a defect, not a configuration.</p>
-      </div>
-    </section>
-
-    <section class="section navy" aria-labelledby="safety-next-title">
-      <div class="wrap">
-        <div class="section-head stacked">
-          <div class="eyebrow">Related</div>
-          <h2 id="safety-next-title">Related pages.</h2>
-        </div>
-        <div class="resource-links">
-          <a href="/observa/getting-started">Install and start observing →</a>
-          <a href="/observa/cli">What each command actually does →</a>
-          <a href="/observa/support">Report a boundary problem →</a>
-          <a href="/observa">The Observa product overview →</a>
-        </div>
-        <div class="cta-row"><a class="btn primary" href="/observa/getting-started">Install and start observing</a><a class="btn" href="/private-beta">Request Private Beta Access</a></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
-          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
-        </div>
-        <div>
-          <h2>Observa help</h2>
-          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
-        </div>
-        <div>
-          <h2>Proof and contact</h2>
-          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
-        </div>
-      </div>
-      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
-    </div>
-  </footer>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Updated address</div>
+<h1>This page has moved.</h1>
+<p class="lead">Follow the current page for release information, scope and next steps.</p>
+<div class="cta-row"><a href="/trust">Continue to /trust</a></div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
 </body>
 </html>

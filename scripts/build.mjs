@@ -1,3 +1,4 @@
+import { canonicalRoutes, historicalRoutes, legacyRoutes, fileForRoute } from './site-contract.mjs';
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -7,6 +8,16 @@ const outputRoot = join(projectRoot, "dist");
 
 const publicFiles = [
   "index.html",
+  "founding.html",
+  "how-it-works.html",
+  "evidence.html",
+  "trust.html",
+  "about.html",
+  "getting-started.html",
+  "docs.html",
+  "privacy.html",
+  "terms.html",
+
   "governance.html",
   "private-beta.html",
   "observa.html",
@@ -39,6 +50,8 @@ const publicFiles = [
   "sample-assessment.pdf",
   "og-governance.png",
   "og-private-beta.png",
+  "thumbnail.png",
+  "workflow-proof-panel.png",
   "_redirects",
   "_headers",
   "robots.txt",
@@ -47,31 +60,11 @@ const publicFiles = [
 
 const publicDirectories = ["assets"];
 
-const routeByFile = {
-  "index.html": "/",
-  "governance.html": "/governance",
-  "private-beta.html": "/private-beta",
-  "observa.html": "/observa",
-  "observa/getting-started.html": "/observa/getting-started",
-  "observa/cli.html": "/observa/cli",
-  "observa/pairing.html": "/observa/pairing",
-  "observa/troubleshooting.html": "/observa/troubleshooting",
-  "observa/safety.html": "/observa/safety",
-  "observa/support.html": "/observa/support",
-  "qsr-systems.html": "/qsr-systems",
-  "services.html": "/services",
-  "proof.html": "/proof",
-  "contact.html": "/contact",
-  "what-we-build.html": "/services",
-  "resources.html": "/proof",
-  "white-paper.html": "/white-paper",
-  "when-the-agent-acts.html": "/when-the-agent-acts",
-  "when-agent-acts.html": "/when-the-agent-acts",
-  "regulated-crm-proof.html": "/regulated-crm-proof",
-  "observa-audit-mode-schema-v0.1.html": "/observa-audit-mode-schema-v0.1",
-  "pilot.html": "/services",
-  "walkthrough.html": "/qsr-systems"
-};
+const routeByFile = Object.fromEntries([
+  ...canonicalRoutes.map(route => [fileForRoute(route), route]),
+  ...historicalRoutes.map(route => [fileForRoute(route), route]),
+  ...legacyRoutes.map(([from, to]) => [fileForRoute(from), to])
+]);
 
 function escapeAttribute(value) {
   return value

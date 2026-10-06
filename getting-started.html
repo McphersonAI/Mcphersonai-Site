@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started | McPherson AI</title>
+<meta name="description" content="Current OpenClaw and Local Node/n8n evaluation paths: inspect locally, request reviewed access, pair the correct package and confirm evidence.">
+<link rel="canonical" href="https://mcphersonai.com/getting-started">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Getting Started | McPherson AI">
+<meta property="og:description" content="Current OpenClaw and Local Node/n8n evaluation paths: inspect locally, request reviewed access, pair the correct package and confirm evidence.">
+<meta property="og:url" content="https://mcphersonai.com/getting-started">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Getting Started | McPherson AI">
+<meta name="twitter:description" content="Current OpenClaw and Local Node/n8n evaluation paths: inspect locally, request reviewed access, pair the correct package and confirm evidence.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Getting Started</div>
+<h1>Start a technical evaluation.</h1>
+<p class="lead">Choose one runtime path. Check the package and its use rights, inspect locally, then connect an approved installation to Hosted. A Founding Builder application is not required for local technical inspection.</p>
+<div class="cta-row"><a href="#local-node">Local Node / n8n</a><a href="#openclaw">OpenClaw</a></div>
+</div>
+</div>
+</section>
+<section class="section " aria-labelledby="before-starting"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="which-title" aria-hidden="true"></span><span class="legacy-anchor" id="journey-title" aria-hidden="true"></span><span class="legacy-anchor" id="install-title" aria-hidden="true"></span><span class="legacy-anchor" id="inspect-title" aria-hidden="true"></span><span class="legacy-anchor" id="pair-title" aria-hidden="true"></span><span class="legacy-anchor" id="runtime-title" aria-hidden="true"></span><span class="legacy-anchor" id="observe-title" aria-hidden="true"></span><span class="legacy-anchor" id="next-title" aria-hidden="true"></span><span class="legacy-anchor" id="who" aria-hidden="true"></span><span class="legacy-anchor" id="who-title" aria-hidden="true"></span><span class="legacy-anchor" id="what-happens" aria-hidden="true"></span><span class="legacy-anchor" id="demo" aria-hidden="true"></span><span class="legacy-anchor" id="demo-title" aria-hidden="true"></span><span class="legacy-anchor" id="beta-video-caption" aria-hidden="true"></span><span class="legacy-anchor" id="shadow-mode" aria-hidden="true"></span><span class="legacy-anchor" id="limits-title" aria-hidden="true"></span><span class="legacy-anchor" id="learning" aria-hidden="true"></span><span class="legacy-anchor" id="learning-title" aria-hidden="true"></span><span class="legacy-anchor" id="fit-title" aria-hidden="true"></span><span class="legacy-anchor" id="openclaw-skill-path" aria-hidden="true"></span><span class="legacy-anchor" id="skill-path-title" aria-hidden="true"></span><span class="legacy-anchor" id="application-fallback-title" aria-hidden="true"></span><span class="legacy-anchor" id="faq-title" aria-hidden="true"></span>
+<h2 id="before-starting">Before connecting anything.</h2>
+</div>
+<p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
+<ul class="list"><li>Use synthetic data or an explicitly authorized test or staging workflow. Keep existing approval controls in place.</li>
+<li>Use Node.js 22 or newer for either package. Confirm the documented runtime requirements and your environment fit.</li>
+<li>Local Node 0.1.7 is Apache-2.0; its package license does not grant Hosted access. OpenClaw v0.7.4 has no declared license in the current tagged artifact: obtain use permission before installation.</li>
+<li>Both packages expose an observa command. Use the package appropriate to your runtime and verify which executable you are invoking. Do not substitute one package to repair the other’s CLI.</li>
+</ul>
+<p><a href="/evidence#releases">Release evidence and exact archives</a> · <a href="/terms">Software and service terms</a></p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="local-node"><div class="wrap"><div class="section-head stacked">
+<h2 id="local-node">Local Node 0.1.7 · n8n.</h2>
+</div>
+<p>Install the public package, then inspect one locally exported n8n workflow. These commands do not pair an installation or start runtime observation.</p>
+<pre><code>npm install -g @mcpherson-ai/observa-local-node@0.1.7
+observa --version
+observa --help
+observa status
+observa inspect-workflow --file ./workflow.json</code></pre>
+<p>Export the test workflow from n8n to <code>workflow.json</code> first. Inspection reports static structure; it does not run the workflow, evaluate policy or verify an outcome. Do not upload the export here.</p>
+<p>For runtime observation, you need an approved Hosted invitation and a signed installation composition. Continue with access and pairing below. <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.7.tgz">Inspect the versioned package README and source.</a></p>
+</div>
+</section>
+<section class="section " aria-labelledby="openclaw"><div class="wrap"><div class="section-head stacked">
+<h2 id="openclaw">OpenClaw v0.7.4.</h2>
+</div>
+<p>First confirm permission to use the package. The release declares OpenClaw plugin API ≥2026.8.2 and Node.js ≥22. Follow the <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.4">release install procedure</a>:</p>
+<pre><code>openclaw plugins install clawhub:@mcphersonai/mcpherson-governance-openclaw
+# Restart your OpenClaw gateway, then:
+observa --version
+observa --help
+observa status
+observa agents
+observa activity
+observa decisions</code></pre>
+<p>The ClawHub install command is not version-pinned: check that <code>observa --version</code> reports 0.7.4 before following this version’s instructions. On gateway start, the plugin creates a launcher beside the OpenClaw launcher where supported. It does not overwrite another package’s <code>observa</code> command. The launcher does not support Windows; use the released README’s direct-path instructions there.</p>
+<p>Local views read the selected OpenClaw profile. They do not probe Hosted, grant authorization or establish business success. <a href="/observa/troubleshooting">Troubleshoot a missing or conflicting command.</a></p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="access"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="access-title" aria-hidden="true"></span><span class="legacy-anchor" id="invite-title" aria-hidden="true"></span><span class="legacy-anchor" id="apply" aria-hidden="true"></span><span class="legacy-anchor" id="apply-title" aria-hidden="true"></span>
+<h2 id="access">Request and confirm Hosted access.</h2>
+</div>
+<p>For Hosted commands, set <code>OBSERVA_HOSTED_URL</code> to the HTTPS endpoint supplied for your evaluation. The variable below is a placeholder for that approved endpoint, not a public service address. If you do not have one, <a href="/observa/support">ask support for the evaluation endpoint</a>. The CLI still performs email verification and access review; email to support does not grant access.</p>
+<pre><code>observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
+observa request-status</code></pre>
+<ul class="list"><li>Follow the CLI’s email-verification prompt and review the metadata before confirming the request.</li>
+<li>Human review determines access. A request is not an account, paid entitlement or approval to collect production data.</li>
+<li>After approval, redeem the invitation, review the onboarding agreement, then create a pairing code in Hosted.</li>
+<li>Pair the correct runtime path using the commands below.</li>
+</ul>
+<p>Do not send pairing codes in email or put them in command-line arguments. A download or successful local inspection does not bypass these steps.</p>
+</div>
+</section>
+<section class="section " aria-labelledby="pair"><div class="wrap"><div class="section-head stacked">
+<h2 id="pair">Pair the correct package.</h2>
+</div>
+<div class="grid two">
+<article class="card">
+<h3>Local Node · uses --base-url</h3>
+<div class="card-copy"><pre><code>observa pair --base-url &quot;$OBSERVA_HOSTED_URL&quot; --code-stdin
+observa install
+observa diagnose</code></pre>Paste the single-use pairing code on standard input, then end input (Ctrl-D on Unix-like terminals). Install retrieves and verifies the signed manifest issued for this installation. Diagnose checks local integrity and configuration; it is not proof of end-to-end delivery.</div>
+</article>
+<article class="card">
+<h3>OpenClaw · uses --api-url</h3>
+<div class="card-copy"><pre><code>observa pair --api-url &quot;$OBSERVA_HOSTED_URL&quot;
+observa hosted-health
+observa identify</code></pre>Pair reads the code at a hidden terminal prompt, or accepts an owner-only file with <code>--code-file</code>. Health and identify contact Hosted; they do not produce workflow activity or business-outcome evidence.</div>
+</article>
+</div>
+</div>
+</section>
+<section class="section mist" aria-labelledby="n8n-observation"><div class="wrap"><div class="section-head stacked">
+<h2 id="n8n-observation">Activate the n8n observation path.</h2>
+</div>
+<p>After Local Node install and pairing, configure a local loopback credential of at least 24 characters, then generate the n8n hook environment. Replace the illustrative value below with a new local secret. The CLI takes this config value as an argument; protect shell history and process visibility on the host.</p>
+<pre><code>observa config set n8n_loopback_credential &#x27;REPLACE_WITH_A_LOCAL_SECRET_24_PLUS_CHARACTERS&#x27;
+observa n8n-setup
+observa start</code></pre>
+<p>Load the environment file produced by <code>n8n-setup</code> into your n8n service or container and restart n8n so it loads the hook. Observa does not configure or restart n8n for you. Do not add an Observa workflow node. The observer and n8n must have the loopback connectivity required by the package’s deployment instructions.</p>
+<p>The service and loaded hook must be from the same release. After upgrades or rollbacks, regenerate the hook, restart n8n, run one test workflow and check <code>observa diagnose</code>. A diagnose result before an execution does not prove that n8n loaded the new hook.</p>
+</div>
+</section>
+<section class="section " aria-labelledby="first-evidence"><div class="wrap"><div class="section-head stacked">
+<h2 id="first-evidence">Run one synthetic workflow. Check the evidence.</h2>
+</div>
+<ul class="list"><li>Run a small authorized test action through the selected runtime. Record what result you expect in the test system.</li>
+<li>Inspect local activity and, where a mapping and enough context exist, SHADOW decisions. An unmapped action is not a policy verdict.</li>
+<li>Open the paired workspace in Hosted and confirm the expected action appears for the correct installation. A healthy connection alone does not establish that evidence arrived.</li>
+<li>For n8n, run observa diagnose after the execution and confirm the service, hook copy and loaded hook match.</li>
+<li>Compare any available outcome check with the system of record. COMPLETED is not VERIFIED, and VERIFIED does not establish AUTHORIZED.</li>
+<li>If evidence is absent or uncertain, preserve that state and follow troubleshooting.</li>
+</ul>
+<p>Outcome verification is still being qualified with founding workflows. Coverage depends on the runtime, mapping, workflow version and available system-of-record evidence. Missing evidence remains unresolved.</p>
+<p><a href="/evidence#limitations">Read the canonical limitations →</a></p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="technical-next"><div class="wrap"><div class="section-head stacked">
+<h2 id="technical-next">Keep evaluation and commercial qualification distinct.</h2>
+</div>
+<p>Use <a href="/docs">Docs</a> and <a href="/observa/support">Support</a> to continue the technical evaluation. If this is a workflow you repeatedly deploy to paying clients, the <a href="/founding">Founding Builder Program</a> is the separate commercial qualification path.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
+</body>
+</html>

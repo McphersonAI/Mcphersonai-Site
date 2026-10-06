@@ -1,288 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Observa troubleshooting and recovery | McPherson AI</title>
-  <meta name="description" content="Ten common Observa failures with their symptom, likely cause, safe diagnostic, safe recovery, when not to retry, and when to contact support. Plus the recovery and rollback path.">
-  <link rel="canonical" href="https://mcphersonai.com/observa/troubleshooting">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="McPherson AI">
-  <meta property="og:title" content="Observa troubleshooting and recovery | McPherson AI">
-  <meta property="og:description" content="Ten common Observa failures with their symptom, likely cause, safe diagnostic, safe recovery, when not to retry, and when to contact support. Plus the recovery and rollback path.">
-  <meta property="og:url" content="https://mcphersonai.com/observa/troubleshooting">
-  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
-  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Observa troubleshooting and recovery | McPherson AI">
-  <meta name="twitter:description" content="Ten common Observa failures with their symptom, likely cause, safe diagnostic, safe recovery, when not to retry, and when to contact support. Plus the recovery and rollback path.">
-  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script defer src="/release-status.js"></script>
-  <script defer src="/site.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting | McPherson AI</title>
+<meta name="description" content="Diagnose CLI collisions, Hosted evidence gaps and stale n8n hooks without confusing configuration, activity and verified outcomes.">
+<link rel="canonical" href="https://mcphersonai.com/observa/troubleshooting">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Troubleshooting | McPherson AI">
+<meta property="og:description" content="Diagnose CLI collisions, Hosted evidence gaps and stale n8n hooks without confusing configuration, activity and verified outcomes.">
+<meta property="og:url" content="https://mcphersonai.com/observa/troubleshooting">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Troubleshooting | McPherson AI">
+<meta name="twitter:description" content="Diagnose CLI collisions, Hosted evidence gaps and stale n8n hooks without confusing configuration, activity and verified outcomes.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="McPherson AI home">
-        <span class="brand-mark" aria-hidden="true">M</span>
-        McPherson <strong>AI</strong>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
-        <a href="/">Home</a>
-        <a href="/governance">Governance</a>
-        <a href="/private-beta">Private Beta</a>
-        <a href="/observa">Observa</a>
-        <a href="/qsr-systems">QSR Systems</a>
-        <a href="/services">Services</a>
-        <a href="/proof">Proof</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="wrap">
-        <div class="eyebrow">Observa help · Troubleshooting</div>
-        <h1>What went wrong, and the safe way out of it.</h1>
-        <p class="lead">Every refusal prints <code>REFUSED &lt;CODE&gt;</code>. Find the code here first. Two rules run
-          through the whole page: <strong>run <code>observa diagnose</code> before you change anything</strong>, and
-          <strong>never hand-delete credentials, config or state when a supported command covers it</strong>.</p>
-        <p class="posture-strip"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> · <strong>ENFORCEMENT OFF</strong> — Observa observes and reports. It has no authority to allow, deny, approve, block, retry, or change anything in your systems.</p>
-      </div>
-    </section>
-
-    <nav class="doc-nav" aria-label="Observa help">
-      <div class="wrap">
-        <span class="doc-nav-label">Observa help</span>
-        <a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting" aria-current="page">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a>
-      </div>
-    </nav>
-
-    <section class="section" aria-labelledby="first-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Start here</div>
-        <h2 id="first-title">The four read-only commands, in order</h2>
-        <pre><code>observa status      # what is installed, what is paired
-observa diagnose    # integrity, signature, config presence, permissions
-observa activity    # recent local observations
-observa decisions   # local counterfactual records only</code></pre>
-        <p>None of them writes anything or probes the network. <code>observa diagnose</code> exits <code>1</code> if
-          any check FAILs, and its output is paste-safe: it reports key <em>presence</em> and shape, never a config
-          value, credential or pairing code. It is the right thing to attach to a support request.</p>
-        <p><code>observa agents</code> and <code>observa agent &lt;id&gt;</code> on the n8n path always return an
-          explicit limitation rather than a list. That is a stated boundary, not a fault to troubleshoot.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="cases-title">
-      <div class="wrap">
-        <div class="eyebrow">Common failures</div>
-        <h2 id="cases-title">Ten cases</h2>
-        <div class="case-list">
-        <article class="case" id="existing-credential">
-          <h3><span class="case-n">1</span>An existing credential requires <code>--replace-existing</code></h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>Pairing preflight refused: EXISTING_CREDENTIAL_REQUIRES_REPLACE_FLAG</code>, before any code is read. <strong>OpenClaw connector only.</strong></dd>
-            <dt>Likely cause</dt><dd>The selected OpenClaw profile already holds a connector credential, and the tool will not silently replace a working one.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa pair --api-url &lt;https://host&gt; --profile default --replace-existing --preflight-only</code></pre>Reports profile, install layout, version, enabled state and credential presence without reading a pairing code.</dd>
-            <dt>Safe recovery</dt><dd>Confirm the endpoint you are migrating to is the one you intend, then re-run without <code>--preflight-only</code>. The prior config and credential are written to an owner-only rollback snapshot first — see <a href="/observa/pairing#replace-existing">where that snapshot lives</a> and how to restore it.</dd>
-            <dt class="warn">Do not retry when</dt><dd>The endpoint in the command is not the one you meant. Replacing against the wrong endpoint is the mistake the flag exists to prevent.</dd>
-            <dt>Contact support if</dt><dd>Preflight keeps refusing after you pass <code>--replace-existing</code>, or the rollback snapshot directory is missing.</dd>
-          </dl>
-        </article>
-        <article class="case" id="access-pending">
-          <h3><span class="case-n">2</span>The access request is pending, or the verification code expired</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>observa request-status</code> shows <code>EMAIL_PENDING</code> or <code>PENDING_REVIEW</code>; or verifying refuses with <code>ACCESS_REFUSED</code> / <code>ACCESS_CODE_INVALID</code>.</dd>
-            <dt>Likely cause</dt><dd><code>PENDING_REVIEW</code> is a human queue — that is the system working. <code>ACCESS_REFUSED</code> on a code usually means the 10-minute window passed, the code was already used, or a digit is wrong.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa request-status</code></pre></dd>
-            <dt>Safe recovery</dt><dd>In <code>PENDING_REVIEW</code>: wait. In <code>EMAIL_PENDING</code> with an expired code: <code>observa request-access --resend</code>, waiting at least 60 seconds between sends. After <code>EXPIRED</code>: <code>observa request-access --new --api-url &lt;https://host&gt;</code>.</dd>
-            <dt class="warn">Do not retry when</dt><dd>You are in <code>PENDING_REVIEW</code>. Resubmitting does not speed up review, and a second request for the same address will be refused. Also stop after the third send — that is the hard maximum, and failed verification attempts are retained, with the fifth ending the request.</dd>
-            <dt>Contact support if</dt><dd>You are approved but no invitation arrived after <code>--resend</code>, or the state does not match the <a href="/observa/pairing#timings-title">documented lifetimes</a>.</dd>
-          </dl>
-        </article>
-        <article class="case" id="pairing-code">
-          <h3><span class="case-n">3</span>The pairing code expired or was already used</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>REFUSED PAIR_REFUSED</code>, often with a bounded reason from the pairing lane.</dd>
-            <dt>Likely cause</dt><dd>Codes live 10 minutes, are single-use, and are bound to one organization and workspace. Unknown, expired, already-spent and wrong-tenant codes all give the same answer on purpose, so the refusal cannot be used to probe.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa status</code></pre>Confirms whether anything is paired yet.</dd>
-            <dt>Safe recovery</dt><dd>Create a fresh pairing code in Hosted Observa and run <code>observa pair --base-url &lt;https://host&gt; --code-stdin</code> again, promptly.</dd>
-            <dt class="warn">Do not retry when</dt><dd>A <em>fresh</em> code just failed. Minting more will not help and each one is a live secret. Also never pass a code as an argument to get around a paste problem — that refuses, and the code should then be treated as exposed.</dd>
-            <dt>Contact support if</dt><dd>Two consecutive fresh codes fail, or you suspect the code was issued in the wrong workspace.</dd>
-          </dl>
-        </article>
-        <article class="case" id="unreachable">
-          <h3><span class="case-n">4</span>Observa cannot reach the Hosted endpoint</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>REFUSED PAIR_HOSTED_UNREACHABLE</code>, <code>REFUSED MANIFEST_FETCH_UNREACHABLE</code>, or <code>REFUSED ACCESS_UNAVAILABLE</code>.</dd>
-            <dt>Likely cause</dt><dd>DNS, network path, TLS, or the service being down. Access commands also refuse outright if TLS verification has been disabled in your environment (<code>ACCESS_TLS_REQUIRED</code>).</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa diagnose</code></pre><code>hosted_connectivity</code> is reported as <code>INFO</code> — Observa deliberately does not probe your network for you. Check reachability with your own tools.</dd>
-            <dt>Safe recovery</dt><dd>Fix the network path, then re-run the same command. Nothing was consumed: a failed connection does not redeem a pairing code and does not change local state. If <code>NODE_TLS_REJECT_UNAUTHORIZED</code> is set in your environment, remove it — do not work around the check.</dd>
-            <dt class="warn">Do not retry when</dt><dd>You cannot reach the service at all. Repeating a network-failing command is noise, not diagnosis.</dd>
-            <dt>Contact support if</dt><dd>The endpoint is reachable from a browser on the same machine but the CLI still refuses.</dd>
-          </dl>
-        </article>
-        <article class="case" id="no-activity">
-          <h3><span class="case-n">5</span>The installation is paired but no recent activity appears</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>observa status</code> shows installed and hosted configured, but <code>observa activity</code> returns an empty list.</dd>
-            <dt>Likely cause</dt><dd>Most often the runtime is simply idle, or the observer is not running, or the runtime hook environment was never loaded. An idle runtime producing nothing is normal, not a fault.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa status
-observa diagnose
-observa activity</code></pre><code>service_state</code> in <code>diagnose</code> tells you whether the observer is running.</dd>
-            <dt>Safe recovery</dt><dd>If the service is stopped, <code>observa start</code>. If it is running, exercise a real workflow and check again. Confirm your runtime actually loaded the environment file <code>observa n8n-setup</code> printed.</dd>
-            <dt class="warn">Do not retry when</dt><dd>Nothing has run in the runtime yet. Restarting Observa repeatedly will not manufacture evidence, and an empty view is an honest one.</dd>
-            <dt>Contact support if</dt><dd>A workflow demonstrably completed, the observer was running, the hook environment was loaded, and nothing appeared.</dd>
-          </dl>
-        </article>
-        <article class="case" id="n8n-no-evidence">
-          <h3><span class="case-n">6</span>n8n is installed but no runtime evidence appears</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd>n8n runs workflows normally; <code>observa activity</code> stays empty.</dd>
-            <dt>Likely cause</dt><dd>Almost always the hook environment was not loaded by the n8n process. <code>observa n8n-setup</code> writes the file and prints its path — <strong>it does not restart or reconfigure n8n</strong>, by design.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa diagnose</code></pre>Check <code>config_present:n8n_loopback_credential</code> and <code>config_permissions</code>.</dd>
-            <dt>Safe recovery</dt><dd>Set the loopback credential if absent (<code>observa config set n8n_loopback_credential '&lt;24+ characters&gt;'</code>), re-run <code>observa n8n-setup</code>, then configure your own n8n service or container to load the printed environment file <em>before</em> n8n starts, and restart n8n yourself.</dd>
-            <dt class="warn">Do not retry when</dt><dd>You have not yet confirmed that the n8n process has that environment loaded. Do not add an Observa node to a workflow — the hook observes ordinary workflows automatically and workflow edits are not the fix.</dd>
-            <dt>Contact support if</dt><dd>The environment is demonstrably loaded by the n8n process, the observer is running, diagnose passes, and evidence still does not appear.</dd>
-          </dl>
-        </article>
-        <article class="case" id="openclaw-no-evidence">
-          <h3><span class="case-n">7</span>OpenClaw is installed but no runtime evidence appears</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd>The connector is paired, agents run, and no evidence shows up.</dd>
-            <dt>Likely cause</dt><dd>The connector reports only when a supported tool hook actually fires. Attempt receipts, lifecycle records and heartbeat are not meaningful activity, and Codex-native tools appear only when the OpenClaw host relays them through its supported tool-hook contract.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa status
-observa activity</code></pre><code>status</code> distinguishes plugin installation metadata, plugin configuration, pairing, enabled intent and observing evidence. Pairing is never reported as a live Hosted connection.</dd>
-            <dt>Safe recovery</dt><dd>Confirm the plugin is enabled and loaded (<code>observa enable</code> if its durable disable control is set; a gateway reload may be required and the command says so). Then run ordinary agent activity that uses a tool.</dd>
-            <dt class="warn">Do not retry when</dt><dd>The agent has not used a tool. Also do not treat a quiet view as a connector failure — <code>CONFIGURED</code> with no completion in the inspected window is a truthful state.</dd>
-            <dt>Contact support if</dt><dd>A tool demonstrably completed through a supported hook and nothing was recorded.</dd>
-          </dl>
-        </article>
-        <article class="case" id="manifest-verify">
-          <h3><span class="case-n">8</span>Signed manifest or composition verification fails</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>REFUSED SIGNATURE_INVALID</code>, <code>SIGNING_KEY_UNTRUSTED</code>, <code>MANIFEST_TENANT_BINDING_MISMATCH</code>, <code>MANIFEST_INSTALLATION_BINDING_MISMATCH</code>, <code>ARTIFACT_DIGEST_MISMATCH</code>, <code>ARTIFACT_CONTENT_DIGEST_MISMATCH</code> or <code>CLI_VERSION_BELOW_MANIFEST_MINIMUM</code>.</dd>
-            <dt>Likely cause</dt><dd>The manifest was not signed by a trusted key, was issued for a different tenant or installation, or an artifact on disk does not match the digest the manifest pins. It can also mean your CLI is older than the manifest requires.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa diagnose</code></pre><code>manifest_signature</code>, <code>package_integrity</code> and <code>component_versions_match_manifest</code> localise it.</dd>
-            <dt>Safe recovery</dt><dd>For <code>CLI_VERSION_BELOW_MANIFEST_MINIMUM</code>, upgrade the CLI. For a digest mismatch, re-run <code>observa install</code> so artifacts are re-resolved by their pinned SHA-256. Nothing was composed: these refusals happen before any byte is staged.</dd>
-            <dt class="warn">Do not retry when</dt><dd><strong>Never.</strong> Do not try to bypass a verification refusal, hand-place an artifact, point <code>--artifacts</code> at an unofficial directory, or edit a manifest. A verification failure is the system doing its job; treat it as a security event until explained.</dd>
-            <dt>Contact support if</dt><dd>Immediately, for any signature, key-trust or tenant-binding refusal. Send the refusal code and <code>observa diagnose</code> output.</dd>
-          </dl>
-        </article>
-        <article class="case" id="revoked">
-          <h3><span class="case-n">9</span>The credential was revoked, or re-pairing is required</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>REFUSED INSTALLATION_REVOKED</code>, or <code>observa diagnose</code> shows <code>revocation FAIL</code> with a reason code. Hosted delivery stops.</dd>
-            <dt>Likely cause</dt><dd>A signed revocation for this installation was issued and verified locally, or the delivery credential was revoked server-side.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa diagnose</code></pre>The <code>revocation</code> check names the reason code. Its output contains no secrets.</dd>
-            <dt>Safe recovery</dt><dd>A revocation is a deliberate decision, so start by finding out why. If you are expected to reconnect, re-pair: after an <code>observa unpair</code> the installed identity is retained and <code>observa pair</code> with no flags mints a replacement credential. If you were issued a new pairing code, use the <code>--base-url … --code-stdin</code> form.</dd>
-            <dt class="warn">Do not retry when</dt><dd><strong>Do not</strong> delete the config file, the credential or <code>state.json</code> by hand to &ldquo;reset&rdquo; things. <code>unpair</code>, <code>rollback</code> and <code>uninstall --purge-config</code> are the supported paths, and hand-editing loses the recovery state those paths depend on.</dd>
-            <dt>Contact support if</dt><dd>You did not expect the revocation, or you cannot determine why it was issued.</dd>
-          </dl>
-        </article>
-        <article class="case" id="update-rollback">
-          <h3><span class="case-n">10</span>An update or rollback will not complete</h3>
-          <dl class="case-facts">
-            <dt>Symptom</dt><dd><code>REFUSED NOT_INSTALLED</code>, <code>MANIFEST_NOT_NEWER_THAN_CURRENT</code>, <code>ROLLBACK_TARGET_ABSENT</code> or <code>ROLLBACK_MANIFEST_BINDING_MISMATCH</code>.</dd>
-            <dt>Likely cause</dt><dd><code>update</code> requires an existing installation and a strictly newer manifest. <code>rollback</code> requires a retained previous release — and it is single-depth, so after one rollback there is nothing further to go back to.</dd>
-            <dt>Safe diagnostic</dt><dd><pre><code>observa status
-observa diagnose</code></pre><code>status</code> prints the current and previous manifest ids.</dd>
-            <dt>Safe recovery</dt><dd>Install the correct newer manifest, or accept that there is no earlier release to return to and re-install the intended one with <code>observa install --manifest &lt;signed.json&gt;</code>. A failed update leaves the existing installation intact, and if a retained release fails integrity, <code>rollback</code> rebuilds it offline from the verified artifact cache.</dd>
-            <dt class="warn">Do not retry when</dt><dd>You are trying to reach an older release that was never retained. Repeating <code>rollback</code> cannot create one, and neither can editing <code>state.json</code>.</dd>
-            <dt>Contact support if</dt><dd><code>ROLLBACK_MANIFEST_BINDING_MISMATCH</code> appears — the retained manifest does not bind to this installation, which should not happen.</dd>
-          </dl>
-        </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="recovery" aria-labelledby="recovery-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Recovery and rollback</div>
-        <h2 id="recovery-title">The supported way back, and exactly what each step keeps</h2>
-        <p>Work down this list. Each step is reversible until the last one.</p>
-        <div class="table-wrap">
-          <table class="doc-table">
-            <thead><tr><th>Step</th><th>What it does</th><th>What survives</th></tr></thead>
-            <tbody>
-              <tr><td><code>observa stop</code></td><td>Stops Observa&rsquo;s own observer. Never touches your n8n.</td>
-                <td>Everything. Installation, pairing and evidence are untouched.</td></tr>
-              <tr><td><code>observa diagnose</code></td><td>Read-only. Localises the problem before you change state.</td>
-                <td>Everything.</td></tr>
-              <tr><td><code>observa update --manifest &lt;newer.json&gt;</code></td>
-                <td>Moves forward to a strictly newer signed manifest.</td>
-                <td>The previous release is retained for one rollback. A failed update leaves the current installation intact.</td></tr>
-              <tr><td><code>observa rollback</code></td><td>Returns to the retained previous signed manifest, fully offline.</td>
-                <td>Installation identity, pairing and local config. Single-depth: afterwards there is no further previous release.</td></tr>
-              <tr><td><code>observa unpair</code></td><td>Revokes Hosted delivery for this installation.</td>
-                <td><strong>The installed identity is retained.</strong> A recovery URL and the installation secret are
-                  kept locally so <code>observa pair</code> with no flags can re-pair without a new code.</td></tr>
-              <tr><td><code>observa pair</code> (no flags)</td><td>Re-pairs the retained identity.</td>
-                <td>The same installation. No pairing code is redeemed and no new installation is created.</td></tr>
-              <tr><td><code>observa uninstall --yes</code></td>
-                <td>Stops the service and removes releases, artifacts, manifests and <code>state.json</code>.</td>
-                <td><strong>Your local config survives.</strong> Hosted credentials are <em>not</em> revoked — run
-                  <code>unpair</code> first if you want that.</td></tr>
-              <tr><td><code>observa uninstall --yes --purge-config</code></td>
-                <td>The same, and removes your local config too.</td>
-                <td>Nothing local. This is the irreversible one; the loopback credential and any pairing recovery
-                  state go with it.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note"><strong>Reinstalling.</strong> After <code>uninstall</code> without
-          <code>--purge-config</code>, your pairing config is still present, so <code>observa install</code> can
-          retrieve and verify the issued manifest again. After <code>--purge-config</code> you need a fresh pairing
-          code and must start from <code>observa pair --base-url … --code-stdin</code>.</p>
-        <p class="note"><strong>On the OpenClaw connector</strong>, <code>uninstall</code> runs the OpenClaw plugin
-          uninstaller in the selected profile, preserves receipts, and does not revoke credentials — <code>unpair</code>
-          first. A pairing that used <code>--replace-existing</code> can be restored exactly with
-          <code>--rollback pair_&lt;uuid&gt;</code>; see <a href="/observa/pairing#replace-existing">the pairing page</a>.</p>
-      </div>
-    </section>
-
-    <section class="section navy" aria-labelledby="tshoot-next-title">
-      <div class="wrap">
-        <div class="section-head stacked">
-          <div class="eyebrow">Still stuck</div>
-          <h2 id="tshoot-next-title">Getting help.</h2>
-        </div>
-        <div class="resource-links">
-          <a href="/observa/support">How to report it, and what never to include →</a>
-          <a href="/observa/cli">Check the exact syntax →</a>
-          <a href="/observa/pairing">Access and pairing lifecycle →</a>
-          <a href="/observa/safety">What the output means →</a>
-        </div>
-        <div class="cta-row"><a class="btn primary" href="/observa/support">Contact support</a><a class="btn" href="/observa/cli">Check the syntax</a></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
-          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
-        </div>
-        <div>
-          <h2>Observa help</h2>
-          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
-        </div>
-        <div>
-          <h2>Proof and contact</h2>
-          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
-        </div>
-      </div>
-      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
-    </div>
-  </footer>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Troubleshooting</div>
+<h1>Keep the failure visible.</h1>
+<p class="lead">Start with the installed package version, the exact refusal code and the state of the evidence. Do not turn a successful command into a broader success claim.</p>
+</div>
+</div>
+</section>
+<nav class="doc-nav" aria-label="Technical documentation"><a href="/getting-started">Getting Started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/trust">Trust</a><a href="/observa/support">Support</a></nav>
+<section class="section " aria-labelledby="wrong-command"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="first-title" aria-hidden="true"></span><span class="legacy-anchor" id="cases-title" aria-hidden="true"></span><span class="legacy-anchor" id="existing-credential" aria-hidden="true"></span><span class="legacy-anchor" id="access-pending" aria-hidden="true"></span><span class="legacy-anchor" id="pairing-code" aria-hidden="true"></span><span class="legacy-anchor" id="unreachable" aria-hidden="true"></span><span class="legacy-anchor" id="no-activity" aria-hidden="true"></span><span class="legacy-anchor" id="n8n-no-evidence" aria-hidden="true"></span><span class="legacy-anchor" id="openclaw-no-evidence" aria-hidden="true"></span><span class="legacy-anchor" id="manifest-verify" aria-hidden="true"></span><span class="legacy-anchor" id="revoked" aria-hidden="true"></span><span class="legacy-anchor" id="update-rollback" aria-hidden="true"></span><span class="legacy-anchor" id="recovery" aria-hidden="true"></span><span class="legacy-anchor" id="recovery-title" aria-hidden="true"></span><span class="legacy-anchor" id="tshoot-next-title" aria-hidden="true"></span>
+<h2 id="wrong-command">The observa command is missing or belongs to another package.</h2>
+</div>
+<p>After installing OpenClaw v0.7.4, restart its gateway to create the managed launcher. The plugin will not overwrite an existing Local Node or unrelated <code>observa</code> executable. Read the versioned README’s collision instructions and use its direct CLI path for inspection. Do not uninstall a working runtime package just to guess at a fix.</p>
+<pre><code>observa --version
+observa --help</code></pre>
+<p>If this reports Local Node when you intended OpenClaw, stop and resolve the command selection first.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="not-connected"><div class="wrap"><div class="section-head stacked">
+<h2 id="not-connected">Status looks configured, but Hosted has no evidence.</h2>
+</div>
+<p>Local status reports local configuration and available evidence. It is not a live Hosted probe. For OpenClaw, use <code>observa hosted-health</code> after pairing; review stale heartbeat, binding, credential or control refusals before drawing conclusions.</p>
+<p>For Local Node, confirm the service is started, its approved composition is installed and the n8n service loaded the generated hook environment. Run one synthetic workflow and inspect the paired Hosted workspace. A local diagnose result alone is insufficient.</p>
+</div>
+</section>
+<section class="section " aria-labelledby="stale-hook"><div class="wrap"><div class="section-head stacked">
+<h2 id="stale-hook">n8n is still using an earlier hook.</h2>
+</div>
+<p>n8n keeps the hook loaded at process start. After changing Local Node versions, regenerate the hook with <code>observa n8n-setup</code>, restart n8n, run one workflow and then run <code>observa diagnose</code>. The loaded hook is unknown until n8n reports an execution.</p>
+<p>Use Local Node 0.1.7’s verified stop/start procedure from the package README for an upgrade. A stale process or occupied loopback port can make start fail; do not treat the package version on disk as the running service version.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="missing-evidence"><div class="wrap"><div class="section-head stacked">
+<h2 id="missing-evidence">The run completed, but no decision or outcome is confirmed.</h2>
+</div>
+<p>Check whether this action was observed, mapped and evaluated as separate questions. Unmapped evidence is not a governance verdict. n8n partial editor runs, pinned results and carried results have specific exclusions; missing workflow revision can prevent revision-bound evaluation.</p>
+<p>A runtime COMPLETED result does not confirm the business outcome. Missing evidence remains uncertain. Preserve the refusal code or warning and share only a redacted summary.</p>
+<p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
+<a href="/evidence#limitations">Canonical limitations →</a></div>
+</section>
+<section class="section " aria-labelledby="support-next"><div class="wrap"><div class="section-head stacked">
+<h2 id="support-next">Escalate with a small, non-sensitive report.</h2>
+</div>
+<p><a href="/observa/support">Support</a> lists what to include and what to keep private. Do not upload raw exports, credential files, customer payloads or local state directories.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
 </body>
 </html>

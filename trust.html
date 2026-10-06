@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trust | McPherson AI</title>
+<meta name="description" content="Observa authority, data and credential boundaries, failure semantics, operator controls and explicit limits on security and Hosted infrastructure claims.">
+<link rel="canonical" href="https://mcphersonai.com/trust">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Trust | McPherson AI">
+<meta property="og:description" content="Observa authority, data and credential boundaries, failure semantics, operator controls and explicit limits on security and Hosted infrastructure claims.">
+<meta property="og:url" content="https://mcphersonai.com/trust">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trust | McPherson AI">
+<meta name="twitter:description" content="Observa authority, data and credential boundaries, failure semantics, operator controls and explicit limits on security and Hosted infrastructure claims.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust" aria-current="page">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Trust</div>
+<h1>Know what you are connecting.<br>Know what remains unproven.</h1>
+<p class="lead">The claims below are limited to the released OpenClaw and Local Node packages. Hosted operating commitments require separate confirmation before evaluation.</p>
+<div class="cta-row"><a href="/evidence#limitations">Canonical limitations →</a></div>
+</div>
+</div>
+</section>
+<section class="section " aria-labelledby="authority"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="posture-title" aria-hidden="true"></span><span class="legacy-anchor" id="counterfactual-title" aria-hidden="true"></span><span class="legacy-anchor" id="notequal-title" aria-hidden="true"></span><span class="legacy-anchor" id="inspect-bound-title" aria-hidden="true"></span><span class="legacy-anchor" id="mapping-title" aria-hidden="true"></span><span class="legacy-anchor" id="notdo-title" aria-hidden="true"></span><span class="legacy-anchor" id="safety-next-title" aria-hidden="true"></span>
+<h2 id="authority">Authority stays with your systems.</h2>
+</div>
+<p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
+<p>Observa records and evaluates in SHADOW. It does not grant customer authorization or replace your approval controls. A <code>WOULD_DENY</code> result describes a counterfactual decision; it does not mean the action was blocked.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="data-boundary"><div class="wrap"><div class="section-head stacked">
+<h2 id="data-boundary">Metadata has a boundary. It still needs review.</h2>
+</div>
+<p>The OpenClaw package documents identity and classification metadata, runtime roster and heartbeat, and argument digests for SHADOW evaluation. Its background request contracts omit prompts, message bodies, command bodies, tool results and environment values. The n8n hook uses execution metadata and excludes item data, node parameters, credentials and workflow static data.</p>
+<p>These are package-specific contracts, not a universal data-loss-prevention guarantee. Opaque identifiers can contain customer information. Review the fields and identifiers in your own authorized test scope before sending evidence. Do not use real regulated or confidential client data in a synthetic evaluation.</p>
+<p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.7.4/README.md">OpenClaw data contract</a> · <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.7.tgz">Local Node archive (README and hook implementation)</a></p>
+</div>
+</section>
+<section class="section " aria-labelledby="credentials"><div class="wrap"><div class="section-head stacked">
+<h2 id="credentials">Separate system access from Observa identity.</h2>
+</div>
+<p>Your workflow’s system credentials and customer authorization remain your responsibility. Observa pairing issues an installation credential for Hosted delivery; that credential is stored locally. The Local Node n8n path also requires a local loopback credential for communication between n8n and the observer.</p>
+<p>The reviewed pairing implementations write credentials to owner-restricted local files and omit credential values from normal CLI output. This is not a claim of encryption at rest. Host administrators and the runtime’s process permissions remain part of your security boundary. Never send pairing codes or credentials in an application or support message.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="identity"><div class="wrap"><div class="section-head stacked">
+<h2 id="identity">An installation is not blanket tenant assurance.</h2>
+</div>
+<p>Pairing binds an installation to the organization/workspace authorized through Hosted onboarding. Local Node checks the signed composition’s installation binding before composing components. These package checks do not establish a universal tenant-isolation guarantee across Hosted operations.</p>
+<p>Customer configuration, host access and the Hosted agreement still need review for the intended deployment.</p>
+</div>
+</section>
+<section class="section " aria-labelledby="failure"><div class="wrap"><div class="section-head stacked">
+<h2 id="failure">Missing evidence does not become success.</h2>
+</div>
+<p>A completed action, a SHADOW decision and a system-of-record outcome are separate records. Incomplete evidence remains uncertain. OpenClaw local views report truncation and rejected-record warnings; a healthy connection is not proof that every action was captured.</p>
+<p>UNCERTAIN remains uncertain. A matching fixture does not establish external qualification.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="impact"><div class="wrap"><div class="section-head stacked">
+<h2 id="impact">SHADOW does not mean zero technical impact.</h2>
+</div>
+<p>Integration adds local work and, when paired, network exchanges. Evaluate runtime behavior, evidence delivery and failure conditions in an authorized staging environment. This site publishes no normalized performance number.</p>
+<p>The OpenClaw release declares Node.js ≥22 and OpenClaw plugin API ≥2026.8.2. Local Node declares Node.js ≥22 and documents its n8n integration requirements. These declarations do not qualify every later version or topology.</p>
+</div>
+</section>
+<section class="section " aria-labelledby="infrastructure"><div class="wrap"><div class="section-head stacked">
+<h2 id="infrastructure">Package facts and Hosted commitments are different.</h2>
+</div>
+<ul class="list"><li>OpenClaw’s released request path documents verified TLS to the endpoint bound at pairing. This does not establish encryption at rest or all Hosted infrastructure controls.</li>
+<li>Local Node verifies a signed installation manifest and component hashes. Updates are operator-invoked; the package download alone does not start runtime collection.</li>
+<li>OpenClaw runs inside its host gateway. Local Node runs an operator-started local process. Neither fact establishes a least-privilege guarantee for your host configuration.</li>
+<li>Hosted region, retention, deletion, backups, administrative access and access logging, and incident-notification terms are not established by the public artifacts reviewed here. Confirm the actual terms before providing sensitive data.</li>
+</ul>
+</div>
+</section>
+<section class="section mist" aria-labelledby="disable"><div class="wrap"><div class="section-head stacked">
+<h2 id="disable">Stop observation and revoke delivery deliberately.</h2>
+</div>
+<div class="grid two">
+<article class="card">
+<h3>OpenClaw v0.7.4</h3>
+<div class="card-copy"><code>observa disable</code> stops plugin background Hosted traffic. Explicit access, pairing and revocation commands have separate semantics. <code>observa unpair</code> requests revocation; uninstalling alone does not revoke the credential.</div>
+</article>
+<article class="card">
+<h3>Local Node 0.1.7</h3>
+<div class="card-copy"><code>observa stop</code> stops the local observer. <code>observa unpair</code> handles Hosted delivery revocation and local pairing state. <code>observa uninstall --yes</code> is not a substitute for revocation.</div>
+</article>
+</div>
+<a href="/observa/cli">Read command semantics and verify results →</a></div>
+</section>
+<section class="section " aria-labelledby="security-contact"><div class="wrap"><div class="section-head stacked">
+<h2 id="security-contact">A direct route for a security concern.</h2>
+</div>
+<p>McPherson AI is founder-led. Send a concise, non-sensitive security report to <a href="mailto:admin@mcphersonai.com?subject=Observa%20security%20report">admin@mcphersonai.com</a>. Start with the affected public version and impact; arrange a private channel before sharing exploit details or sensitive evidence.</p>
+<p>Do not post triggerable evidence-loss findings, credentials or customer data in a public issue. No response-time or service-level guarantee is offered here.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
+</body>
+</html>

@@ -15,6 +15,6 @@
     "preview": "node scripts/serve.mjs dist"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }

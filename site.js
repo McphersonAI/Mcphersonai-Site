@@ -1,179 +1,91 @@
 (function () {
-  "use strict";
-
-  document.documentElement.classList.add("js");
-
-  const status = window.MCPHERSON_RELEASE_STATUS || {};
-
-  document.querySelectorAll("[data-release-text]").forEach(function (element) {
-    const key = element.getAttribute("data-release-text");
-    if (Object.prototype.hasOwnProperty.call(status, key)) {
-      element.textContent = String(status[key]);
-    }
+  'use strict';
+  document.documentElement.classList.add('js');
+  document.querySelectorAll('[data-current-year]').forEach((node) => {
+    node.textContent = String(new Date().getFullYear());
   });
 
-  document.querySelectorAll("[data-release-href]").forEach(function (element) {
-    const key = element.getAttribute("data-release-href");
-    if (status[key]) {
-      element.setAttribute("href", status[key]);
-    }
-  });
-
-  document.querySelectorAll("[data-proof-text]").forEach(function (element) {
-    const key = element.getAttribute("data-proof-text");
-    if (status.verifiedProof && Object.prototype.hasOwnProperty.call(status.verifiedProof, key)) {
-      element.textContent = String(status.verifiedProof[key]);
-    }
-  });
-
-  document.querySelectorAll("[data-current-year]").forEach(function (element) {
-    element.textContent = String(new Date().getFullYear());
-  });
-
-  const currentQuery = new URLSearchParams(window.location.search);
-  const isGovernanceBetaCampaign = currentQuery.get("utm_campaign") === "governance-v6-shadow-beta";
-  const isLegacyContactPath = ["/contact", "/contact.html"].includes(window.location.pathname);
-  if (isGovernanceBetaCampaign && isLegacyContactPath) {
-    const betaUrl = new URL("/private-beta", window.location.origin);
-    betaUrl.search = window.location.search;
-    betaUrl.hash = "apply";
-    window.location.replace(betaUrl);
+  // Preserve the old technical-access campaign without turning it into a sale.
+  const query = new URLSearchParams(window.location.search);
+  if (['/contact', '/contact.html'].includes(window.location.pathname)
+      && query.get('utm_campaign') === 'governance-v6-shadow-beta') {
+    const destination = new URL('/getting-started', window.location.origin);
+    destination.search = window.location.search;
+    destination.hash = 'access';
+    window.location.replace(destination);
     return;
   }
 
-  document.querySelectorAll("[data-nav-toggle]").forEach(function (button) {
-    const navId = button.getAttribute("aria-controls");
-    const nav = document.getElementById(navId);
+  document.querySelectorAll('[data-nav-toggle]').forEach((button) => {
+    const nav = document.getElementById(button.getAttribute('aria-controls'));
     if (!nav) return;
-
-    function closeNav() {
-      nav.dataset.open = "false";
-      button.setAttribute("aria-expanded", "false");
-    }
-
-    button.addEventListener("click", function () {
-      const willOpen = nav.dataset.open !== "true";
-      nav.dataset.open = String(willOpen);
-      button.setAttribute("aria-expanded", String(willOpen));
+    const close = () => {
+      nav.dataset.open = 'false';
+      button.setAttribute('aria-expanded', 'false');
+    };
+    button.addEventListener('click', () => {
+      const open = nav.dataset.open !== 'true';
+      nav.dataset.open = String(open);
+      button.setAttribute('aria-expanded', String(open));
     });
-
-    nav.addEventListener("click", function (event) {
-      if (event.target instanceof HTMLAnchorElement) closeNav();
+    nav.addEventListener('click', (event) => {
+      if (event.target.closest('a')) close();
     });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && nav.dataset.open === "true") {
-        closeNav();
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && nav.dataset.open === 'true') {
+        close();
         button.focus();
       }
     });
   });
 
-  document.querySelectorAll("[data-beta-application]").forEach(function (form) {
-    const statusMessage = form.querySelector("[data-beta-form-status]");
-    const fallback = form.querySelector("[data-beta-fallback]");
-    const preparedApplication = form.querySelector("[data-beta-prepared]");
-    const mailtoLink = form.querySelector("[data-beta-mailto]");
-    const copyButton = form.querySelector("[data-beta-copy]");
-    const copyStatus = form.querySelector("[data-beta-copy-status]");
-    let preparedText = "";
-
-    function announceCopy(message, state) {
-      if (!copyStatus) return;
-      copyStatus.dataset.state = state;
-      copyStatus.textContent = message;
-    }
-
-    if (copyButton) {
-      copyButton.addEventListener("click", async function () {
-        if (!preparedText) {
-          announceCopy("Prepare the application before copying it.", "error");
-          return;
-        }
-
-        try {
-          if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
-            throw new Error("Clipboard API unavailable");
-          }
-          await navigator.clipboard.writeText(preparedText);
-          announceCopy("Application copied. Email it to admin@mcphersonai.com.", "success");
-        } catch (error) {
-          let copied = false;
-          if (preparedApplication) {
-            preparedApplication.focus();
-            preparedApplication.select();
-            try {
-              copied = typeof document.execCommand === "function" && document.execCommand("copy");
-            } catch (fallbackError) {
-              copied = false;
-            }
-          }
-          announceCopy(
-            copied
-              ? "Application copied. Email it to admin@mcphersonai.com."
-              : "Copy failed. Select the prepared application and copy it manually, then email admin@mcphersonai.com.",
-            copied ? "success" : "error"
-          );
-        }
-      });
-    }
-
-    form.addEventListener("submit", function (event) {
+  document.querySelectorAll('[data-founding-application]').forEach((form) => {
+    const output = form.querySelector('[data-prepared]');
+    const panel = form.querySelector('[data-prepared-panel]');
+    const status = form.querySelector('[data-form-status]');
+    const copyStatus = form.querySelector('[data-copy-status]');
+    const mailto = form.querySelector('[data-mailto]');
+    let prepared = '';
+    form.querySelector('[data-prepare]').disabled = false;
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
-
-      const data = new FormData(form);
-      const query = new URLSearchParams(window.location.search);
-      const attribution = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
-        .map(function (key) {
-          const attributionValue = query.get(key);
-          return attributionValue ? key + "=" + attributionValue : "";
-        })
-        .filter(Boolean);
-      const source = attribution.join("; ") || query.get("source") || "Website";
-      const value = function (key) {
-        return String(data.get(key) || "").trim();
-      };
-      const lines = [
-        "Observa Private Beta Application",
-        "",
-        "Name: " + value("name"),
-        "Email: " + value("email"),
-        "Company or project: " + (value("company") || "Not provided"),
-        "Role: " + value("role"),
-        "Runtime: " + value("runtime"),
-        "Agents or workflows in scope: " + value("agents"),
-        "Runtime version or hosting: " + (value("runtime_version") || "Not provided"),
-        "Open to design-partner conversation: " + (value("design_partner") || "No"),
-        "Application source: " + source,
-        "",
-        "Workflow and review goal:",
-        value("goal"),
-        "",
-        "Boundary acknowledged: " + value("boundary_acknowledged")
-      ];
-      const subject = "Observa Private Beta Application - " + value("name");
-      const mailto = "mailto:admin@mcphersonai.com?subject="
-        + encodeURIComponent(subject)
-        + "&body="
-        + encodeURIComponent(lines.join("\n"));
-
-      preparedText = [
-        "To: admin@mcphersonai.com",
-        "Subject: " + subject,
-        "",
-        lines.join("\n")
-      ].join("\n");
-
-      if (preparedApplication) preparedApplication.value = preparedText;
-      if (mailtoLink) mailtoLink.setAttribute("href", mailto);
-      if (fallback) fallback.hidden = false;
-      announceCopy("", "");
-
-      if (statusMessage) {
-        statusMessage.textContent = "Your application has been prepared for your email app. If it does not open, copy the application below and email it to admin@mcphersonai.com.";
+      const fields = [...form.querySelectorAll('fieldset input, fieldset textarea, fieldset select')];
+      const body = ['Founding Builder application', '', ...fields.flatMap((field) => {
+        const label = form.querySelector(`label[for="${field.id}"]`).textContent.replace(/\s*\*$/, '');
+        return [label + ':', field.value.trim() || 'Not provided', ''];
+      }), 'I have excluded secrets and confidential client data.'].join('\n');
+      const subject = 'Founding Builder application';
+      prepared = `To: admin@mcphersonai.com\nSubject: ${subject}\n\n${body}`;
+      output.value = prepared;
+      mailto.href = `mailto:admin@mcphersonai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      panel.hidden = false;
+      status.textContent = 'Application prepared, not sent. Review the text below, then open your email app or copy the message.';
+      copyStatus.textContent = '';
+      output.focus();
+    });
+    // Editing after preparation invalidates the old message, avoiding stale submissions.
+    form.addEventListener('input', (event) => {
+      if (event.target === output || !prepared) return;
+      prepared = '';
+      output.value = '';
+      panel.hidden = true;
+      status.textContent = 'Details changed. Prepare the application again before sending.';
+    });
+    form.querySelector('[data-copy]').addEventListener('click', async () => {
+      if (!prepared) return;
+      try {
+        await navigator.clipboard.writeText(prepared);
+        copyStatus.textContent = 'Copied. Paste the application into an email to admin@mcphersonai.com.';
+      } catch {
+        output.focus();
+        output.select();
+        let copied = false;
+        try { copied = document.execCommand('copy'); } catch { /* keep manual fallback */ }
+        copyStatus.textContent = copied
+          ? 'Copied. Paste the application into an email to admin@mcphersonai.com.'
+          : 'Copy was unavailable. The message is selected; copy it manually and email admin@mcphersonai.com.';
       }
-      if (mailtoLink) mailtoLink.click();
     });
   });
 })();

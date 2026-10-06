@@ -1,43 +1,21 @@
-const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, index, values) => {
-  if (value.startsWith("--")) pairs.push([value.slice(2), values[index + 1]]);
-  return pairs;
-}, []));
-
-const baseUrl = (args["base-url"] || "http://127.0.0.1:4173").replace(/\/$/, "");
-const assets = [
-  ["/favicon.ico", "image/x-icon"],
-  ["/favicon.svg", "image/svg+xml"],
-  ["/styles.css", "text/css"],
-  ["/release-status.js", "javascript"],
-  ["/site.js", "javascript"],
-  ["/og-governance.png", "image/png"],
-  ["/og-private-beta.png", "image/png"],
-  ["/observa-audit-mode-dogfood-demo-polished.pdf", "application/pdf"],
-  ["/sample-assessment.pdf", "application/pdf"],
-  ["/assets/papers/McPherson_AI_Agent_Infrastructure_White_Paper_v1.0.pdf", "application/pdf"],
-  ["/assets/papers/McPherson_AI_When_the_Agent_Acts_Final_Navy_Orange.pdf", "application/pdf"],
-  ["/assets/video/observa-private-beta-demo.mp4", "video/mp4"],
-  ["/assets/video/observa-private-beta-demo-poster.jpg", "image/jpeg"],
-  ["/robots.txt", "text/plain"],
-  ["/sitemap.xml", "application/xml"]
-];
-const errors = [];
-
-for (const [path, expectedType] of assets) {
-  const response = await fetch(`${baseUrl}${path}`, { redirect: "manual" });
-  const contentType = response.headers.get("content-type") || "";
-  if (response.status !== 200) errors.push(`${path}: expected 200, received ${response.status}`);
-  if (!contentType.includes(expectedType)) {
-    errors.push(`${path}: expected ${expectedType}, received ${contentType || "no content type"}`);
-  }
-  const bytes = new Uint8Array(await response.arrayBuffer());
-  if (bytes.length === 0) errors.push(`${path}: response body is empty`);
+import { readFile, readdir } from 'node:fs/promises';
+import { resolve, relative, join, extname } from 'node:path';
+import { createHash } from 'node:crypto';
+const baseUrl = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:4173';
+const root=resolve('dist');
+const types={'.pdf':'application/pdf','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.svg':'image/svg+xml','.css':'text/css','.js':'javascript','.txt':'text/plain','.xml':'application/xml'};
+async function walk(dir){const files=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=join(dir,e.name);if(e.isDirectory())files.push(...await walk(p));else files.push(p);}return files;}
+const errors=[];
+const assets=(await walk(root)).filter(f=>types[extname(f)]);
+const hash=b=>createHash('sha256').update(b).digest('hex');
+for(const file of assets){
+  const path='/'+relative(root,file);
+  const response=await fetch(baseUrl+path,{redirect:'manual'});
+  if(response.status!==200) errors.push(`${path}: HTTP ${response.status}`);
+  if(!(response.headers.get('content-type')||'').includes(types[extname(file)])) errors.push(`${path}: incorrect MIME type`);
+  const served=Buffer.from(await response.arrayBuffer());
+  const built=await readFile(file), source=await readFile(resolve('.'+path));
+  if(!served.length||hash(served)!==hash(built)||hash(built)!==hash(source)) errors.push(`${path}: source/build/served byte mismatch`);
 }
-
-if (errors.length) {
-  console.error(`Public-asset audit failed with ${errors.length} issue(s):`);
-  for (const error of errors) console.error(`- ${error}`);
-  process.exit(1);
-}
-
-console.log(`Public-asset audit passed against ${baseUrl}: ${assets.length} supporting assets returned 200 with expected content types and non-empty bodies.`);
+if(errors.length){console.error('Public-asset audit failed:\n'+errors.join('\n'));process.exit(1);}
+console.log(`Public-asset audit passed: ${assets.length} assets returned 200, correct MIME types and identical source/build/served SHA-256 digests.`);

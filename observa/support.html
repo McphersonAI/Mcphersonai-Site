@@ -1,188 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Observa support | McPherson AI</title>
-  <meta name="description" content="Where to report an Observa product bug, where to raise a security or account problem, and exactly what diagnostic information is safe to include.">
-  <link rel="canonical" href="https://mcphersonai.com/observa/support">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="McPherson AI">
-  <meta property="og:title" content="Observa support | McPherson AI">
-  <meta property="og:description" content="Where to report an Observa product bug, where to raise a security or account problem, and exactly what diagnostic information is safe to include.">
-  <meta property="og:url" content="https://mcphersonai.com/observa/support">
-  <meta property="og:image" content="https://mcphersonai.com/og-private-beta.png">
-  <meta property="og:image:alt" content="Observa shadow-only governance evidence for action-taking AI agents">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Observa support | McPherson AI">
-  <meta name="twitter:description" content="Where to report an Observa product bug, where to raise a security or account problem, and exactly what diagnostic information is safe to include.">
-  <meta name="twitter:image" content="https://mcphersonai.com/og-private-beta.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script defer src="/release-status.js"></script>
-  <script defer src="/site.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support | McPherson AI</title>
+<meta name="description" content="Support routes for Observa evaluation, current package issues and security reports, with a clear boundary against sending secrets and client data.">
+<link rel="canonical" href="https://mcphersonai.com/observa/support">
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="McPherson AI">
+<meta property="og:title" content="Support | McPherson AI">
+<meta property="og:description" content="Support routes for Observa evaluation, current package issues and security reports, with a clear boundary against sending secrets and client data.">
+<meta property="og:url" content="https://mcphersonai.com/observa/support">
+<meta property="og:image" content="https://mcphersonai.com/og-governance.png">
+<meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Support | McPherson AI">
+<meta name="twitter:description" content="Support routes for Observa evaluation, current package issues and security reports, with a clear boundary against sending secrets and client data.">
+<meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
+<script src="/site.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="McPherson AI home">
-        <span class="brand-mark" aria-hidden="true">M</span>
-        McPherson <strong>AI</strong>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-open="false">
-        <a href="/">Home</a>
-        <a href="/governance">Governance</a>
-        <a href="/private-beta">Private Beta</a>
-        <a href="/observa">Observa</a>
-        <a href="/qsr-systems">QSR Systems</a>
-        <a href="/services">Services</a>
-        <a href="/proof">Proof</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="wrap">
-        <div class="eyebrow">Observa help · Support</div>
-        <h1>Getting help, without handing over anything you shouldn&rsquo;t.</h1>
-        <p class="lead">Two routes, and one short list of things that must never appear in either of them.</p>
-        <p class="posture-strip"><strong>SHADOW_ONLY</strong> · <strong>AUTHORITY NONE</strong> · <strong>ENFORCEMENT OFF</strong> — Observa observes and reports. It has no authority to allow, deny, approve, block, retry, or change anything in your systems.</p>
-      </div>
-    </section>
-
-    <nav class="doc-nav" aria-label="Observa help">
-      <div class="wrap">
-        <span class="doc-nav-label">Observa help</span>
-        <a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support" aria-current="page">Support</a>
-      </div>
-    </nav>
-
-    <section class="section" aria-labelledby="where-title">
-      <div class="wrap">
-        <div class="eyebrow">Where to go</div>
-        <h2 id="where-title">Pick the route by the kind of problem</h2>
-        <div class="grid two">
-          <article class="card">
-            <span class="meta">Public tracker</span>
-            <h3>Reproducible product bugs</h3>
-            <p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/issues">GitHub Issues</a></p>
-            <p>A command that refuses when it should not, wrong or misleading output, a documentation error, or
-              anything on this site that does not match the CLI you have installed.</p>
-          </article>
-          <article class="card lead-card">
-            <span class="meta">Private</span>
-            <h3>Security, account or access problems</h3>
-            <p><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a></p>
-            <p>A suspected vulnerability, a credential you believe is exposed, a revoked installation you did not
-              expect, a lost authenticator, or anything about your access request or invitation.
-              <strong>Never open a public issue for these.</strong></p>
-          </article>
-        </div>
-        <p class="fine-print">Website and company: <a href="https://mcphersonai.com/">mcphersonai.com</a> ·
-          Beta programme: <a href="/private-beta">Observa private beta</a> ·
-          General contact: <a href="/contact">contact page</a>.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="include-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Safe to include</div>
-        <h2 id="include-title">What actually helps us</h2>
-        <ul class="list">
-          <li><strong>The refusal code</strong>, exactly as printed: <code>REFUSED &lt;CODE&gt;</code>.</li>
-          <li><strong>The output of <code>observa diagnose</code></strong>. This is the single most useful thing you
-            can send. It reports key <em>presence</em> and shape only — no config value, credential or pairing code
-            can reach it, by construction.</li>
-          <li><strong>The output of <code>observa status</code></strong>, which is non-secret installation facts.</li>
-          <li><strong>The exact command you ran</strong>, with any secret argument removed.</li>
-          <li><strong>Your CLI version</strong> (<code>observa --version</code>) and your Node.js version.</li>
-          <li><strong>Non-secret identifiers</strong>: the installation id, credential id and fingerprint that
-            <code>observa pair</code> printed. These are identifiers, not secrets.</li>
-          <li><strong>What you expected and what happened instead</strong>, and whether it reproduces.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="never-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Never send</div>
-        <h2 id="never-title">Do not post or email any of this</h2>
-        <ul class="list danger-list">
-          <li><strong>Pairing codes.</strong></li>
-          <li><strong>Credentials of any kind</strong>, including the connector credential and your local loopback
-            secret.</li>
-          <li><strong>API keys.</strong></li>
-          <li><strong>Access tokens</strong>, session tokens, invitation links or recovery codes.</li>
-          <li><strong>Private runtime payloads</strong> — prompts, message bodies, tool arguments, item data, node
-            parameters or workflow static data.</li>
-          <li><strong>Sensitive business or customer data</strong>, including personal data, health data and payment
-            data.</li>
-        </ul>
-        <p class="note"><strong>We never need any of these, and we will never ask for one.</strong> If you have
-          already posted one publicly, treat it as exposed: rotate or revoke it, then email
-          <a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a>. A pairing code is single-use and expires in ten minutes, but assume
-          the worst and mint a new one.</p>
-        <p>If you think you have found a security vulnerability, email <a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a> with a
-          description of the problem. Please do not include a working exploit in a public tracker.</p>
-      </div>
-    </section>
-
-    <section class="section mist" aria-labelledby="before-title">
-      <div class="wrap read-col">
-        <div class="eyebrow">Before you write</div>
-        <h2 id="before-title">Two minutes that often answer it</h2>
-        <pre><code>observa --version
-observa status
-observa diagnose</code></pre>
-        <p>Then check <a href="/observa/troubleshooting">troubleshooting</a> for your refusal code. It lists the
-          symptom, the likely cause, the safe recovery, and — importantly — the cases where retrying is the wrong
-          move.</p>
-        <p class="note">Some situations should come straight to us rather than being retried: any signature,
-          key-trust or tenant-binding refusal; an unexpected revocation; and a second consecutive failure with a
-          <em>fresh</em> pairing code.</p>
-      </div>
-    </section>
-
-    <section class="section navy" aria-labelledby="support-next-title">
-      <div class="wrap">
-        <div class="section-head stacked">
-          <div class="eyebrow">Related</div>
-          <h2 id="support-next-title">Related pages.</h2>
-        </div>
-        <div class="resource-links">
-          <a href="/observa/troubleshooting">Troubleshooting and recovery →</a>
-          <a href="/observa/cli">CLI reference →</a>
-          <a href="/observa/pairing">Access and pairing lifecycle →</a>
-          <a href="/observa/safety">Safety model →</a>
-        </div>
-        <div class="cta-row"><a class="btn primary" href="mailto:admin@mcphersonai.com">Email admin@mcphersonai.com</a><a class="btn" href="https://github.com/McphersonAI/mcpherson-governance-openclaw/issues">Open a GitHub issue</a></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
-          <p class="footer-copy">Governance, evidence, and independent verification for action-taking AI agents.</p>
-        </div>
-        <div>
-          <h2>Observa help</h2>
-          <div class="footer-links"><a href="/observa/getting-started">Getting started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing and access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/observa/safety">Safety model</a><a href="/observa/support">Support</a></div>
-        </div>
-        <div>
-          <h2>Proof and contact</h2>
-          <div class="footer-links"><a href="/proof">Proof and research</a><a href="/private-beta">Request Private Beta Access</a><a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a><a href="tel:+16195679869">(619) 567-9869</a></div>
-        </div>
-      </div>
-      <div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>Private beta open · Shadow only · Authority none</span></div>
-    </div>
-  </footer>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+</div>
+<div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Support</div>
+<h1>Send the version.<br>Keep the secrets.</h1>
+<p class="lead">Support for technical evaluation and the current public packages. A concise redacted report is more useful than an unreviewed log bundle.</p>
+</div>
+</div>
+</section>
+<nav class="doc-nav" aria-label="Technical documentation"><a href="/getting-started">Getting Started</a><a href="/observa/cli">CLI reference</a><a href="/observa/pairing">Pairing &amp; access</a><a href="/observa/troubleshooting">Troubleshooting</a><a href="/trust">Trust</a><a href="/observa/support">Support</a></nav>
+<section class="section " aria-labelledby="support-routes"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="where-title" aria-hidden="true"></span><span class="legacy-anchor" id="include-title" aria-hidden="true"></span><span class="legacy-anchor" id="never-title" aria-hidden="true"></span><span class="legacy-anchor" id="before-title" aria-hidden="true"></span><span class="legacy-anchor" id="support-next-title" aria-hidden="true"></span>
+<h2 id="support-routes">Choose a support route.</h2>
+</div>
+<p><a href="mailto:admin@mcphersonai.com?subject=Observa%20support">Email admin@mcphersonai.com</a> for evaluation endpoint questions, account issues, private support or escalation. The normal Hosted access decision still runs through the CLI request and human-review process.</p>
+<p>For a non-sensitive OpenClaw software issue, use the <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/issues">public OpenClaw issue tracker</a>. Do not post security triggers or sensitive material there. Use the <a href="/trust#security-contact">security contact</a> for security reports.</p>
+<p>McPherson AI is founder-led. There is no published support SLA or guaranteed response time.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="include"><div class="wrap"><div class="section-head stacked">
+<h2 id="include">Include only what is needed.</h2>
+</div>
+<ul class="list"><li>Package name and exact version; selected runtime and runtime version.</li>
+<li>The command name, refusal/error code and expected behavior.</li>
+<li>Whether the test was local, synthetic or staging.</li>
+<li>A short redacted description of the gap. Review all output before sending.</li>
+</ul>
+<p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
+</div>
+</section>
+<section class="section " aria-labelledby="never-send"><div class="wrap"><div class="section-head stacked">
+<h2 id="never-send">Never send these in an initial report.</h2>
+</div>
+<ul class="list"><li>Pairing codes, verification codes, API keys, access tokens or credential files.</li>
+<li>Request receipts, local state directories, private hostnames/IPs or installation secrets.</li>
+<li>Runtime payloads, prompts, message bodies, customer records, PHI or payment data.</li>
+<li>Confidential client artifacts, workflow exports or raw benchmark data.</li>
+</ul>
+<p>If more evidence is needed, agree on a private transfer method and minimum scope first.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">
+<a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
+<p class="footer-copy">Governance and evidence around the workflow you already build.</p>
+<nav class="launch-footer" aria-label="Footer"><a href="/docs">Docs</a><a href="/getting-started">Getting Started</a><a href="/evidence">Evidence</a><a href="/observa/support">Support</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+<div class="footer-bottom"><span>© <span data-current-year>2026</span> McPherson AI LLC · San Diego, CA</span><span>SHADOW ONLY · AUTHORITY NONE · ENFORCEMENT OFF</span></div>
+</div>
+</footer>
 </body>
 </html>

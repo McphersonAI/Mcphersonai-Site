@@ -1,3 +1,4 @@
+import { canonicalRoutes, historicalRoutes, legacyRoutes, retiredMedia } from './site-contract.mjs';
 const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, index, values) => {
   if (value.startsWith("--")) pairs.push([value.slice(2), values[index + 1]]);
   return pairs;
@@ -6,36 +7,9 @@ const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, inde
 const baseUrl = (args["base-url"] || "http://127.0.0.1:4173").replace(/\/$/, "");
 const errors = [];
 
-const canonicalRoutes = [
-  "/",
-  "/governance",
-  "/private-beta",
-  "/observa",
-  "/observa/getting-started",
-  "/observa/cli",
-  "/observa/pairing",
-  "/observa/troubleshooting",
-  "/observa/safety",
-  "/observa/support",
-  "/qsr-systems",
-  "/services",
-  "/proof",
-  "/contact",
-  "/observa-audit-mode-schema-v0.1"
-];
-
-const slashRoutes = canonicalRoutes
-  .filter((route) => route !== "/")
-  .map((route) => [`${route}/`, route]);
-
-const legacyRoutes = [
-  ["/what-we-build", "/services"],
-  ["/what-we-build.html", "/services"],
-  ["/resources", "/proof"],
-  ["/resources.html", "/proof"],
-  ["/when-agent-acts", "/when-the-agent-acts"],
-  ["/when-agent-acts.html", "/when-the-agent-acts"]
-];
+const slashRoutes = [...canonicalRoutes, ...historicalRoutes].filter(r => r !== '/').map(r => [r+'/', r]);
+const expandedLegacyRoutes = legacyRoutes.flatMap(([from,to]) => ['', '/', '.html'].map(suffix => [from+suffix,to]));
+const allCanonical = [...canonicalRoutes, ...historicalRoutes];
 
 async function request(path) {
   const response = await fetch(`${baseUrl}${path}`, {
@@ -78,7 +52,7 @@ async function expectSingleRedirect(from, to, allowedStatuses = [301]) {
   }
 }
 
-for (const route of canonicalRoutes) {
+for (const route of allCanonical) {
   const result = await request(route);
   if (result.status !== 200) errors.push(`${route}: canonical route returned ${result.status}, expected 200`);
   if (!result.contentType.startsWith("text/html")) {
@@ -87,7 +61,7 @@ for (const route of canonicalRoutes) {
 }
 
 for (const [from, to] of slashRoutes) await expectSingleRedirect(from, to);
-for (const [from, to] of legacyRoutes) await expectSingleRedirect(from, to);
+for (const [from, to] of expandedLegacyRoutes) await expectSingleRedirect(from, to);
 await expectSingleRedirect(
   "/observa-audit-mode-schema-v0.1.html",
   "/observa-audit-mode-schema-v0.1",
@@ -97,8 +71,8 @@ await expectSingleRedirect(
 const preservedQuery = "?utm_source=route-audit&utm_medium=preview&ref=case-17";
 const queryRedirects = [
   ...slashRoutes.map(([from, to]) => [`${from}${preservedQuery}`, `${to}${preservedQuery}`]),
-  ...legacyRoutes.map(([from, to]) => [`${from}${preservedQuery}`, `${to}${preservedQuery}`]),
-  [`/governance.html${preservedQuery}`, `/governance${preservedQuery}`],
+  ...expandedLegacyRoutes.map(([from, to]) => [`${from}${preservedQuery}`, `${to}${preservedQuery}`]),
+  [`/observa.html${preservedQuery}`, `/observa${preservedQuery}`],
   [
     `/observa-audit-mode-schema-v0.1.html${preservedQuery}`,
     `/observa-audit-mode-schema-v0.1${preservedQuery}`
@@ -134,22 +108,12 @@ for (const path of ["/this-route-does-not-exist"]) {
   }
 }
 
-for (const [path, expectedPageText] of [
-  ["/Governance", "See what your OpenClaw agents did before you give governance the power to stop them."],
-  ["/OBSERVA", "Your agent says the job finished. Observa checks what actually happened."]
-]) {
-  const result = await request(path);
-  const returnedHomepage = result.body.includes("Agent says it worked. Observa checks reality.");
-  if (returnedHomepage) errors.push(`${path}: case-mismatched route silently returned the homepage`);
-  if (result.status === 404) {
-    if (!result.body.includes("<h1>Page not found.</h1>")) errors.push(`${path}: 404 did not use the custom page`);
-  } else if (result.status === 200) {
-    if (!result.body.includes(expectedPageText)) {
-      errors.push(`${path}: case-insensitive local response was not the matching canonical page`);
-    }
-  } else {
-    errors.push(`${path}: expected a 404 or local case-insensitive 200, received ${result.status}`);
-  }
+for (const [from,to] of retiredMedia) await expectSingleRedirect(from,to);
+for (const route of allCanonical.filter(r=>r !== '/')) await expectSingleRedirect(route+'.html',route,[301,302,307,308]);
+for (const [from,to] of [['/index.html','/'],['/index','/']]) await expectSingleRedirect(from,to);
+for (const path of ['/OBSERVA','/Evidence','/arbitrary-missing-page']) {
+  const result=await request(path);
+  if(result.status !== 404 || !result.body.includes('<h1>Page not found.</h1>')) errors.push(`${path}: expected custom 404`);
 }
 
 if (errors.length) {
@@ -158,9 +122,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(
-  `Route audit passed against ${baseUrl}: ${canonicalRoutes.length} canonical 200 routes, `
-  + `${slashRoutes.length} one-step slash redirects, ${legacyRoutes.length} one-step legacy redirects, `
-  + `${queryRedirects.length} query-preserving redirect cases, Cloudflare-compatible .html canonicalization, `
-  + "five security-header checks, a custom unknown-route 404, and no case mismatch returned the homepage."
-);
+console.log(`Route audit passed against ${baseUrl}: ${allCanonical.length} canonical routes, ${slashRoutes.length} slash redirects, ${expandedLegacyRoutes.length} legacy variants, ${queryRedirects.length} query-preserving cases, ${retiredMedia.length} asset redirects, .html canonicalization, headers and custom 404s.`);

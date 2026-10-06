@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://mcphersonai.com/</loc></url>
-  <url><loc>https://mcphersonai.com/governance</loc></url>
-  <url><loc>https://mcphersonai.com/private-beta</loc></url>
+  <url><loc>https://mcphersonai.com/founding</loc></url>
+  <url><loc>https://mcphersonai.com/how-it-works</loc></url>
   <url><loc>https://mcphersonai.com/observa</loc></url>
-  <url><loc>https://mcphersonai.com/observa/getting-started</loc></url>
+  <url><loc>https://mcphersonai.com/evidence</loc></url>
+  <url><loc>https://mcphersonai.com/trust</loc></url>
+  <url><loc>https://mcphersonai.com/about</loc></url>
+  <url><loc>https://mcphersonai.com/getting-started</loc></url>
+  <url><loc>https://mcphersonai.com/docs</loc></url>
+  <url><loc>https://mcphersonai.com/contact</loc></url>
+  <url><loc>https://mcphersonai.com/privacy</loc></url>
+  <url><loc>https://mcphersonai.com/terms</loc></url>
   <url><loc>https://mcphersonai.com/observa/cli</loc></url>
   <url><loc>https://mcphersonai.com/observa/pairing</loc></url>
   <url><loc>https://mcphersonai.com/observa/troubleshooting</loc></url>
-  <url><loc>https://mcphersonai.com/observa/safety</loc></url>
   <url><loc>https://mcphersonai.com/observa/support</loc></url>
   <url><loc>https://mcphersonai.com/qsr-systems</loc></url>
-  <url><loc>https://mcphersonai.com/services</loc></url>
-  <url><loc>https://mcphersonai.com/proof</loc></url>
-  <url><loc>https://mcphersonai.com/contact</loc></url>
-  <url><loc>https://mcphersonai.com/white-paper</loc></url>
-  <url><loc>https://mcphersonai.com/when-the-agent-acts</loc></url>
-  <url><loc>https://mcphersonai.com/regulated-crm-proof</loc></url>
-  <url><loc>https://mcphersonai.com/observa-audit-mode-schema-v0.1</loc></url>
 </urlset>
