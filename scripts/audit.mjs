@@ -95,6 +95,7 @@ for (const [label,pattern] of [
  ['cloud token',/\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b/],
  ['private IPv4',/\b(?:10\.(?:\d{1,3}\.){2}\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})\b/],
  ['stale current version',/\bv?0\.6\.\d+\b|\bv?0\.7\.[23]\b|\b0\.1\.[68]\b/],
+ ['obsolete licensing warning',/no declared software license/i],
  ['future placeholder',/coming soon|public roadmap/i],['legacy beta CTA',/Request Private Beta Access|Install the Free Plugin/],
  ['unearned universal claim',/universally safe|universally verified|zero latency|zero technical impact|independently audited|production-ready/]
 ]) {
