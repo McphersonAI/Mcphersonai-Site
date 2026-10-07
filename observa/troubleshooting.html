@@ -60,7 +60,7 @@ observa --help</code></pre>
 <h2 id="stale-hook">n8n is still using an earlier hook.</h2>
 </div>
 <p>n8n keeps the hook loaded at process start. After changing Local Node versions, regenerate the hook with <code>observa n8n-setup</code>, restart n8n, run one workflow and then run <code>observa diagnose</code>. The loaded hook is unknown until n8n reports an execution.</p>
-<p>Use Local Node 0.1.7’s verified stop/start procedure from the package README for an upgrade. A stale process or occupied loopback port can make start fail; do not treat the package version on disk as the running service version.</p>
+<p>Use Local Node 0.1.7’s documented stop/start procedure from the package README for an upgrade. A stale process or occupied loopback port can make start fail; do not treat the package version on disk as the running service version.</p>
 </div>
 </section>
 <section class="section mist" aria-labelledby="missing-evidence"><div class="wrap"><div class="section-head stacked">

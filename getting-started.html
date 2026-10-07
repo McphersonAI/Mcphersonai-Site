@@ -46,7 +46,7 @@
 <p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
 <ul class="list"><li>Use synthetic data or an explicitly authorized test or staging workflow. Keep existing approval controls in place.</li>
 <li>Use Node.js 22 or newer for either package. Confirm the documented runtime requirements and your environment fit.</li>
-<li>Local Node 0.1.7 is Apache-2.0; its package license does not grant Hosted access. OpenClaw v0.7.4 has no declared license in the current tagged artifact: obtain use permission before installation.</li>
+<li>Local Node 0.1.7 and the public OpenClaw v0.7.4 plugin are Apache-2.0. The <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/main/LICENSE-CLARIFICATION-v0.7.4.md">OpenClaw clarification</a> covers the unchanged v0.7.4 archive. Neither artifact license grants Hosted service access.</li>
 <li>Both packages expose an observa command. Use the package appropriate to your runtime and verify which executable you are invoking. Do not substitute one package to repair the other’s CLI.</li>
 </ul>
 <p><a href="/evidence#releases">Release evidence and exact archives</a> · <a href="/terms">Software and service terms</a></p>
@@ -68,7 +68,7 @@ observa inspect-workflow --file ./workflow.json</code></pre>
 <section class="section " aria-labelledby="openclaw"><div class="wrap"><div class="section-head stacked">
 <h2 id="openclaw">OpenClaw v0.7.4.</h2>
 </div>
-<p>First confirm permission to use the package. The release declares OpenClaw plugin API ≥2026.8.2 and Node.js ≥22. Follow the <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.4">release install procedure</a>:</p>
+<p>The release declares OpenClaw plugin API ≥2026.8.2 and Node.js ≥22. Follow the <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/releases/tag/v0.7.4">release install procedure</a>:</p>
 <pre><code>openclaw plugins install clawhub:@mcphersonai/mcpherson-governance-openclaw
 # Restart your OpenClaw gateway, then:
 observa --version
@@ -84,8 +84,9 @@ observa decisions</code></pre>
 <section class="section mist" aria-labelledby="access"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="access-title" aria-hidden="true"></span><span class="legacy-anchor" id="invite-title" aria-hidden="true"></span><span class="legacy-anchor" id="apply" aria-hidden="true"></span><span class="legacy-anchor" id="apply-title" aria-hidden="true"></span>
 <h2 id="access">Request and confirm Hosted access.</h2>
 </div>
-<p>For Hosted commands, set <code>OBSERVA_HOSTED_URL</code> to the HTTPS endpoint supplied for your evaluation. The variable below is a placeholder for that approved endpoint, not a public service address. If you do not have one, <a href="/observa/support">ask support for the evaluation endpoint</a>. The CLI still performs email verification and access review; email to support does not grant access.</p>
-<pre><code>observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
+<p>The current public Hosted beta origin is <code>https://governance-plane-observa.tailb473db.ts.net</code>. Use the bare HTTPS origin for either package, with no path suffix. Set the variable below before running Hosted commands. Access requires approval and may need <a href="/observa/support">support assistance</a>; knowing the address does not grant an account or complete activation.</p>
+<pre><code>export OBSERVA_HOSTED_URL="https://governance-plane-observa.tailb473db.ts.net"
+observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
 observa request-status</code></pre>
 <ul class="list"><li>Follow the CLI’s email-verification prompt and review the metadata before confirming the request.</li>
 <li>Human review determines access. A request is not an account, paid entitlement or approval to collect production data.</li>

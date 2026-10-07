@@ -208,9 +208,12 @@ a {
   pointer-events: none;
 }
 
-.hero-grid {
+.hero > .wrap {
   position: relative;
   z-index: 1;
+}
+
+.hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.22fr) minmax(300px, 0.78fr);
   align-items: center;

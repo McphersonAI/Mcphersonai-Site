@@ -57,8 +57,8 @@ reduced motion. Failed or unavailable checks remain unresolved.
 | `/observa/troubleshooting` | Evidence and configuration troubleshooting |
 | `/observa/support` | Support and security-report routing |
 | `/contact` | Other inquiries and escalation |
-| `/privacy` | Static-site information handling |
-| `/terms` | Software, service and commercial scope |
+| `/privacy` | Website, local-software and Hosted information handling |
+| `/terms` | Founding Beta responsibilities, software licenses and service scope |
 | `/qsr-systems` | QSR origin, outside primary navigation |
 
 Primary navigation: How It Works, Observa, Evidence, Trust, About. The primary

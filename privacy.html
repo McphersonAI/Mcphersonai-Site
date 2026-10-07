@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy | McPherson AI</title>
-<meta name="description" content="How this static website and email application handle information, with a separate boundary for Hosted Observa evaluation terms.">
+<meta name="description" content="Information handled by the McPherson AI website, Local Node, OpenClaw and Hosted Observa, including accounts, evidence, retention and privacy requests.">
 <link rel="canonical" href="https://mcphersonai.com/privacy">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -13,13 +13,13 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="McPherson AI">
 <meta property="og:title" content="Privacy | McPherson AI">
-<meta property="og:description" content="How this static website and email application handle information, with a separate boundary for Hosted Observa evaluation terms.">
+<meta property="og:description" content="Information handled by the McPherson AI website, Local Node, OpenClaw and Hosted Observa, including accounts, evidence, retention and privacy requests.">
 <meta property="og:url" content="https://mcphersonai.com/privacy">
 <meta property="og:image" content="https://mcphersonai.com/og-governance.png">
 <meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy | McPherson AI">
-<meta name="twitter:description" content="How this static website and email application handle information, with a separate boundary for Hosted Observa evaluation terms.">
+<meta name="twitter:description" content="Information handled by the McPherson AI website, Local Node, OpenClaw and Hosted Observa, including accounts, evidence, retention and privacy requests.">
 <meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
 <script src="/site.js" defer></script>
 </head>
@@ -33,31 +33,79 @@
 <div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
 </header>
 <main id="main" tabindex="-1">
-<section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Privacy</div>
-<h1>Website privacy notice.</h1>
-<p class="lead">This notice describes the behavior of this static website and its email-based application path. Hosted Observa has a separate onboarding agreement.</p>
+<section class="hero"><div class="wrap"><div class="hero-copy"><div class="eyebrow">Privacy</div>
+<h1>How information moves through Observa.</h1>
+<p class="lead">This notice covers McPherson AI LLC’s website, inquiries and current Observa beta. Local software and Hosted handle different information. Review the scope before connecting a workflow.</p>
+<p>Last updated: <time datetime="2026-10-06">October 6, 2026</time>.</p>
+</div></div></section>
+<section class="section" aria-labelledby="website-data"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="website-data">Website visits and inquiries.</h2>
 </div>
-</div>
-</section>
-<section class="section " aria-labelledby="website-data"><div class="wrap"><div class="section-head stacked">
-<h2 id="website-data">What this website does.</h2>
-</div>
-<p>The website serves static pages and assets. Its site code does not set analytics cookies, use browser storage, or load third-party analytics. Hosting and network providers receive the connection information needed to serve a request; this site does not state a verified hosting-log retention period.</p>
-<p>External package, source and registry links take you to services with their own policies. The Founding application is prepared in your browser. The site code sends no application request to a server. If you choose email, your email provider handles the message you send.</p>
-</div>
-</section>
-<section class="section mist" aria-labelledby="application-data"><div class="wrap"><div class="section-head stacked">
-<h2 id="application-data">What you choose to send.</h2>
-</div>
-<p>The Founding application asks for contact details, your role and non-sensitive information about the workflow and its deployment. Review the prepared message before sending. McPherson AI receives the information by email to assess the inquiry and respond.</p>
-<p>Do not send secrets, credentials, tokens, PHI, payment data, customer records, message bodies or confidential client artifacts. Client names are not required. You may instead send a short, non-sensitive inquiry directly to <a href="mailto:admin@mcphersonai.com">admin@mcphersonai.com</a>.</p>
+<p>This website serves static pages and assets. Its site code does not set cookies, use browser storage, or load third-party analytics. Hosting and network providers receive connection information needed to serve requests, such as network addresses and request details.</p>
+<p>The Founding application is prepared in your browser without sending it to a server. If you choose to send it by email, McPherson AI and the email providers receive your contact details, the workflow information you include and the message itself. We use that information to assess your inquiry and respond. The same applies to support and contact email.</p>
+<p>External package, repository and registry links take you to services with their own policies. This website has no checkout and does not collect payment-card details. An application creates no charge; paid deployment and its billing arrangements must be agreed separately.</p>
 </div>
 </section>
-<section class="section " aria-labelledby="privacy-questions"><div class="wrap"><div class="section-head stacked">
-<h2 id="privacy-questions">Questions about information you have shared.</h2>
+<section class="section mist" aria-labelledby="application-data"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="application-data">Access requests, accounts and installations.</h2>
 </div>
-<p>Contact <a href="mailto:admin@mcphersonai.com?subject=Privacy%20request">admin@mcphersonai.com</a> to discuss access, correction or deletion of information sent to McPherson AI. This notice does not establish a retention period, deletion deadline or backup-erasure commitment.</p>
-<p>Before sending data to Hosted Observa, review the actual evaluation agreement and confirm its data, retention and deletion terms. The <a href="/trust">Trust page</a> identifies facts not established by current public package artifacts.</p>
+<p>A Hosted access request includes your name, email and the fields shown for review by the CLI: optional organization and use case, runtime and package versions, platform and agent count where available. Hosted records verification, delivery and review status to process the request and prevent abuse.</p>
+<p>Account records include an email address, password hash, account status, organization/workspace membership, roles and acknowledgements of onboarding documents. Where MFA is used, the service handles enrollment and recovery records. Session records include identifiers, authentication state, timestamps and device or client hints.</p>
+<p>Pairing links an installation to its authorized workspace. Hosted handles single-use pairing codes, installation and deployment identifiers, credential identifiers, credential hashes, scope and revocation state. These records support authentication, access administration and evidence delivery.</p>
+</div>
+</section>
+<section class="section" aria-labelledby="runtime-data"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="runtime-data">What runtime observation sends to Hosted.</h2>
+</div>
+<p>Observa is designed around data minimization, with defined fields for governance, identity, evidence and service operation. Those fields can still reveal information about your workflow or customers.</p>
+<ul class="list"><li><strong>Runtime identity and health:</strong> runtime instance, generation and version, configured agent identifiers where available, roster digests, heartbeat sequence, timing and state.</li>
+<li><strong>Activity:</strong> tool, workflow, execution and node identifiers; node type and workflow revision where available; timestamps, runtime outcomes, hashes and links between records.</li>
+<li><strong>Governance Analysis:</strong> mapped operations and resource references, executable names and argument digests where applicable; policy and mapping identities, SHADOW decisions, reason codes and their relationship to activity.</li>
+<li><strong>Configured outcome checks:</strong> verification and readback states, rule/version identifiers and evidence links. A source proof can also include selected business-rule facts, such as an expected and observed condition, along with source and timing information. Review the configured check before enabling it.</li>
+</ul>
+<p>Hosted stores accepted evidence and analysis records in the paired workspace. Some source-proof processing also occurs in service memory. A heartbeat is not workflow activity, and a runtime completion does not establish a verified business outcome. <a href="/evidence#limitations">Read the evidence limitations.</a></p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="local-data"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="local-data">What stays on your machine.</h2>
+</div>
+<p>Local Node keeps installation configuration, local credentials, signed manifests, runtime state and evidence files on your host. Configured local verification may also keep readback rules, selected source facts and signed receipts. System-of-record credentials used for local readback remain on your host and authenticate to the selected source system; they are not fields in Hosted evidence records.</p>
+<p>The offline <code>inspect-workflow</code> command reads the workflow export you select and reports static structure without uploading it. The n8n hook’s ordinary observation messages exclude item data, node parameter values, credentials and workflow static data. Its keyed graph digest stays local. OpenClaw’s ordinary observation and SHADOW evaluation contracts exclude prompts, message bodies, command bodies, tool outputs and environment values.</p>
+<p>These exclusions describe those runtime paths, not everything you might send in account forms, support email or a configured verification check. Identifiers and free-text fields can contain sensitive information. Do not submit secrets, PHI, payment data or confidential client records in applications or support messages.</p>
+<p>You control your runtime and host. Stop or disable observation using the package-specific controls. Unpairing, uninstalling and deleting local files have different effects; none establishes that previously delivered Hosted records were erased. <a href="/trust#disable">Review the controls.</a></p>
+</div>
+</section>
+<section class="section" aria-labelledby="credentials-cookies"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="credentials-cookies">Credentials and necessary cookies.</h2>
+</div>
+<p>Pairing credentials are used to authenticate to Hosted and are stored in owner-restricted local files. Hosted stores credential hashes and identity/lifecycle records. Passwords are stored as hashes; enrolled TOTP secrets are encrypted by the control-plane persistence layer. These specific controls are not a claim that every record, backup or local file is encrypted at rest.</p>
+<p>The static website’s own code does not use cookies. The separate Hosted dashboard uses cookies for sign-in, request protection and account recovery, and stores session state and interface preferences. Signing out or clearing cookies affects browser access; it does not delete account or evidence records. Blocking these cookies can prevent Hosted sign-in.</p>
+<p>Protect your accounts, host and credential files. Do not email passwords, recovery codes, pairing codes or deployment credentials.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="providers"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="providers">Operations and service providers.</h2>
+</div>
+<p>McPherson AI’s operator administers the service and can access stored records for support, security and operations. Product permissions control workspace access; administrative infrastructure access remains a separate trust boundary. Security and operational records include authentication, access review, role changes, pairing, revocation and service events.</p>
+<p>The Hosted deployment documented for this beta uses DigitalOcean for server hosting, Tailscale for public network access and Google/Gmail for service email. Providers process information needed for those roles. Your own runtime, model, system-of-record and email providers have their own data-handling terms.</p>
+<p>This notice does not promise a particular hosting region, provider-log retention period, certification or independent security audit. Confirm any specific deployment or data-location requirement before sharing sensitive data.</p>
+</div>
+</section>
+<section class="section" aria-labelledby="retention"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="retention">Retention, deletion and backups.</h2>
+</div>
+<p>There is no single established retention period covering all information described here. Expiring a code or session limits its use; it does not necessarily remove the associated account, access-request, delivery or audit record.</p>
+<p>Hosted supports bounded retention operations for selected evidence and derived records. Eligibility depends on configuration and record relationships. Records required by mapping, verification or audit history may be preserved. This notice does not promise that every record is automatically deleted after a fixed number of days.</p>
+<p>Revocation or account closure restricts access and does not by itself erase historical data. The implemented account-deletion behavior marks an account deleted and revokes sessions while preserving records. There is no general self-service erasure of all Hosted data.</p>
+<p>Operational backups can contain account, configuration, mail-delivery and evidence records. Removing data from a live store does not immediately remove earlier backup copies. No fixed backup-erasure schedule or complete-deletion deadline is established in this notice. Local files and email-provider copies require separate handling.</p>
+</div>
+</section>
+<section class="section mist" aria-labelledby="privacy-questions"><div class="wrap read-col"><div class="section-head stacked">
+<h2 id="privacy-questions">Requests, children’s information and updates.</h2>
+</div>
+<p>For access, correction, export, account closure or deletion requests, email <a href="mailto:admin@mcphersonai.com?subject=Privacy%20request">admin@mcphersonai.com</a>. Describe the request without sending credentials or sensitive records. We may need to verify your identity and authority over the account or workspace before acting.</p>
+<p>This website and beta are intended for professional builders and agencies. Contact us if you believe a child has provided personal information. This notice does not limit rights that apply under law.</p>
+<p>Changes to this notice will appear here with an updated date. Review any additional data-handling agreement presented for your specific deployment before accepting it or connecting sensitive data.</p>
 </div>
 </section>
 </main>

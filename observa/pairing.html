@@ -43,8 +43,9 @@
 <section class="section " aria-labelledby="request"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="order-title" aria-hidden="true"></span><span class="legacy-anchor" id="states-title" aria-hidden="true"></span><span class="legacy-anchor" id="timings-title" aria-hidden="true"></span><span class="legacy-anchor" id="verify-title" aria-hidden="true"></span><span class="legacy-anchor" id="pairstep-title" aria-hidden="true"></span><span class="legacy-anchor" id="replace-title" aria-hidden="true"></span><span class="legacy-anchor" id="pairfail-title" aria-hidden="true"></span><span class="legacy-anchor" id="pair-next-title" aria-hidden="true"></span>
 <h2 id="request">Request access through the CLI.</h2>
 </div>
-<p>For Hosted commands, set <code>OBSERVA_HOSTED_URL</code> to the HTTPS endpoint supplied for your evaluation. The variable below is a placeholder for that approved endpoint, not a public service address. If you do not have one, <a href="/observa/support">ask support for the evaluation endpoint</a>. The CLI still performs email verification and access review; email to support does not grant access.</p>
-<pre><code>observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
+<p>The current public Hosted beta origin is <code>https://governance-plane-observa.tailb473db.ts.net</code>. Use the bare HTTPS origin for either package, with no path suffix. Set the variable below before running Hosted commands. Access requires approval and may need <a href="/observa/support">support assistance</a>; knowing the address does not grant an account or complete activation.</p>
+<pre><code>export OBSERVA_HOSTED_URL="https://governance-plane-observa.tailb473db.ts.net"
+observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
 observa request-status</code></pre>
 <p>Review the requested metadata, confirm the request and complete email verification. Check the saved request’s state with <code>request-status</code>. Approval remains human-reviewed. Retrying does not create an approved account.</p>
 <p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>

@@ -90,7 +90,7 @@ for(const [from,to] of legacyRoutes) {
 }
 const publicText=(await Promise.all(files.filter(f=>['.html','.js','.css','.txt','.xml'].includes(extname(f))).map(f=>readFile(f,'utf8')))).join('\n');
 for (const [label,pattern] of [
- ['private local path',/\/Users\//],['private network host',/[a-z0-9.-]+\.ts\.net/i],
+ ['private local path',/\/Users\//],
  ['private Drive URL',/(?:docs|drive)\.google\.com/i], ['private key',/BEGIN [A-Z ]*PRIVATE KEY/],
  ['cloud token',/\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b/],
  ['private IPv4',/\b(?:10\.(?:\d{1,3}\.){2}\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})\b/],
@@ -103,6 +103,9 @@ for (const [label,pattern] of [
     check(!/universally safe|universally verified|independently audited|production-ready/.test(publicText),label);
   }else check(!pattern.test(publicText),label+' in public output');
 }
+// This exact HTTPS origin is the documented public beta endpoint. Other tailnet hosts remain private.
+const endpointRedacted = publicText.replace(/https:\/\/governance-plane-observa\.tailb473db\.ts\.net(?=[\s<"'`]|$)/g, 'PUBLIC_HOSTED_ORIGIN');
+check(!/[a-z0-9.-]+\.ts\.net/i.test(endpointRedacted),'unapproved network host in public output');
 for(const forbidden of ['.git','project-docs','node_modules','scripts','.env','package.json']) check(!files.some(f=>relative(root,f).split('/').includes(forbidden)),'internal file in dist: '+forbidden);
 const home=pages.get('index.html'), evidence=pages.get('evidence.html'), founding=pages.get('founding.html'), getting=pages.get('getting-started.html');
 for(const text of ['Your agent can do almost anything.','The workflow you sell to clients shouldn’t.','Built on Observa.','AUTHORIZED != COMPLETED != VERIFIED']) check(home.includes(text),'home copy boundary: '+text);
