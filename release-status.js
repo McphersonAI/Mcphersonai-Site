@@ -1,4 +1,4 @@
-/* Public artifact identities and OpenClaw license clarification checked 2026-10-06. */
+/* Public artifact identities and OpenClaw license clarification checked 2026-10-09. */
 window.MCPHERSON_RELEASE_STATUS = Object.freeze({
   openClawVersion: "0.7.4",
   openClawLicense: "Apache-2.0",

@@ -1,11 +1,20 @@
-# Keep archived development snapshots out of search indexes if the repository
-# root remains the Cloudflare Pages output directory.
+# Security headers and indexing boundaries for retained historical assets.
 /*
   Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; media-src 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'
   Permissions-Policy: accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+/sample-assessment.pdf
+  X-Robots-Tag: noindex, nofollow
+/observa-audit-mode-dogfood-demo-polished.pdf
+  X-Robots-Tag: noindex, nofollow
+/assets/papers/*
+  X-Robots-Tag: noindex, nofollow
+/og-private-beta.png
+  X-Robots-Tag: noindex, nofollow
+/workflow-proof-panel.png
+  X-Robots-Tag: noindex, nofollow
 /index-*
   X-Robots-Tag: noindex, nofollow
 /pilot-*
