@@ -28,7 +28,7 @@
 <header class="site-header"><div class="wrap header-inner">
 <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
 <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence" aria-current="page">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence" aria-current="page">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/contact">Discuss Your Workflow</a></nav>
 </div>
 <div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
 </header>
@@ -104,6 +104,20 @@
 </div>
 </div>
 </section>
+<section class="section" aria-labelledby="candidate-record"><div class="wrap"><div class="section-head stacked"><h2 id="candidate-record">Local Node v0.1.9: release record pending.</h2></div>
+<p>v0.1.9 is a development candidate, not a published release. The current public Local Node identity remains 0.1.7 above. Final package identity, digest, supported runtime and accepted performance baseline will be added here only after independent release approval and publication.</p>
+<h3>Planned evidence path</h3>
+<p>Native runtime events → thin runtime adapter → Local Node acquisition and normalization → authenticated, locally durable evidence → asynchronous Hosted delivery → Hosted evidence and governance reporting. Moving Hosted delivery off the synchronous path is intended to strengthen non-interference; it is not a zero-impact guarantee. Thin adapters reuse common Local Node services and reduce runtime-specific integration work. Native capture and support remain runtime- and version-bound, not universal plug-and-play. The released OpenClaw connector remains a separate artifact.</p>
+<h3>Benchmark and operational evidence</h3>
+<p>No accepted public v0.1.9 OFF/ON result is available here. The release record must identify the workload, runtime, operating system, architecture, CPU, memory, storage, timer boundaries and measurement method; report p50, p95 and p99, event integrity, failures and recovery measures; and compare both original ≤50 ms targets with the results. Validity of a benchmark and attainment of a performance target are separate decisions. Durability and recovery claims must include their tested limits.</p>
+<p>See the <a href="#methodology">publication standard</a> and <a href="#limitations">canonical limitations</a>. Historical artifacts retain their original scope; do not substitute earlier version measurements for this candidate.</p>
+</div></section>
+<section class="section mist" aria-labelledby="roadmap"><div class="wrap"><div class="section-head stacked"><h2 id="roadmap">What’s Next</h2></div>
+<p>These are targets for the next major development release, subject to implementation and independent Control Gate C qualification.</p>
+<div class="grid two"><article class="card"><h3>Policy Grid</h3><div class="card-copy">Versioned owner-approved Layer 1 shared rules, Layer 2 runtime and capability policies, and Layer 3 deployment bindings. V7 remains the sole deterministic policy authority.</div></article>
+<article class="card"><h3>Kill Grid</h3><div class="card-copy">Planned bounded runtime action stopping, critical-violation circuit breaking, retry, time and resource controls, and operator recovery.</div></article></div>
+<p>Neither is a current active enforcement feature. The current observer does not stop n8n execution, and not all bypass routes are controlled.</p>
+</div></section>
 <section class="section mist" aria-labelledby="limitations"><div class="wrap"><div class="section-head stacked">
 <h2 id="limitations">Canonical limitations.</h2>
 </div>

@@ -118,33 +118,16 @@ try{
  activeRoute='legacy contact campaign';
  await send('Page.navigate',{url:base+'/contact?utm_campaign=governance-v6-shadow-beta&ref=compat#governance-setup'});await ready('/getting-started');
  check(await evaluate(`location.hash==='#access'&&location.search.includes('ref=compat')`),'legacy campaign technical destination');
- // Form: invalid data stays local, valid data produces a reviewable message, edits invalidate it.
+ // Paused program has no active application form, with a contact path.
  await navigate('/founding');
- await evaluate(`document.querySelector('form').requestSubmit()`);
- check(await evaluate(`document.querySelector('[data-prepared-panel]').hidden`),'invalid application prepared');
- await evaluate(`(()=>{for(const el of document.querySelectorAll('fieldset input,fieldset textarea,fieldset select')){
-  el.value=el.type==='email'?'builder@example.com':el.type==='number'?'2':el.tagName==='SELECT'?'Yes — synthetic or staging':'Synthetic audit <script>example</script> & text';
- }document.querySelector('[name=acknowledged]').checked=true;})()`);
- const requestsBefore=requestCount;
- await evaluate(`document.querySelector('form').requestSubmit()`);
- const form=await evaluate(`(()=>{const a=document.querySelector('[data-mailto]');return {prepared:!document.querySelector('[data-prepared-panel]').hidden,text:document.querySelector('[data-prepared]').value,href:a.href,status:document.querySelector('[data-form-status]').textContent,script:!!document.querySelector('example')}})()`);
- check(form.prepared&&form.text.includes('<script>example</script>')&&!form.script,'application plain-text handling');
- check(new URL(form.href).searchParams.get('body').includes('builder@example.com'),'application encoding');
- check(form.status.includes('not sent'),'truthful prepare status');
- check(requestCount===requestsBefore,'application sent a network request');
- // Force clipboard rejection; selection/manual fallback must remain available.
- await evaluate(`Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:()=>Promise.reject(new Error('audit'))}});document.execCommand=()=>false;document.querySelector('[data-copy]').click()`);
- await pause(30);
- check(await evaluate(`document.querySelector('[data-copy-status]').textContent.includes('copy it manually')`),'clipboard fallback');
- await evaluate(`document.querySelector('[name=workflow]').value='Revised';document.querySelector('[name=workflow]').dispatchEvent(new Event('input',{bubbles:true}))`);
- check(await evaluate(`document.querySelector('[data-prepared-panel]').hidden`),'stale prepared application remains available');
+ check(await evaluate(`!document.querySelector('[data-founding-application]') && document.body.textContent.includes('New Founding Builder applications are temporarily paused while current candidates are reviewed.') && !!document.querySelector('main a[href="/contact"]')`),'paused application and contact path');
  // No-JS is a working read-only website; the form never transmits by fallback.
  await send('Emulation.setScriptExecutionDisabled',{value:true});
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  for(const route of canonicalRoutes.slice(0,12)){
   await navigate(route);
   check(await evaluate(`document.querySelector('#primary-nav').getClientRects().length>0&&document.documentElement.scrollWidth<=innerWidth+1`),'no-JS navigation/layout');
-  if(route==='/founding')check(await evaluate(`document.querySelector('[data-prepare]').disabled`),'no-JS form can submit');
+  if(route==='/founding')check(await evaluate(`!document.querySelector('[data-founding-application]')`),'no-JS application remains paused');
  }
  await send('Emulation.setScriptExecutionDisabled',{value:false});
  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
@@ -152,4 +135,4 @@ try{
  check(await evaluate(`getComputedStyle(document.documentElement).scrollBehavior==='auto'`),'reduced motion');
 } finally {socket.close();await fetch(debug+'/json/close/'+target.id);}
 if(errors.length){console.error(`Browser audit failed (${errors.length}):\n`+errors.map(x=>'- '+x).join('\n'));process.exit(1);}
-console.log(`Browser audit passed: ${inspections} page/viewport inspections, ${navigationClicks} actual primary-navigation clicks, ${legacyRoutes.length} legacy redirects, campaign routing, application validation/encoding/no-send/edit/copy fallback, no-JS and reduced motion.`);
+console.log(`Browser audit passed: ${inspections} page/viewport inspections, ${navigationClicks} actual primary-navigation clicks, ${legacyRoutes.length} legacy redirects, campaign routing, paused application and contact path, no-JS and reduced motion.`);

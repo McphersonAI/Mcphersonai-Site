@@ -33,10 +33,9 @@ Use a temporary browser profile, not a personal browsing session. Optional
 Screenshots and downloaded release archives are not website source files.
 
 The static audit checks all pages for navigation, footer, metadata, links and
-fragments, redirects, publication boundaries, release identities, form privacy,
+fragments, redirects, publication boundaries, release identities, paused program status,
 headers and asset signatures. The browser audit adds four responsive widths,
-contrast, keyboard controls, actual navigation, legacy routing, a no-network
-application-preparation flow, clipboard failure, no-JavaScript behavior and
+contrast, keyboard controls, actual navigation, legacy routing, paused application status, no-JavaScript behavior and
 reduced motion. Failed or unavailable checks remain unresolved.
 
 ## Current routes
@@ -44,7 +43,7 @@ reduced motion. Failed or unavailable checks remain unresolved.
 | Route | Role |
 | --- | --- |
 | `/` | Buyer and product explanation |
-| `/founding` | Founding Builder application and commercial qualification |
+| `/founding` | Paused Founding Builder program and historic commitments |
 | `/how-it-works` | Ownership, written criteria and deployment scope |
 | `/observa` | Released software and product boundaries |
 | `/evidence` | Release identities, benchmark standard and canonical limitations |
@@ -62,7 +61,7 @@ reduced motion. Failed or unavailable checks remain unresolved.
 | `/qsr-systems` | QSR origin, outside primary navigation |
 
 Primary navigation: How It Works, Observa, Evidence, Trust, About. The primary
-commercial CTA is Apply as a Founding Builder. Getting Started is the separate
+commercial CTA is Discuss Your Workflow. Getting Started is the separate
 technical utility. Every page shares the launch footer: Docs, Getting Started,
 Evidence, Support, Contact, Privacy, Terms.
 
@@ -108,7 +107,7 @@ hash identifies bytes; it does not establish independent audit or safety.
 
 `/evidence#limitations` is the single limitations source. Benchmark families
 appear only with an actual publishable result conforming to the standard on that
-page. Do not add empty result sections, future dates or a public roadmap.
+page. Do not publish candidate measurements or identities before approval and publication. The planned roadmap is explicitly separate from current functionality.
 
 ## Deployment boundary
 

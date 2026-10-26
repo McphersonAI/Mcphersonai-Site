@@ -109,7 +109,7 @@ const endpointRedacted = publicText.replace(/https:\/\/governance-plane-observa\
 check(!/[a-z0-9.-]+\.ts\.net/i.test(endpointRedacted),'unapproved network host in public output');
 for(const forbidden of ['.git','project-docs','node_modules','scripts','.env','package.json']) check(!files.some(f=>relative(root,f).split('/').includes(forbidden)),'internal file in dist: '+forbidden);
 const home=pages.get('index.html'), evidence=pages.get('evidence.html'), founding=pages.get('founding.html'), getting=pages.get('getting-started.html');
-for(const text of ['Your agent can do almost anything.','The workflow you sell to clients shouldn’t.','Built on Observa.','AUTHORIZED != COMPLETED != VERIFIED']) check(home.includes(text),'home copy boundary: '+text);
+for(const text of ['Governed outcomes for agentic workflows.','Built on Observa.','AUTHORIZED != COMPLETED != VERIFIED']) check(home.includes(text),'home copy boundary: '+text);
 check(!/\bp(?:50|95|99)\b|\d+\s*ms\b/.test(home),'benchmark metrics on homepage');
 for(const id of ['methodology','releases','identities','limitations']) check(evidence.includes('id="'+id+'"'),'Evidence missing '+id);
 for(const text of ['Standard v0.1','SELF-RUN','CONTROLLED SYNTHETIC','FIXTURE CONFORMANCE','PASS, HOLD or FAIL','timer','excluded','non','SHA-256']) check(evidence.includes(text),'Evidence methodology missing '+text);
@@ -118,8 +118,10 @@ for(const page of ['index.html','founding.html','how-it-works.html','observa.htm
   const html=pages.get(page); for(const posture of ['SHADOW ONLY','AUTHORITY NONE','ENFORCEMENT OFF']) check(html.includes(posture),page+': missing '+posture);
 }
 for(const text of ['qualification has no fee','paid subscription','per live client deployment','criteria','choose']) check(founding.toLowerCase().includes(text.toLowerCase()),'commercial condition missing: '+text);
-for(const name of ['name','email','company','role','workflow','action','runtime','record','deployments','customers','repeat','failure','success','staging','authorization','evidence','acknowledged']) check(founding.includes('name="'+name+'"'),'Founding field missing '+name);
-check(founding.includes('type="submit" disabled')&&founding.includes('<noscript>'),'form must not submit personal data without JS');
+check(founding.includes('New Founding Builder applications are temporarily paused while current candidates are reviewed.'), 'Founding pause missing');
+check(!/data-founding-application|Apply as a Founding Builder|accepting a small number/i.test(publicText), 'active founding invitation');
+check(evidence.includes('v0.1.9 is a development candidate, not a published release') && evidence.includes('No accepted public v0.1.9 OFF/ON result'), 'candidate release gate');
+check(evidence.includes('id="roadmap"') && evidence.includes('independent Control Gate C qualification'), 'roadmap qualification');
 for(const command of ['observa pair --base-url','observa pair --api-url','observa request-access --api-url','observa request-status','observa inspect-workflow --file ./workflow.json','observa hosted-health','observa n8n-setup','observa diagnose','observa-local-node@0.1.7']) check(getting.includes(command),'Getting Started command missing '+command);
 check(!/pair --base-url[^\n<]*(?:--replace-existing|--api-url)/.test(getting),'mixed pairing flags');
 const releaseSource=await readFile(join(root,'release-status.js'),'utf8');
@@ -128,7 +130,7 @@ check(release.openClawVersion==='0.7.4'&&release.localNodeVersion==='0.1.7','rel
 for(const key of ['openClawSha256','localNodeSha256','openClawCommit']) check(evidence.includes(release[key]),'Evidence differs from release identity '+key);
 const site=await readFile(join(root,'site.js'),'utf8');
 check(!/fetch\(|XMLHttpRequest|localStorage|sessionStorage|document\.cookie/.test(site),'unapproved form network/storage behavior');
-check(site.includes('event.preventDefault()')&&site.includes('encodeURIComponent(body)')&&site.includes('output.value = prepared'),'form data must stay plain text and URL-encoded');
+check(!site.includes('data-founding-application'), 'paused application behavior remains');
 const css=await readFile(join(root,'styles.css'),'utf8');
 for(const text of [':focus-visible','prefers-reduced-motion','@media (max-width: 760px)']) check(css.includes(text),'accessibility CSS missing '+text);
 const headers=await readFile(join(root,'_headers'),'utf8');
