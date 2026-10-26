@@ -119,7 +119,7 @@ for(const page of ['index.html','founding.html','how-it-works.html','observa.htm
 }
 for(const text of ['qualification has no fee','paid subscription','per live client deployment','criteria','choose']) check(founding.toLowerCase().includes(text.toLowerCase()),'commercial condition missing: '+text);
 check(founding.includes('New Founding Builder applications are temporarily paused while current candidates are reviewed.'), 'Founding pause missing');
-check(!/data-founding-application|Apply as a Founding Builder|accepting a small number/i.test(publicText), 'active founding invitation');
+check(!/data-founding-application|Apply as a Founding Builder|accepting a small number|start with the Founding Builder Program/i.test(publicText), 'active founding invitation');
 check(evidence.includes('v0.1.9 is a development candidate, not a published release') && evidence.includes('No accepted public v0.1.9 OFF/ON result'), 'candidate release gate');
 check(evidence.includes('id="roadmap"') && evidence.includes('independent Control Gate C qualification'), 'roadmap qualification');
 for(const command of ['observa pair --base-url','observa pair --api-url','observa request-access --api-url','observa request-status','observa inspect-workflow --file ./workflow.json','observa hosted-health','observa n8n-setup','observa diagnose','observa-local-node@0.1.7']) check(getting.includes(command),'Getting Started command missing '+command);
