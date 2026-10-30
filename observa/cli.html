@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CLI Reference | McPherson AI</title>
-<meta name="description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.7, including distinct pairing flags and revocation semantics.">
+<meta name="description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.9, including distinct pairing flags and revocation semantics.">
 <link rel="canonical" href="https://mcphersonai.com/observa/cli">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -13,13 +13,13 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="McPherson AI">
 <meta property="og:title" content="CLI Reference | McPherson AI">
-<meta property="og:description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.7, including distinct pairing flags and revocation semantics.">
+<meta property="og:description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.9, including distinct pairing flags and revocation semantics.">
 <meta property="og:url" content="https://mcphersonai.com/observa/cli">
 <meta property="og:image" content="https://mcphersonai.com/og-governance.png">
 <meta property="og:image:alt" content="McPherson AI — governance for action-taking AI agents">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CLI Reference | McPherson AI">
-<meta name="twitter:description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.7, including distinct pairing flags and revocation semantics.">
+<meta name="twitter:description" content="Version-checked commands for OpenClaw v0.7.4 and Local Node 0.1.9, including distinct pairing flags and revocation semantics.">
 <meta name="twitter:image" content="https://mcphersonai.com/og-governance.png">
 <script src="/site.js" defer></script>
 </head>
@@ -35,7 +35,7 @@
 <main id="main" tabindex="-1">
 <section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">CLI reference</div>
 <h1>Two packages. Two command sets.</h1>
-<p class="lead">Both packages use the executable name observa. Confirm the version and runtime before using a command. The examples below were checked against the public OpenClaw v0.7.4 and Local Node 0.1.7 artifacts.</p>
+<p class="lead">Both packages use the executable name observa. Confirm the version and runtime before using a command. The examples below were checked against the public OpenClaw v0.7.4 and Local Node 0.1.9 artifacts.</p>
 </div>
 </div>
 </section>
@@ -45,12 +45,12 @@
 </div>
 <pre><code>observa --version
 observa --help</code></pre>
-<p>Local Node prints <code>observa-cli 0.1.7</code>. OpenClaw prints <code>Observa 0.7.4</code>. Do not use the Local Node command as a substitute for a missing OpenClaw launcher.</p>
+<p>Local Node prints <code>observa-cli 0.1.9</code>. OpenClaw prints <code>Observa 0.7.4</code>. Do not use the Local Node command as a substitute for a missing OpenClaw launcher.</p>
 <p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
 </div>
 </section>
 <section class="section mist" aria-labelledby="local-node-commands"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="conventions-title" aria-hidden="true"></span><span class="legacy-anchor" id="inspect-title" aria-hidden="true"></span><span class="legacy-anchor" id="status" aria-hidden="true"></span><span class="legacy-anchor" id="inspect-workflow" aria-hidden="true"></span><span class="legacy-anchor" id="activity" aria-hidden="true"></span><span class="legacy-anchor" id="decisions" aria-hidden="true"></span><span class="legacy-anchor" id="agents" aria-hidden="true"></span><span class="legacy-anchor" id="agent" aria-hidden="true"></span><span class="legacy-anchor" id="diagnose" aria-hidden="true"></span><span class="legacy-anchor" id="version" aria-hidden="true"></span><span class="legacy-anchor" id="lifecycle-title" aria-hidden="true"></span><span class="legacy-anchor" id="rollback" aria-hidden="true"></span><span class="legacy-anchor" id="start" aria-hidden="true"></span><span class="legacy-anchor" id="stop" aria-hidden="true"></span><span class="legacy-anchor" id="uninstall" aria-hidden="true"></span><span class="legacy-anchor" id="config" aria-hidden="true"></span><span class="legacy-anchor" id="n8n-setup" aria-hidden="true"></span><span class="legacy-anchor" id="access-cmd-title" aria-hidden="true"></span><span class="legacy-anchor" id="request-status" aria-hidden="true"></span><span class="legacy-anchor" id="pair" aria-hidden="true"></span><span class="legacy-anchor" id="unpair" aria-hidden="true"></span><span class="legacy-anchor" id="cli-next-title" aria-hidden="true"></span>
-<h2 id="local-node-commands">Local Node 0.1.7.</h2>
+<h2 id="local-node-commands">Local Node 0.1.9.</h2>
 </div>
 <pre><code>observa status
 observa inspect-workflow --file ./workflow.json
@@ -66,13 +66,12 @@ observa install
 observa n8n-setup
 observa start</code></pre>
 <p>Configure the local n8n loopback credential before <code>n8n-setup</code>, then load the generated environment into n8n and restart it. See <a href="/getting-started#n8n-observation">Getting Started</a>. A signed manifest and verified component hashes are required for installation.</p>
-<h3 id="update">Upgrade, stop and remove</h3>
-<pre><code>observa update --manifest &lt;newer-signed-manifest.json&gt;
-observa rollback
-observa stop
-observa unpair
-observa uninstall --yes</code></pre>
-<p>A package upgrade and a signed composition update are different operations. Keep the running service, copied hook and loaded n8n hook at the same release. Use the <a href="/getting-started#n8n-observation">upgrade checks</a>. Unpair handles Hosted revocation; uninstall alone does not revoke. <code>--purge-config</code> additionally removes local configuration, so use it only when that is intended.</p>
+<h3 id="update">Disable observation and revoke delivery</h3>
+<pre><code>observa stop
+observa status
+# Revocation is a separate, deliberate operation:
+observa unpair</code></pre>
+<p>A package upgrade and a signed composition update are different operations. Keep the running service, copied hook and loaded n8n hook at the same release. Only fresh installation and compatible closed-writer restore are qualified for this release; do not infer upgrade, downgrade or cross-version restore support. Use the <a href="/getting-started#n8n-observation">installation checks</a>. Unpair handles Hosted revocation; uninstall alone does not revoke. Use <code>observa stop</code> to disable observation and preserve journals, proofs, configuration and workflows; do not use uninstall/purge as disable.</p>
 </div>
 </section>
 <section class="section " aria-labelledby="openclaw-commands"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="openclaw" aria-hidden="true"></span><span class="legacy-anchor" id="openclaw-title" aria-hidden="true"></span>
@@ -111,7 +110,7 @@ observa request-status</code></pre>
 <section class="section " aria-labelledby="reference-sources"><div class="wrap"><div class="section-head stacked">
 <h2 id="reference-sources">Versioned command sources.</h2>
 </div>
-<p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.7.4/README.md">OpenClaw v0.7.4 README</a> · <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.7.tgz">Local Node 0.1.7 archive</a> · <a href="/evidence#limitations">Canonical limitations</a></p>
+<p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.7.4/README.md">OpenClaw v0.7.4 README</a> · <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.9.tgz">Local Node 0.1.9 archive</a> · <a href="/evidence#limitations">Canonical limitations</a></p>
 </div>
 </section>
 </main>

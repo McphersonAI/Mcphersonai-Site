@@ -120,7 +120,7 @@ try{
  check(await evaluate(`location.hash==='#access'&&location.search.includes('ref=compat')`),'legacy campaign technical destination');
  // Paused program has no active application form, with a contact path.
  await navigate('/founding');
- check(await evaluate(`!document.querySelector('[data-founding-application]') && document.body.textContent.includes('New Founding Builder applications are temporarily paused while current candidates are reviewed.') && !!document.querySelector('main a[href="/contact"]')`),'paused application and contact path');
+ check(await evaluate(`!document.querySelector('[data-founding-application]') && document.body.textContent.includes('New Founding Pilot applications are temporarily paused while current candidates are reviewed.') && !!document.querySelector('main a[href="/contact"]')`),'paused application and contact path');
  // No-JS is a working read-only website; the form never transmits by fallback.
  await send('Emulation.setScriptExecutionDisabled',{value:true});
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});

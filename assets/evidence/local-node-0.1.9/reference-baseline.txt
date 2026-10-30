@@ -1,0 +1,42 @@
+Observa Local Node 0.1.9 reference baseline — 2026-10-30
+SHADOW ONLY / AUTHORITY NONE / ENFORCEMENT OFF
+
+Classification: independently accepted representative/descriptive baseline, NOT official B1, quiet-host qualification, universal latency guarantee or production-readiness certification. Both original <=50 ms p99 engineering objectives remain reported comparisons; founder made them nonblocking for stable release. Historical v0.1.8 remains UNQUALIFIED:36 valid trials,72000 OFF/ON pairs,13 paired-added p99 failures,36 total-pre-return p99 passes,both50ms thresholds,zero isolated-collector executions; no incremental causal isolation conclusion.
+
+Measured bytes: stable build05 SHA256 580b29c2c93aa53617c17b611dcd0a4973b03913e21f8fc691433234c4f71a3c,401043 bytes. Runtime input HEAD8de3e12e6a285227124dde45053e1b85d07bd53f,TREE1d2154db4f3051d4a9facb07bf9d6a212d1f8e29. The final distribution adds this report/raw CSV and derived documentation/checksums only; executable/component equality is checked separately. This report does not relabel the measured package digest as the final package digest.
+
+Existing b4 guest: LinuxARM64 Ubuntu24.04.4,4vCPU/4GiB,Docker29.5.2 classic overlay2,external SSD. Stock n8n2.45.7 image index sha256:9a8d8dcea75667496695d7810d7e1fe018a65efb36cc499d347f3931b3957b5d,ARM64 manifest601220c753dc993c9de5aa1f2b0935cf38f04d5317db44d332ae1931660969f6,Node26.12.1,npm11.21.1,Alpine/musl. Container3CPU/3GiB,pids256,UID/GID1000,read-only source,networknone. Mac static post-run profile: AppleM4,10CPUs,16GiB,macOS26.5.1(25F80). Normal host interference is unquantified: storage/boot/owned orchestration recorded; no comprehensive during-run host CPU/load/swap sampling. No host settings were changed.
+
+Procedure:200 pairs per condition,concurrency1,single synthetic manualTrigger workflow,three sequential local Hosted fixtures:healthy,500ms response delay,HTTP503 unavailable. Even pair OFF then ON;odd ON then OFF. No exclusions/clipping/pooling. Nearest-rank empirical quantiles. OFF disables capture callback/notification while the same n8n,source server and sidecar remain resident; this is NOT installed-versus-uninstalled footprint measurement. Total latency=manual-start request initiation to completion-monitor arrival; pre-return=observed synchronous native projection plus external-hook sum,excluding remaining lifecycle and async delivery. Instrumentation adds its own cost. Conditions share process/GC history.200 samples per tail is not a confidence bound. Full raw arm CSV is adjacent; signed paired differences including negatives are retained.
+
+Results, milliseconds (p50 / p95 / p99):
+healthy
+  control_total: 33.490417 / 40.796875 / 52.171916; max=76.838667
+  observa_total: 38.416501 / 44.590125 / 51.150666; max=55.734417
+  paired_added: 4.745584 / 8.983291 / 15.328417; max=15.683250
+  total_pre_return: 4.790708 / 5.990167 / 7.105124; max=15.629833
+  n8n mean observed CPUms OFF/ON=55.200/56.850; full sidecar startup-through-drain CPUms=1331.370; sidecar kernel peakRSS KiB=139480; final local journal bytes=1249280; pre-stop live WAL bytes=943512.
+slow
+  control_total: 32.295875 / 38.656709 / 42.825583; max=45.481833
+  observa_total: 36.840792 / 45.981083 / 53.246375; max=130.060750
+  paired_added: 4.819876 / 10.676042 / 16.716167; max=98.195333
+  total_pre_return: 4.691541 / 6.512541 / 9.658291; max=14.175542
+  n8n mean observed CPUms OFF/ON=52.850/56.200; full sidecar startup-through-drain CPUms=1159.192; sidecar kernel peakRSS KiB=138184; final local journal bytes=1622016; pre-stop live WAL bytes=502672.
+unavailable
+  control_total: 32.222875 / 39.816084 / 46.517042; max=55.354792
+  observa_total: 37.277167 / 43.724875 / 47.825500; max=53.071833
+  paired_added: 4.840417 / 9.436375 / 13.627167; max=18.553333
+  total_pre_return: 4.800208 / 6.228292 / 8.053916; max=13.707417
+  n8n mean observed CPUms OFF/ON=53.350/55.950; full sidecar startup-through-drain CPUms=1212.058; sidecar kernel peakRSS KiB=142068; final local journal bytes=1810432; pre-stop live WAL bytes=576832.
+
+All600 pairs/1200 workflow arms succeeded;600 ON capture callbacks,600 committed signed receipts and matching native identities;no OFF captures,missing half-pairs,duplicate identities or workflow failures. Both empirical p99 comparisons are <=50ms in each cell; this is not formal performance PASS. The slow maximum paired addition98.195ms and ONtotal130.061ms remain included. Linux process CPU ticks observed100Hz(coarse10ms) include background work; do not interpret differences as exact causal CPU overhead. Sidecar CPU/RSS includes startup,idle,instrumentation and drainage. n8n RSS reflects shared history rather than isolated incremental ON memory cost. Logical database/WAL sizes are not total storage writes,write amplification or production retention economics. Hosted-driver CPU includes fixture,driver and monitor,not dedicated production Hosted overhead.
+
+Delivery at close:healthy200ACKED;slow116ACKED+84PENDING;unavailable200PENDING. Slow120 requests:116 completed200(mean509.747ms),4 unfinished,80 not started;unavailable209HTTP503 requests includes9 retries. No all-delivered claim. Pending state is preserved; bounded replay is established by separate functional/recovery tests. Background api.n8n.io DNS/Strapi errors under networknone and experimental localStorage warnings were retained; measured workflows still succeeded. Baseline Hosted fixture is synthetic/local and is distinct from genuine native-v3/control-plane Hosted acceptance.
+
+Custody: closed sanitized evidence archive SHA256f7b31cec1c18a0031fc7a584b4813c5a17c3462ac8b90a26004867bfa1ffd032,13506560bytes,36members. Independent raw review recomputed all quantiles/identity correlations and verified all600 Ed25519 signatures at signed acquisition times. No private key or customer credential is included in this public report. Reference evidence remains retained by the release owner. This brief workload is not power-loss,disaster-recovery,arbitrary workflow,concurrency,Python/Code-node,external business-action,production Hosted or broad architecture qualification.
+
+Supported release boundary: fresh regular-mode n8n2.45.7 only;actual LinuxARM64/musl Node26.12.1 and Linuxx64/glibc LocalNode26.13.0 with stock n8nNode26.12.1 tested. No nativeMac/Windows,queue/multi-worker,upgrade/downgrade/cross-version restore claim. Package engines range is not a support qualification matrix. Requires an authorized compatible Hosted/catalog/profile/trust configuration; no production Hosted deployment or automatic customer activation is included. UNKNOWN/NODE_OPERATION_NOT_ESTABLISHED is preserved where runtime operation is not proved. Signed evidence is metadata-only,not business outcome proof or enforcement.
+
+Evidence retention is bounded: full ACKED v1 headers compact to the most recent64 while durable identities/replay state persist; pending evidence remains. The separate v3 gap-proof path has configured90-day retention/limits. Do not assume an indefinite complete signed-header archive. Backups must include all compatible state and signing identities using the supported closed-writer procedure; same-SSD preservation is not independent disaster recovery.
+
+Disable/rollback: observa stop; verify stopped status,retain original journals/proofs/configuration/workflows and signing keys. Stop owned n8n before reverting its hook environment using the recorded pre-install configuration. Do not uninstall/purge as disable,overwrite original state,re-sign proofs,downgrade databases or claim cross-version recovery. Restore only verified compatible backups to isolated paths,with all writers closed;prove restored operation/receipt/readback before replacement. Publication rollback means stop new installations and disclose the affected version; an immutable published package cannot be silently replaced.

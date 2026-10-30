@@ -2084,3 +2084,10 @@ legend { font-size: 21px; font-weight: 800; margin-bottom: 22px; }
 .historical-reference .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 .historical-reference .chip { padding: 6px 10px; background: var(--mist); border: 1px solid var(--line); border-radius: 7px; font-size: 14px; }
 @media (max-width: 760px) { .historical-reference .row { grid-template-columns: 1fr; gap: 4px; } }
+
+/* Versioned reference results remain readable within the existing page layout. */
+.baseline-table-wrap { max-width: 100%; overflow-x: auto; margin: 24px 0; }
+.baseline-table { width: 100%; min-width: 540px; border-collapse: collapse; text-align: left; }
+.baseline-table caption { text-align: left; font-weight: 750; padding-bottom: 12px; }
+.baseline-table th, .baseline-table td { padding: 12px; border-bottom: 1px solid var(--line, #d6dce5); }
+.baseline-table td { font-variant-numeric: tabular-nums; }

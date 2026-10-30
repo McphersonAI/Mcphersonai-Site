@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { join, resolve, extname, relative } from 'node:path';
 import vm from 'node:vm';
@@ -88,13 +89,15 @@ for(const [from,to] of legacyRoutes) {
   check(stub?.includes(`http-equiv="refresh" content="0; url=${to}"`),from+': missing static redirect fallback');
   check(stub?.includes(`href="${to}"`),from+': missing no-JS fallback');
 }
+const baselineText=await readFile(join(root,'assets/evidence/local-node-0.1.9/reference-baseline.txt'),'utf8');
+check(createHash('sha256').update(baselineText).digest('hex')==='acfb9ddbf5d6adadac1ae0f54141c5d7da8107e3e9dc93543a1dea67da6a8008','published baseline text identity');
 const publicText=(await Promise.all(files.filter(f=>['.html','.js','.css','.txt','.xml'].includes(extname(f))).map(f=>readFile(f,'utf8')))).join('\n');
 for (const [label,pattern] of [
  ['private local path',/\/Users\//],
  ['private Drive URL',/(?:docs|drive)\.google\.com/i], ['private key',/BEGIN [A-Z ]*PRIVATE KEY/],
  ['cloud token',/\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b/],
  ['private IPv4',/\b(?:10\.(?:\d{1,3}\.){2}\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})\b/],
- ['stale current version',/\bv?0\.6\.\d+\b|\bv?0\.7\.[23]\b|\b0\.1\.[68]\b/],
+ ['stale current version',/\bv?0\.6\.\d+\b|\bv?0\.7\.[23]\b|\b0\.1\.[678]\b/],
  ['obsolete licensing warning',/no declared software license/i],
  ['future placeholder',/coming soon|public roadmap/i],['legacy beta CTA',/Request Private Beta Access|Install the Free Plugin/],
  ['unearned universal claim',/universally safe|universally verified|zero latency|zero technical impact|independently audited|production-ready/]
@@ -102,7 +105,7 @@ for (const [label,pattern] of [
   // A negated zero-impact statement is required; only positive claims are banned.
   if(label==='unearned universal claim'){
     check(!/universally safe|universally verified|independently audited|production-ready/.test(publicText),label);
-  }else check(!pattern.test(publicText),label+' in public output');
+  }else { const scoped=label==='stale current version'?publicText.replace(baselineText,'EXACT_PUBLISHED_REFERENCE_WITH_LABELLED_HISTORY').replace(/<section class="section mist" aria-labelledby="historical-v018">[\s\S]*?<\/section>/g,'HISTORICAL_VERSION_CONTEXT'):publicText; check(!pattern.test(scoped),label+' in public output'); }
 }
 // This exact HTTPS origin is the documented public beta endpoint. Other tailnet hosts remain private.
 const endpointRedacted = publicText.replace(/https:\/\/governance-plane-observa\.tailb473db\.ts\.net(?=[\s<"'`]|$)/g, 'PUBLIC_HOSTED_ORIGIN');
@@ -118,16 +121,34 @@ for(const page of ['index.html','founding.html','how-it-works.html','observa.htm
   const html=pages.get(page); for(const posture of ['SHADOW ONLY','AUTHORITY NONE','ENFORCEMENT OFF']) check(html.includes(posture),page+': missing '+posture);
 }
 for(const text of ['qualification has no fee','paid subscription','per live client deployment','criteria','choose']) check(founding.toLowerCase().includes(text.toLowerCase()),'commercial condition missing: '+text);
-check(founding.includes('New Founding Builder applications are temporarily paused while current candidates are reviewed.'), 'Founding pause missing');
-check(!/data-founding-application|Apply as a Founding Builder|accepting a small number|start with the Founding Builder Program/i.test(publicText), 'active founding invitation');
-check(evidence.includes('v0.1.9 is a development candidate, not a published release') && evidence.includes('No accepted public v0.1.9 OFF/ON result'), 'candidate release gate');
+check(founding.includes('New Founding Pilot applications are temporarily paused while current candidates are reviewed.'), 'Founding pause missing');
+check(!/data-founding-application|Apply as a Founding Pilot|accepting a small number|start with the Founding Pilot Program/i.test(publicText), 'active founding invitation');
+check(evidence.includes('released and consumer-verified') && evidence.includes('reference-baseline-019') && evidence.includes('98.195') && evidence.includes('not a formal quiet-qualified benchmark') && evidence.includes('13/36') && evidence.includes('72,000'), 'released identity, representative baseline and retained historical limitations');
+check(getting.includes('--value-stdin') && !getting.includes('REPLACE_WITH_A_LOCAL_SECRET_24_PLUS_CHARACTERS') && getting.includes('2.45.7') && getting.includes('26.12.1') && getting.includes('26.13.0'), 'supported runtime and stdin-only secret contract');
 check(evidence.includes('id="roadmap"') && evidence.includes('independent Control Gate C qualification'), 'roadmap qualification');
-for(const command of ['observa pair --base-url','observa pair --api-url','observa request-access --api-url','observa request-status','observa inspect-workflow --file ./workflow.json','observa hosted-health','observa n8n-setup','observa diagnose','observa-local-node@0.1.7']) check(getting.includes(command),'Getting Started command missing '+command);
+for(const command of ['observa pair --base-url','observa pair --api-url','observa request-access --api-url','observa request-status','observa inspect-workflow --file ./workflow.json','observa hosted-health','observa n8n-setup','observa diagnose','observa-local-node@0.1.9']) check(getting.includes(command),'Getting Started command missing '+command);
 check(!/pair --base-url[^\n<]*(?:--replace-existing|--api-url)/.test(getting),'mixed pairing flags');
 const releaseSource=await readFile(join(root,'release-status.js'),'utf8');
 const sandbox={window:{}}; vm.runInNewContext(releaseSource,sandbox); const release=sandbox.window.MCPHERSON_RELEASE_STATUS;
-check(release.openClawVersion==='0.7.4'&&release.localNodeVersion==='0.1.7','release versions');
+check(release.openClawVersion==='0.7.4'&&release.localNodeVersion==='0.1.9','release versions');
 for(const key of ['openClawSha256','localNodeSha256','openClawCommit']) check(evidence.includes(release[key]),'Evidence differs from release identity '+key);
+
+// Recompute public result tables from the exact package-shipped CSV.
+const csv=await readFile(join(root,'assets/evidence/local-node-0.1.9/reference-baseline.csv'),'utf8');
+check(createHash('sha256').update(csv).digest('hex')==='6df5e79db6081503937ddae6059d7b234a8757888eccf7eebaf402f245c12c87','published baseline CSV identity');
+const [header,...lines]=csv.trim().split('\n').map(x=>x.split(','));
+const arms=lines.map(v=>Object.fromEntries(header.map((k,i)=>[k,v[i]])));
+check(arms.length===1200 && arms.every(a=>a.status==='success'),'baseline successful arm denominator');
+for(const condition of ['healthy','slow','unavailable']){
+ const rows=arms.filter(a=>a.condition===condition),on=rows.filter(a=>a.arm==='on'),off=rows.filter(a=>a.arm==='off');
+ check(on.length===200&&off.length===200&&new Set(rows.map(a=>a.execution_id)).size===400,'baseline condition identity '+condition);
+ for(const [metric,values] of [['control_total',off.map(a=>+a.total_ms)],['observa_total',on.map(a=>+a.total_ms)],['paired_added',on.map(a=>+a.signed_paired_added_ms)],['total_pre_return',on.map(a=>+a.pre_return_ms)]]){
+  values.sort((a,b)=>a-b);const row=evidence.match(new RegExp('<tr data-condition="'+condition+'" data-metric="'+metric+'">([\\s\\S]*?)</tr>'))?.[1]||'';
+  for(const [q,p] of [['p50',.5],['p95',.95],['p99',.99]])check(row.includes('data-quantile="'+q+'">'+values[Math.ceil(p*values.length)-1].toFixed(3)+'</td>'),'public baseline quantile '+condition+'/'+metric+'/'+q);
+ }
+}
+check(!/observa update --manifest|observa rollback/.test(getting+pages.get('observa/cli.html')),'unsupported upgrade examples');
+
 const site=await readFile(join(root,'site.js'),'utf8');
 check(!/fetch\(|XMLHttpRequest|localStorage|sessionStorage|document\.cookie/.test(site),'unapproved form network/storage behavior');
 check(!site.includes('data-founding-application'), 'paused application behavior remains');

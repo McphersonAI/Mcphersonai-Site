@@ -43,7 +43,7 @@ reduced motion. Failed or unavailable checks remain unresolved.
 | Route | Role |
 | --- | --- |
 | `/` | Buyer and product explanation |
-| `/founding` | Paused Founding Builder program and historic commitments |
+| `/founding` | Paused Founding Pilot program and historic commitments |
 | `/how-it-works` | Ownership, written criteria and deployment scope |
 | `/observa` | Released software and product boundaries |
 | `/evidence` | Release identities, benchmark standard and canonical limitations |

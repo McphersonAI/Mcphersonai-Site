@@ -3,7 +3,7 @@ import { resolve, relative, join, extname } from 'node:path';
 import { createHash } from 'node:crypto';
 const baseUrl = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:4173';
 const root=resolve('dist');
-const types={'.pdf':'application/pdf','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.svg':'image/svg+xml','.css':'text/css','.js':'javascript','.txt':'text/plain','.xml':'application/xml'};
+const types={'.csv':'text/csv','.pdf':'application/pdf','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.svg':'image/svg+xml','.css':'text/css','.js':'javascript','.txt':'text/plain','.xml':'application/xml'};
 async function walk(dir){const files=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=join(dir,e.name);if(e.isDirectory())files.push(...await walk(p));else files.push(p);}return files;}
 const errors=[];
 const assets=(await walk(root)).filter(f=>types[extname(f)]);

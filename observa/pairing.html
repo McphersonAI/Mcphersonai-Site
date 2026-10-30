@@ -35,7 +35,7 @@
 <main id="main" tabindex="-1">
 <section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Access &amp; pairing</div>
 <h1>A request is not a paired installation.</h1>
-<p class="lead">Email verification, access review, an invitation and pairing are distinct steps. Downloading a package or applying as a Founding Builder does not complete technical onboarding.</p>
+<p class="lead">Email verification, access review, an invitation and pairing are distinct steps. Downloading a package or applying as a Founding Pilot does not complete technical onboarding.</p>
 </div>
 </div>
 </section>
@@ -43,8 +43,8 @@
 <section class="section " aria-labelledby="request"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="order-title" aria-hidden="true"></span><span class="legacy-anchor" id="states-title" aria-hidden="true"></span><span class="legacy-anchor" id="timings-title" aria-hidden="true"></span><span class="legacy-anchor" id="verify-title" aria-hidden="true"></span><span class="legacy-anchor" id="pairstep-title" aria-hidden="true"></span><span class="legacy-anchor" id="replace-title" aria-hidden="true"></span><span class="legacy-anchor" id="pairfail-title" aria-hidden="true"></span><span class="legacy-anchor" id="pair-next-title" aria-hidden="true"></span>
 <h2 id="request">Request access through the CLI.</h2>
 </div>
-<p>The current public Hosted beta origin is <code>https://governance-plane-observa.tailb473db.ts.net</code>. Use the bare HTTPS origin for either package, with no path suffix. Set the variable below before running Hosted commands. Access requires approval and may need <a href="/observa/support">support assistance</a>; knowing the address does not grant an account or complete activation.</p>
-<pre><code>export OBSERVA_HOSTED_URL="https://governance-plane-observa.tailb473db.ts.net"
+<p>Obtain the approved HTTPS origin from your Hosted operator. Local Node 0.1.9 requires a compatible build, catalog, native profile, trust and source binding. Its isolated acceptance does not establish an upgraded production endpoint. Use the bare approved origin without a path suffix; access still requires approval and may need <a href="/observa/support">support assistance</a>.</p>
+<pre><code>export OBSERVA_HOSTED_URL="https://YOUR_APPROVED_HOSTED_ORIGIN"
 observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
 observa request-status</code></pre>
 <p>Review the requested metadata, confirm the request and complete email verification. Check the saved request’s state with <code>request-status</code>. Approval remains human-reviewed. Retrying does not create an approved account.</p>
@@ -63,7 +63,7 @@ observa request-status</code></pre>
 </div>
 <div class="grid two">
 <article class="card">
-<h3>Local Node 0.1.7</h3>
+<h3>Local Node 0.1.9</h3>
 <div class="card-copy"><pre><code>observa pair --base-url &quot;$OBSERVA_HOSTED_URL&quot; --code-stdin</code></pre>Reads the pairing code from standard input; use Ctrl-D to finish on Unix-like terminals. An owner-only file is supported via <code>--code-file</code>. Then <code>observa install</code> retrieves and verifies the manifest approved for this installation.</div>
 </article>
 <article class="card">
