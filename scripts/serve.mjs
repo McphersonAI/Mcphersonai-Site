@@ -10,6 +10,7 @@ const root = resolve(process.cwd(), directoryArgument);
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
+  ".csv": "text/csv; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
   ".js": "text/javascript; charset=utf-8",

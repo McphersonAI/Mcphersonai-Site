@@ -28,14 +28,14 @@
 <header class="site-header"><div class="wrap header-inner">
 <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
 <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust">Trust</a><a href="/about">About</a><a class="nav-cta" href="/contact">Discuss Your Workflow</a></nav>
 </div>
 <div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
 </header>
 <main id="main" tabindex="-1">
 <section class="hero"><div class="wrap "><div class="hero-copy"><div class="eyebrow">Getting Started</div>
 <h1>Start a technical evaluation.</h1>
-<p class="lead">Choose one runtime path. Check the package and its use rights, inspect locally, then connect an approved installation to Hosted. A Founding Builder application is not required for local technical inspection.</p>
+<p class="lead">Choose one runtime path. Check the package and its use rights, inspect locally, then connect an approved installation to Hosted. A Founding Pilot application is not required for local technical inspection.</p>
 <div class="cta-row"><a href="#local-node">Local Node / n8n</a><a href="#openclaw">OpenClaw</a></div>
 </div>
 </div>
@@ -45,24 +45,25 @@
 </div>
 <p class="posture">SHADOW ONLY <span aria-hidden="true">·</span> AUTHORITY NONE <span aria-hidden="true">·</span> ENFORCEMENT OFF</p>
 <ul class="list"><li>Use synthetic data or an explicitly authorized test or staging workflow. Keep existing approval controls in place.</li>
-<li>Use Node.js 22 or newer for either package. Confirm the documented runtime requirements and your environment fit.</li>
-<li>Local Node 0.1.7 and the public OpenClaw v0.7.4 plugin are Apache-2.0. The <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/main/LICENSE-CLARIFICATION-v0.7.4.md">OpenClaw clarification</a> covers the unchanged v0.7.4 archive. Neither artifact license grants Hosted service access.</li>
+<li>For Local Node, use the tested Linux / n8n configuration below. OpenClaw separately declares Node.js ≥22. These are distinct runtime requirements.</li>
+<li>Local Node 0.1.9 and the public OpenClaw v0.7.4 plugin are Apache-2.0. The <a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/main/LICENSE-CLARIFICATION-v0.7.4.md">OpenClaw clarification</a> covers the unchanged v0.7.4 archive. Neither artifact license grants Hosted service access.</li>
 <li>Both packages expose an observa command. Use the package appropriate to your runtime and verify which executable you are invoking. Do not substitute one package to repair the other’s CLI.</li>
 </ul>
 <p><a href="/evidence#releases">Release evidence and exact archives</a> · <a href="/terms">Software and service terms</a></p>
 </div>
 </section>
 <section class="section mist" aria-labelledby="local-node"><div class="wrap"><div class="section-head stacked">
-<h2 id="local-node">Local Node 0.1.7 · n8n.</h2>
+<h2 id="local-node">Local Node 0.1.9 · n8n.</h2>
 </div>
+<p>Local Node 0.1.9 supports fresh regular-mode n8n 2.45.7 installations in the tested Linux configurations: ARM64/musl with Node 26.12.1 (npm 11.21.1), or x64/glibc with Local Node on Node 26.13.0 and stock n8n on Node 26.12.1. Other versions, native macOS/Windows and queue/multi-worker mode are not established. <a href="https://www.npmjs.com/package/@mcpherson-ai/observa-local-node/v/0.1.9">Public npm release</a> · <a href="/evidence#identities">Exact archive hash</a>.</p>
 <p>Install the public package, then inspect one locally exported n8n workflow. These commands do not pair an installation or start runtime observation.</p>
-<pre><code>npm install -g @mcpherson-ai/observa-local-node@0.1.7
+<pre><code>npm install -g @mcpherson-ai/observa-local-node@0.1.9
 observa --version
 observa --help
 observa status
 observa inspect-workflow --file ./workflow.json</code></pre>
 <p>Export the test workflow from n8n to <code>workflow.json</code> first. Inspection reports static structure; it does not run the workflow, evaluate policy or verify an outcome. Do not upload the export here.</p>
-<p>For runtime observation, you need an approved Hosted invitation and a signed installation composition. Continue with access and pairing below. <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.7.tgz">Inspect the versioned package README and source.</a></p>
+<p>For runtime observation, you need an approved Hosted invitation and a signed installation composition. Continue with access and pairing below. <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.9.tgz">Inspect the versioned package README and source.</a></p>
 </div>
 </section>
 <section class="section " aria-labelledby="openclaw"><div class="wrap"><div class="section-head stacked">
@@ -84,8 +85,8 @@ observa decisions</code></pre>
 <section class="section mist" aria-labelledby="access"><div class="wrap"><div class="section-head stacked"><span class="legacy-anchor" id="access-title" aria-hidden="true"></span><span class="legacy-anchor" id="invite-title" aria-hidden="true"></span><span class="legacy-anchor" id="apply" aria-hidden="true"></span><span class="legacy-anchor" id="apply-title" aria-hidden="true"></span>
 <h2 id="access">Request and confirm Hosted access.</h2>
 </div>
-<p>The current public Hosted beta origin is <code>https://governance-plane-observa.tailb473db.ts.net</code>. Use the bare HTTPS origin for either package, with no path suffix. Set the variable below before running Hosted commands. Access requires approval and may need <a href="/observa/support">support assistance</a>; knowing the address does not grant an account or complete activation.</p>
-<pre><code>export OBSERVA_HOSTED_URL="https://governance-plane-observa.tailb473db.ts.net"
+<p>Obtain the approved HTTPS origin from your Hosted operator. Local Node 0.1.9 requires a compatible Hosted build, catalog, native profile, trust and authenticated source binding; its isolated acceptance does not establish that an existing production endpoint has been upgraded. Use the bare approved origin without a path suffix. Access requires approval and may need <a href="/observa/support">support assistance</a>; knowing an address grants no account or activation.</p>
+<pre><code>export OBSERVA_HOSTED_URL="https://YOUR_APPROVED_HOSTED_ORIGIN"
 observa request-access --api-url &quot;$OBSERVA_HOSTED_URL&quot;
 observa request-status</code></pre>
 <ul class="list"><li>Follow the CLI’s email-verification prompt and review the metadata before confirming the request.</li>
@@ -118,12 +119,12 @@ observa identify</code></pre>Pair reads the code at a hidden terminal prompt, or
 <section class="section mist" aria-labelledby="n8n-observation"><div class="wrap"><div class="section-head stacked">
 <h2 id="n8n-observation">Activate the n8n observation path.</h2>
 </div>
-<p>After Local Node install and pairing, configure a local loopback credential of at least 24 characters, then generate the n8n hook environment. Replace the illustrative value below with a new local secret. The CLI takes this config value as an argument; protect shell history and process visibility on the host.</p>
-<pre><code>observa config set n8n_loopback_credential &#x27;REPLACE_WITH_A_LOCAL_SECRET_24_PLUS_CHARACTERS&#x27;
+<p>After signed installation and pairing, obtain the authenticated native-source binding for the exact supported n8n runtime from your operator. Configure a local loopback credential using standard input, then generate the hook environment. Secret command-line arguments are refused; do not paste credentials into shell history.</p>
+<pre><code>openssl rand -hex 24 | observa config set n8n_loopback_credential --value-stdin
 observa n8n-setup
 observa start</code></pre>
 <p>Load the environment file produced by <code>n8n-setup</code> into your n8n service or container and restart n8n so it loads the hook. Observa does not configure or restart n8n for you. Do not add an Observa workflow node. The observer and n8n must have the loopback connectivity required by the package’s deployment instructions.</p>
-<p>The service and loaded hook must be from the same release. After upgrades or rollbacks, regenerate the hook, restart n8n, run one test workflow and check <code>observa diagnose</code>. A diagnose result before an execution does not prove that n8n loaded the new hook.</p>
+<p>The service and loaded hook must be from the same release. This release establishes fresh installation, not upgrade/downgrade or cross-version restore. After setup, run one authorized synthetic workflow and require a successful bound <code>observa diagnose</code>, a valid local receipt and correlated delivery acknowledgment. A diagnose result before an execution does not prove that n8n loaded the new hook.</p>
 </div>
 </section>
 <section class="section " aria-labelledby="first-evidence"><div class="wrap"><div class="section-head stacked">
@@ -143,7 +144,7 @@ observa start</code></pre>
 <section class="section mist" aria-labelledby="technical-next"><div class="wrap"><div class="section-head stacked">
 <h2 id="technical-next">Keep evaluation and commercial qualification distinct.</h2>
 </div>
-<p>Use <a href="/docs">Docs</a> and <a href="/observa/support">Support</a> to continue the technical evaluation. If this is a workflow you repeatedly deploy to paying clients, the <a href="/founding">Founding Builder Program</a> is the separate commercial qualification path.</p>
+<p>Use <a href="/docs">Docs</a> and <a href="/observa/support">Support</a> to continue the technical evaluation. If this is a workflow you repeatedly deploy to paying clients, new <a href="/founding">Founding Pilot applications</a> are temporarily paused while current candidates are reviewed. For commercial inquiries, <a href="/contact">discuss your workflow</a>.</p>
 </div>
 </section>
 </main>

@@ -28,7 +28,7 @@
 <header class="site-header"><div class="wrap header-inner">
 <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>
 <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
-<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust" aria-current="page">Trust</a><a href="/about">About</a><a class="nav-cta" href="/founding">Apply as a Founding Builder</a></nav>
+<nav id="primary-nav" class="site-nav" aria-label="Primary"><a href="/how-it-works">How It Works</a><a href="/observa">Observa</a><a href="/evidence">Evidence</a><a href="/trust" aria-current="page">Trust</a><a href="/about">About</a><a class="nav-cta" href="/contact">Discuss Your Workflow</a></nav>
 </div>
 <div class="wrap utility-bar"><a href="/getting-started">Getting Started <span aria-hidden="true">→</span></a></div>
 </header>
@@ -52,7 +52,7 @@
 </div>
 <p>The OpenClaw package sends runtime identity and roster information, heartbeat state, and action classification, executable names and argument digests for SHADOW evaluation. Its ordinary observation and evaluation contracts omit prompts, message bodies, command bodies, tool results and environment values. The n8n hook uses execution fields and excludes item data, node parameter values, credentials and workflow static data. Configured outcome checks are a separate path and can send selected business-rule facts in a source proof.</p>
 <p>These are package-specific contracts, not a universal data-loss-prevention guarantee. Opaque identifiers can contain customer information. Review the fields and identifiers in your own authorized test scope before sending evidence. Do not use real regulated or confidential client data in a synthetic evaluation.</p>
-<p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.7.4/README.md">OpenClaw data contract</a> · <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.7.tgz">Local Node archive (README and hook implementation)</a></p>
+<p><a href="https://github.com/McphersonAI/mcpherson-governance-openclaw/blob/v0.7.4/README.md">OpenClaw data contract</a> · <a href="https://registry.npmjs.org/@mcpherson-ai/observa-local-node/-/observa-local-node-0.1.9.tgz">Local Node archive (README and hook implementation)</a></p>
 </div>
 </section>
 <section class="section " aria-labelledby="credentials"><div class="wrap"><div class="section-head stacked">
@@ -79,8 +79,8 @@
 <section class="section mist" aria-labelledby="impact"><div class="wrap"><div class="section-head stacked">
 <h2 id="impact">SHADOW does not mean zero technical impact.</h2>
 </div>
-<p>Integration adds local work and, when paired, network exchanges. Evaluate runtime behavior, evidence delivery and failure conditions in an authorized staging environment. This site publishes no normalized performance number.</p>
-<p>The OpenClaw release declares Node.js ≥22 and OpenClaw plugin API ≥2026.8.2. Local Node declares Node.js ≥22 and documents its n8n integration requirements. These declarations do not qualify every later version or topology.</p>
+<p>Integration adds local work and, when paired, network exchanges. Evaluate runtime behavior, evidence delivery and failure conditions in an authorized staging environment. The <a href="/evidence#reference-baseline-019">v0.1.9 reference measurement</a> reports measured impact and limitations; it is not a production performance guarantee.</p>
+<p>The OpenClaw release declares Node.js ≥22 and OpenClaw plugin API ≥2026.8.2. Local Node 0.1.9 is tested with n8n 2.45.7 regular mode on Linux ARM64/musl (Node 26.12.1) and Linux x64/glibc (Local Node 26.13.0; stock n8n Node 26.12.1). The package engine minimum does not qualify other versions or topologies.</p>
 </div>
 </section>
 <section class="section " aria-labelledby="infrastructure"><div class="wrap"><div class="section-head stacked">
@@ -102,8 +102,8 @@
 <div class="card-copy"><code>observa disable</code> stops plugin background Hosted traffic. Explicit access, pairing and revocation commands have separate semantics. <code>observa unpair</code> requests revocation; uninstalling alone does not revoke the credential.</div>
 </article>
 <article class="card">
-<h3>Local Node 0.1.7</h3>
-<div class="card-copy"><code>observa stop</code> stops the local observer. <code>observa unpair</code> handles Hosted delivery revocation and local pairing state. <code>observa uninstall --yes</code> is not a substitute for revocation.</div>
+<h3>Local Node 0.1.9</h3>
+<div class="card-copy"><code>observa stop</code> stops the local observer. <code>observa unpair</code> handles Hosted delivery revocation and local pairing state. Keep the journal, proofs and workflow state. Uninstall/purge is neither the disable mechanism nor a substitute for revocation.</div>
 </article>
 </div>
 <a href="/observa/cli">Read command semantics and verify results →</a></div>
@@ -115,6 +115,7 @@
 <p>Do not post triggerable evidence-loss findings, credentials or customer data in a public issue. No response-time or service-level guarantee is offered here.</p>
 </div>
 </section>
+<section class="section mist" aria-labelledby="release-record"><div class="wrap"><h2 id="release-record">Release and roadmap record</h2><p>See the <a href="/evidence#candidate-record">versioned Local Node release record</a> for the published v0.1.9 package, tested evidence path and reference measurement, and <a href="/evidence#roadmap">What’s Next</a> for planned Policy Grid and Kill Grid capabilities. Current limitations remain in <a href="/evidence#limitations">Evidence</a>.</p></div></section>
 </main>
 <footer class="site-footer"><div class="wrap">
 <a class="brand" href="/" aria-label="McPherson AI home"><span class="brand-mark" aria-hidden="true">M</span>McPherson <strong>AI</strong></a>

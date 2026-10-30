@@ -14,7 +14,7 @@ export const legacyRoutes = [
 ];
 export const primaryLinks = [
   ['/how-it-works', 'How It Works'], ['/observa', 'Observa'], ['/evidence', 'Evidence'],
-  ['/trust', 'Trust'], ['/about', 'About'], ['/founding', 'Apply as a Founding Builder']
+  ['/trust', 'Trust'], ['/about', 'About'], ['/contact', 'Discuss Your Workflow']
 ];
 export const footerLinks = [
   ['/docs', 'Docs'], ['/getting-started', 'Getting Started'], ['/evidence', 'Evidence'],
